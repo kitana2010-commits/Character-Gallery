@@ -56,42 +56,11 @@
     to { opacity: 1; transform: translateX(0); }
   }
 
-  /* ── Top Nav Bar ── */
-  .top-nav {
-    display: flex;
-    justify-content: flex-end;
-    padding: 16px 40px 0;
-    max-width: 1200px;
-    margin: 0 auto;
-    animation: fadeIn 0.8s ease 0.1s both;
-  }
-  @media (max-width: 600px) { .top-nav { padding: 12px 16px 0; } }
-
-  .spicy-link {
-    font-family: 'Libre Franklin', sans-serif;
-    font-size: 12px;
-    font-weight: 500;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    color: var(--spicy);
-    cursor: pointer;
-    background: none;
-    border: 1px solid var(--spicy-glow);
-    padding: 8px 20px;
-    border-radius: 4px;
-    transition: background 0.3s, border-color 0.3s, box-shadow 0.3s;
-  }
-  .spicy-link:hover {
-    background: var(--spicy-glow);
-    border-color: var(--spicy);
-    box-shadow: 0 0 20px var(--spicy-glow);
-  }
-
   /* ── Landing Page ── */
   .landing { min-height: 100vh; }
 
   .hero {
-    padding: 40px 40px 50px;
+    padding: 80px 40px 50px;
     text-align: center;
   }
   .hero-line {
@@ -166,10 +135,7 @@
     margin-bottom: 20px;
   }
   @media (max-width: 600px) {
-    .char-grid {
-      grid-template-columns: repeat(2, 1fr);
-      gap: 14px;
-    }
+    .char-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; }
   }
 
   .char-card {
@@ -185,10 +151,6 @@
     border-color: var(--accent);
     transform: translateY(-6px);
     box-shadow: 0 16px 48px rgba(0,0,0,0.4), 0 0 0 1px var(--accent-glow);
-  }
-  .char-card.spicy-card:hover {
-    border-color: var(--spicy);
-    box-shadow: 0 16px 48px rgba(0,0,0,0.4), 0 0 0 1px var(--spicy-glow);
   }
   .char-card-img-wrap {
     overflow: hidden;
@@ -232,7 +194,6 @@
     transition: color 0.4s ease;
   }
   .char-card:hover .char-card-placeholder .initial { color: var(--accent); }
-  .char-card.spicy-card:hover .char-card-placeholder .initial { color: var(--spicy); }
   .char-card-placeholder .placeholder-label {
     position: absolute;
     bottom: 16px;
@@ -254,7 +215,6 @@
     transition: color 0.3s ease;
   }
   .char-card:hover .char-card-name { color: var(--accent); }
-  .char-card.spicy-card:hover .char-card-name { color: var(--spicy); }
   .char-card-count {
     font-size: 11px;
     color: var(--text-dim);
@@ -274,7 +234,6 @@
     transform: translateY(-50%) translateX(0);
     color: var(--accent);
   }
-  .char-card.spicy-card:hover .char-card-arrow { color: var(--spicy); }
 
   /* ── Gallery Page ── */
   .gallery-page {
@@ -318,7 +277,6 @@
     text-transform: uppercase;
     color: var(--accent);
   }
-  .gallery-title.spicy { color: var(--spicy); }
   .gallery-group {
     font-family: 'Libre Franklin', sans-serif;
     font-size: 11px;
@@ -339,20 +297,17 @@
     margin: 0 40px;
     max-width: 1120px;
   }
-  .gallery-divider.spicy {
-    background: linear-gradient(90deg, var(--spicy), var(--border) 50%, transparent);
-  }
   @media (max-width: 600px) { .gallery-divider { margin: 0 16px; } }
 
   .gallery-grid {
     columns: 3;
     column-gap: 14px;
-    padding: 32px 40px 80px;
+    padding: 32px 40px 20px;
     max-width: 1200px;
     margin: 0 auto;
   }
   @media (max-width: 900px) { .gallery-grid { columns: 2; } }
-  @media (max-width: 600px) { .gallery-grid { columns: 2; column-gap: 10px; padding: 20px 16px 60px; } }
+  @media (max-width: 600px) { .gallery-grid { columns: 2; column-gap: 10px; padding: 20px 16px 10px; } }
   @media (max-width: 400px) { .gallery-grid { columns: 1; max-width: 360px; } }
 
   .gallery-item {
@@ -410,6 +365,68 @@
     font-size: 14px;
     letter-spacing: 1px;
   }
+
+  /* ── Spicy Divider inside gallery ── */
+  .spicy-divider {
+    max-width: 1120px;
+    margin: 20px auto 0;
+    padding: 0 40px;
+    animation: fadeUp 0.5s ease both;
+  }
+  @media (max-width: 600px) { .spicy-divider { padding: 0 16px; } }
+
+  .spicy-divider-inner {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 24px 0;
+  }
+  .spicy-divider-inner::before,
+  .spicy-divider-inner::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+  }
+  .spicy-divider-inner::before {
+    max-width: 40px;
+    background: linear-gradient(90deg, transparent, var(--spicy));
+  }
+  .spicy-divider-inner::after {
+    background: linear-gradient(90deg, var(--spicy), transparent);
+  }
+
+  .spicy-unlock-btn {
+    font-family: 'Libre Franklin', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--spicy);
+    cursor: pointer;
+    background: none;
+    border: 1px solid var(--spicy-glow);
+    padding: 10px 24px;
+    border-radius: 4px;
+    transition: background 0.3s, border-color 0.3s, box-shadow 0.3s;
+    white-space: nowrap;
+  }
+  .spicy-unlock-btn:hover {
+    background: var(--spicy-glow);
+    border-color: var(--spicy);
+    box-shadow: 0 0 20px var(--spicy-glow);
+  }
+
+  .spicy-gallery-grid {
+    columns: 3;
+    column-gap: 14px;
+    padding: 20px 40px 80px;
+    max-width: 1200px;
+    margin: 0 auto;
+    animation: fadeUp 0.4s ease both;
+  }
+  @media (max-width: 900px) { .spicy-gallery-grid { columns: 2; } }
+  @media (max-width: 600px) { .spicy-gallery-grid { columns: 2; column-gap: 10px; padding: 16px 16px 60px; } }
+  @media (max-width: 400px) { .spicy-gallery-grid { columns: 1; max-width: 360px; } }
 
   /* ── Age Gate Modal ── */
   .age-gate {
@@ -481,42 +498,6 @@
     color: var(--text);
   }
 
-  /* ── Spicy Landing ── */
-  .spicy-page {
-    display: none;
-    min-height: 100vh;
-    animation: fadeIn 0.4s ease;
-  }
-  .spicy-page.active { display: block; }
-
-  .spicy-hero {
-    padding: 60px 40px 50px;
-    text-align: center;
-  }
-  .spicy-hero h1 {
-    font-family: 'Cormorant Garamond', serif;
-    font-weight: 300;
-    font-size: clamp(30px, 5vw, 52px);
-    letter-spacing: 6px;
-    text-transform: uppercase;
-    color: var(--spicy);
-    animation: fadeUp 0.6s ease both;
-  }
-  .spicy-hero-sub {
-    font-size: 11px;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    color: var(--text-dim);
-    margin-top: 12px;
-    animation: fadeUp 0.6s ease 0.2s both;
-  }
-  .spicy-back {
-    margin-top: 24px;
-    animation: fadeUp 0.6s ease 0.3s both;
-  }
-
-  .section-title.spicy-title { color: var(--spicy); }
-
   /* ── Lightbox ── */
   .lightbox {
     position: fixed;
@@ -578,11 +559,8 @@
 </head>
 <body>
 
-<!-- ══════════════ LANDING PAGE ══════════════ -->
+<!-- ── Landing Page ── -->
 <div class="landing" id="landing">
-  <nav class="top-nav">
-    <button class="spicy-link" onclick="showAgeGate()">Spicy Gens</button>
-  </nav>
   <header class="hero">
     <div class="hero-line"></div>
     <h1>Character <span>Gallery</span></h1>
@@ -592,47 +570,34 @@
   <div class="footer">Character Gallery</div>
 </div>
 
-<!-- ══════════════ GALLERY PAGE ══════════════ -->
+<!-- ── Gallery Page ── -->
 <div class="gallery-page" id="galleryPage">
   <div class="gallery-header">
-    <button class="back-btn" id="galleryBackBtn" onclick="goHome()">&#8592; Back</button>
+    <button class="back-btn" onclick="goHome()">&#8592; Back</button>
     <div>
       <div class="gallery-group" id="galleryGroup"></div>
       <h2 class="gallery-title" id="galleryTitle"></h2>
     </div>
     <span class="gallery-count" id="galleryCount"></span>
   </div>
-  <div class="gallery-divider" id="galleryDivider"></div>
+  <div class="gallery-divider"></div>
   <div id="galleryContent"></div>
   <div class="footer">Character Gallery</div>
 </div>
 
-<!-- ══════════════ SPICY LANDING ══════════════ -->
-<div class="spicy-page" id="spicyPage">
-  <div class="spicy-hero">
-    <h1>Spicy Gens</h1>
-    <p class="spicy-hero-sub">18+ content &mdash; select a character</p>
-    <div class="spicy-back">
-      <button class="back-btn" onclick="goHome()">&#8592; Back to Main Gallery</button>
-    </div>
-  </div>
-  <div id="spicySections"></div>
-  <div class="footer">Character Gallery</div>
-</div>
-
-<!-- ══════════════ AGE GATE ══════════════ -->
+<!-- ── Age Gate ── -->
 <div class="age-gate" id="ageGate">
   <div class="age-gate-box">
     <h2>18+ Content</h2>
     <p>This section contains mature content.<br>Are you 18 or older?</p>
     <div class="age-gate-buttons">
-      <button class="age-gate-btn age-gate-enter" onclick="enterSpicy()">Yes, Enter</button>
+      <button class="age-gate-btn age-gate-enter" onclick="confirmAge()">Yes, Enter</button>
       <button class="age-gate-btn age-gate-leave" onclick="closeAgeGate()">No, Go Back</button>
     </div>
   </div>
 </div>
 
-<!-- ══════════════ LIGHTBOX ══════════════ -->
+<!-- ── Lightbox ── -->
 <div class="lightbox" id="lightbox">
   <button class="lb-btn lb-close" onclick="closeLightbox()">&#215;</button>
   <button class="lb-btn lb-nav lb-prev" onclick="lbNav(-1)">&#8249;</button>
@@ -644,7 +609,13 @@
 <script>
 // ╔══════════════════════════════════════════════════════════════════════╗
 // ║                                                                    ║
-// ║   MAIN GALLERY CHARACTERS                                         ║
+// ║   YOUR CHARACTERS GO HERE!                                         ║
+// ║                                                                    ║
+// ║   Each character has:                                              ║
+// ║     name   — display name                                          ║
+// ║     cover  — landing page image (or "" for placeholder)            ║
+// ║     images — array of { src, caption } for their main gallery      ║
+// ║     spicy  — array of { src, caption } for their 18+ gallery       ║
 // ║                                                                    ║
 // ╚══════════════════════════════════════════════════════════════════════╝
 
@@ -656,68 +627,15 @@ const GROUPS = [
         name: "Ash",
         cover: "ash.png",
         images: [
-          { src: "ash.png",       caption: "Guitar" },
-          { src: "ash-bed.png",   caption: "Tour bus" },
+          { src: "ash.png",        caption: "Guitar" },
+          { src: "ash-bed.png",    caption: "Tour bus" },
           { src: "ash-doorway.png", caption: "Doorway" },
           { src: "ash-stage1.png", caption: "Live show" },
           { src: "ash-stage2.png", caption: "On stage" },
-          { src: "ash-club1.png", caption: "Club" },
-          { src: "ash-club2.png", caption: "Afterparty" },
-        ]
-      },
-      {
-        name: "Skye",
-        cover: "skye.png",
-        images: [
-          { src: "skye.png", caption: "Bass" },
-        ]
-      },
-      {
-        name: "Sin",
-        cover: "sin.png",
-        images: [
-          { src: "sin.png", caption: "Vocalist" },
-        ]
-      },
-      {
-        name: "Mason",
-        cover: "mason.png",
-        images: [
-          { src: "mason.png", caption: "Drums" },
-        ]
-      },
-    ]
-  },
-  {
-    title: "ACOTAR",
-    characters: [
-      { name: "Rhysand", cover: "", images: [] },
-      { name: "Azriel",  cover: "", images: [] },
-      { name: "Cassian", cover: "", images: [] },
-      { name: "Amren",   cover: "", images: [] },
-      { name: "Eris",    cover: "", images: [] },
-      { name: "Tamlin",  cover: "", images: [] },
-      { name: "Lucien",  cover: "", images: [] },
-    ]
-  },
-];
-
-// ╔══════════════════════════════════════════════════════════════════════╗
-// ║                                                                    ║
-// ║   SPICY GENS CHARACTERS (18+)                                     ║
-// ║                                                                    ║
-// ║   Same format as above. Add spicy images here.                    ║
-// ║                                                                    ║
-// ╚══════════════════════════════════════════════════════════════════════╝
-
-const SPICY_GROUPS = [
-  {
-    title: "The Street Rats",
-    characters: [
-      {
-        name: "Ash",
-        cover: "ashspring.png",
-        images: [
+          { src: "ash-club1.png",  caption: "Club" },
+          { src: "ash-club2.png",  caption: "Afterparty" },
+        ],
+        spicy: [
           { src: "ashspring.png",  caption: "Hot spring" },
           { src: "ashsprings.png", caption: "Hot spring sunset" },
           { src: "ashcover.png",   caption: "Tour bus bunk" },
@@ -725,21 +643,42 @@ const SPICY_GROUPS = [
           { src: "ash-bus.png",    caption: "On the road" },
         ]
       },
-      { name: "Skye",  cover: "", images: [] },
-      { name: "Sin",   cover: "", images: [] },
-      { name: "Mason", cover: "", images: [] },
+      {
+        name: "Skye",
+        cover: "skye.png",
+        images: [
+          { src: "skye.png", caption: "Bass" },
+        ],
+        spicy: []
+      },
+      {
+        name: "Sin",
+        cover: "sin.png",
+        images: [
+          { src: "sin.png", caption: "Vocalist" },
+        ],
+        spicy: []
+      },
+      {
+        name: "Mason",
+        cover: "mason.png",
+        images: [
+          { src: "mason.png", caption: "Drums" },
+        ],
+        spicy: []
+      },
     ]
   },
   {
     title: "ACOTAR",
     characters: [
-      { name: "Rhysand", cover: "", images: [] },
-      { name: "Azriel",  cover: "", images: [] },
-      { name: "Cassian", cover: "", images: [] },
-      { name: "Amren",   cover: "", images: [] },
-      { name: "Eris",    cover: "", images: [] },
-      { name: "Tamlin",  cover: "", images: [] },
-      { name: "Lucien",  cover: "", images: [] },
+      { name: "Rhysand", cover: "", images: [], spicy: [] },
+      { name: "Azriel",  cover: "", images: [], spicy: [] },
+      { name: "Cassian", cover: "", images: [], spicy: [] },
+      { name: "Amren",   cover: "", images: [], spicy: [] },
+      { name: "Eris",    cover: "", images: [], spicy: [] },
+      { name: "Tamlin",  cover: "", images: [], spicy: [] },
+      { name: "Lucien",  cover: "", images: [], spicy: [] },
     ]
   },
 ];
@@ -748,63 +687,56 @@ const SPICY_GROUPS = [
 // You don't need to touch anything below this line
 // ═══════════════════════════════════════════════════════════
 
-let currentMode = 'main'; // 'main' or 'spicy'
+const sectionsEl = document.getElementById('sections');
 
-// ── Build sections helper ──
-function buildSections(groups, container, isSpicy) {
-  const el = document.getElementById(container);
-  groups.forEach((group) => {
-    const section = document.createElement('div');
-    section.className = 'section';
+GROUPS.forEach((group) => {
+  const section = document.createElement('div');
+  section.className = 'section';
 
-    const header = document.createElement('div');
-    header.className = 'section-header';
-    header.innerHTML = `<span class="section-title ${isSpicy ? 'spicy-title' : ''}">${group.title}</span>`;
-    section.appendChild(header);
+  const header = document.createElement('div');
+  header.className = 'section-header';
+  header.innerHTML = `<span class="section-title">${group.title}</span>`;
+  section.appendChild(header);
 
-    const grid = document.createElement('div');
-    grid.className = 'char-grid';
+  const grid = document.createElement('div');
+  grid.className = 'char-grid';
 
-    group.characters.forEach((char, i) => {
-      const card = document.createElement('div');
-      card.className = 'char-card' + (isSpicy ? ' spicy-card' : '');
-      card.style.animationDelay = `${i * 0.08}s`;
-      card.onclick = () => openGallery(group.title, char, isSpicy);
+  group.characters.forEach((char, i) => {
+    const card = document.createElement('div');
+    card.className = 'char-card';
+    card.style.animationDelay = `${i * 0.08}s`;
+    card.onclick = () => openGallery(group.title, char);
 
-      let imgHTML;
-      if (char.cover) {
-        imgHTML = `<div class="char-card-img-wrap">
-          <img class="char-card-img" src="${char.cover}" alt="${char.name}"
-               onload="this.style.opacity=1" style="opacity:0;transition:opacity 0.5s">
-        </div>`;
-      } else {
-        imgHTML = `<div class="char-card-img-wrap">
-          <div class="char-card-placeholder">
-            <span class="initial">${char.name.charAt(0)}</span>
-            <span class="placeholder-label">No images yet</span>
-          </div>
-        </div>`;
-      }
+    let imgHTML;
+    if (char.cover) {
+      imgHTML = `<div class="char-card-img-wrap">
+        <img class="char-card-img" src="${char.cover}" alt="${char.name}"
+             onload="this.style.opacity=1" style="opacity:0;transition:opacity 0.5s">
+      </div>`;
+    } else {
+      imgHTML = `<div class="char-card-img-wrap">
+        <div class="char-card-placeholder">
+          <span class="initial">${char.name.charAt(0)}</span>
+          <span class="placeholder-label">No images yet</span>
+        </div>
+      </div>`;
+    }
 
-      const count = char.images.length;
-      card.innerHTML = `${imgHTML}
-        <div class="char-card-info">
-          <div class="char-card-name">${char.name}</div>
-          <div class="char-card-count">${count} image${count !== 1 ? 's' : ''}</div>
-          <div class="char-card-arrow">&rarr;</div>
-        </div>`;
-      grid.appendChild(card);
-    });
-
-    section.appendChild(grid);
-    el.appendChild(section);
+    const total = char.images.length + (char.spicy ? char.spicy.length : 0);
+    card.innerHTML = `${imgHTML}
+      <div class="char-card-info">
+        <div class="char-card-name">${char.name}</div>
+        <div class="char-card-count">${total} image${total !== 1 ? 's' : ''}</div>
+        <div class="char-card-arrow">&rarr;</div>
+      </div>`;
+    grid.appendChild(card);
   });
-}
 
-buildSections(GROUPS, 'sections', false);
-buildSections(SPICY_GROUPS, 'spicySections', true);
+  section.appendChild(grid);
+  sectionsEl.appendChild(section);
+});
 
-// ── Navigation ──
+// ── Gallery ──
 
 const landing        = document.getElementById('landing');
 const galleryPage    = document.getElementById('galleryPage');
@@ -812,88 +744,123 @@ const galleryGroup   = document.getElementById('galleryGroup');
 const galleryTitle   = document.getElementById('galleryTitle');
 const galleryCount   = document.getElementById('galleryCount');
 const galleryContent = document.getElementById('galleryContent');
-const galleryDivider = document.getElementById('galleryDivider');
-const galleryBackBtn = document.getElementById('galleryBackBtn');
-const spicyPage      = document.getElementById('spicyPage');
 const ageGate        = document.getElementById('ageGate');
 
 let lbImages = [];
 let lbIndex  = 0;
+let pendingSpicyChar = null;
+let ageVerified = false;
 
-function hideAll() {
-  landing.style.display = 'none';
-  galleryPage.classList.remove('active');
-  spicyPage.classList.remove('active');
-}
-
-function goHome() {
-  hideAll();
-  if (currentMode === 'spicy') {
-    spicyPage.classList.add('active');
-  } else {
-    landing.style.display = '';
-  }
-  window.scrollTo(0, 0);
-}
-
-function goMainHome() {
-  currentMode = 'main';
-  hideAll();
-  landing.style.display = '';
-  window.scrollTo(0, 0);
-}
-
-function showAgeGate() {
-  ageGate.classList.add('open');
-}
-function closeAgeGate() {
-  ageGate.classList.remove('open');
-}
-function enterSpicy() {
-  ageGate.classList.remove('open');
-  currentMode = 'spicy';
-  hideAll();
-  spicyPage.classList.add('active');
-  window.scrollTo(0, 0);
-}
-
-function openGallery(groupName, char, isSpicy) {
-  lbImages = char.images;
+function openGallery(groupName, char) {
   galleryGroup.textContent = groupName;
   galleryTitle.textContent = char.name;
-  galleryTitle.className = 'gallery-title' + (isSpicy ? ' spicy' : '');
-  galleryDivider.className = 'gallery-divider' + (isSpicy ? ' spicy' : '');
-  galleryCount.textContent = char.images.length + ' image' + (char.images.length !== 1 ? 's' : '');
-
-  galleryBackBtn.onclick = goHome;
+  const total = char.images.length + (char.spicy ? char.spicy.length : 0);
+  galleryCount.textContent = total + ' image' + (total !== 1 ? 's' : '');
 
   galleryContent.innerHTML = '';
 
-  if (char.images.length === 0) {
+  if (char.images.length === 0 && (!char.spicy || char.spicy.length === 0)) {
     galleryContent.innerHTML = `
       <div class="gallery-empty">
         <div class="gallery-empty-icon">&#9744;</div>
         <p>No images yet</p>
       </div>`;
   } else {
-    const grid = document.createElement('div');
-    grid.className = 'gallery-grid';
-    char.images.forEach((img, j) => {
-      const item = document.createElement('div');
-      item.className = 'gallery-item';
-      item.style.animationDelay = `${j * 0.06}s`;
-      item.onclick = () => openLightbox(j);
-      item.innerHTML = `
-        <img src="${img.src}" alt="${img.caption || ''}"
-             onload="this.classList.add('loaded')">
-        ${img.caption ? `<div class="item-overlay"><div class="item-caption">${img.caption}</div></div>` : ''}`;
-      grid.appendChild(item);
-    });
-    galleryContent.appendChild(grid);
+    // Main images
+    if (char.images.length > 0) {
+      const grid = document.createElement('div');
+      grid.className = 'gallery-grid';
+      char.images.forEach((img, j) => {
+        const item = document.createElement('div');
+        item.className = 'gallery-item';
+        item.style.animationDelay = `${j * 0.06}s`;
+        item.onclick = () => { lbImages = char.images; openLightbox(j); };
+        item.innerHTML = `
+          <img src="${img.src}" alt="${img.caption || ''}"
+               onload="this.classList.add('loaded')">
+          ${img.caption ? `<div class="item-overlay"><div class="item-caption">${img.caption}</div></div>` : ''}`;
+        grid.appendChild(item);
+      });
+      galleryContent.appendChild(grid);
+    }
+
+    // Spicy section
+    if (char.spicy && char.spicy.length > 0) {
+      const divider = document.createElement('div');
+      divider.className = 'spicy-divider';
+
+      const divInner = document.createElement('div');
+      divInner.className = 'spicy-divider-inner';
+
+      const btn = document.createElement('button');
+      btn.className = 'spicy-unlock-btn';
+      btn.textContent = 'Spicy Gens';
+      btn.onclick = () => {
+        if (ageVerified) {
+          showSpicyImages(char, divider);
+        } else {
+          pendingSpicyChar = { char, divider };
+          ageGate.classList.add('open');
+        }
+      };
+
+      divInner.appendChild(btn);
+      divider.appendChild(divInner);
+      galleryContent.appendChild(divider);
+
+      // Container for spicy images (hidden until unlocked)
+      const spicyContainer = document.createElement('div');
+      spicyContainer.id = 'spicyContainer';
+      galleryContent.appendChild(spicyContainer);
+    }
   }
 
-  hideAll();
+  landing.style.display = 'none';
   galleryPage.classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+function showSpicyImages(char, dividerEl) {
+  // Replace button with just the label
+  const divInner = dividerEl.querySelector('.spicy-divider-inner');
+  divInner.innerHTML = `<span class="section-title" style="color: var(--spicy); font-size: 18px; letter-spacing: 4px;">Spicy Gens</span>`;
+
+  const container = document.getElementById('spicyContainer');
+  container.innerHTML = '';
+
+  const grid = document.createElement('div');
+  grid.className = 'spicy-gallery-grid';
+  char.spicy.forEach((img, j) => {
+    const item = document.createElement('div');
+    item.className = 'gallery-item';
+    item.style.animationDelay = `${j * 0.06}s`;
+    item.onclick = () => { lbImages = char.spicy; openLightbox(j); };
+    item.innerHTML = `
+      <img src="${img.src}" alt="${img.caption || ''}"
+           onload="this.classList.add('loaded')">
+      ${img.caption ? `<div class="item-overlay"><div class="item-caption" style="color: var(--spicy);">${img.caption}</div></div>` : ''}`;
+    grid.appendChild(item);
+  });
+  container.appendChild(grid);
+}
+
+function confirmAge() {
+  ageVerified = true;
+  ageGate.classList.remove('open');
+  if (pendingSpicyChar) {
+    showSpicyImages(pendingSpicyChar.char, pendingSpicyChar.divider);
+    pendingSpicyChar = null;
+  }
+}
+
+function closeAgeGate() {
+  ageGate.classList.remove('open');
+  pendingSpicyChar = null;
+}
+
+function goHome() {
+  galleryPage.classList.remove('active');
+  landing.style.display = '';
   window.scrollTo(0, 0);
 }
 
