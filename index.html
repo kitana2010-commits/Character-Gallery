@@ -5,22 +5,22 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>✦ Eurielle's Gallery ✦</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Quicksand:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Italiana&family=Quicksand:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
   :root {
-    --bg: #0d0a1a;
-    --bg-raised: #151028;
-    --bg-card: #1a1433;
+    --bg: #020008;
+    --bg-raised: #0c1028;
+    --bg-card: rgba(10,15,35,0.6);
     --text: #e8e4f0;
-    --text-dim: #8a82a0;
-    --text-faint: #4d4568;
-    --accent: #c9a0dc;
-    --accent-glow: #c9a0dc30;
+    --text-dim: #8a92b0;
+    --text-faint: #4d5578;
+    --accent: #c8a0d8;
+    --accent-glow: #c8a0d830;
     --accent-warm: #e0b0a0;
-    --border: #2a2245;
-    --border-hover: #453a6a;
+    --border: #1e2848;
+    --border-hover: #3a4570;
     --spicy: #d45c8a;
     --spicy-glow: #d45c8a30;
   }
@@ -44,36 +44,26 @@
     z-index: 9999;
   }
 
-  body::after {
-    content: '';
+  #starCanvas {
     position: fixed;
     inset: 0;
-    background:
-      radial-gradient(1px 1px at 10% 15%, rgba(255,255,255,0.6) 0%, transparent 100%),
-      radial-gradient(1px 1px at 25% 35%, rgba(200,180,255,0.5) 0%, transparent 100%),
-      radial-gradient(1.5px 1.5px at 40% 10%, rgba(255,255,255,0.7) 0%, transparent 100%),
-      radial-gradient(1px 1px at 55% 45%, rgba(200,160,220,0.4) 0%, transparent 100%),
-      radial-gradient(1px 1px at 70% 20%, rgba(255,255,255,0.5) 0%, transparent 100%),
-      radial-gradient(1.5px 1.5px at 85% 60%, rgba(255,255,255,0.6) 0%, transparent 100%),
-      radial-gradient(1px 1px at 15% 70%, rgba(200,180,255,0.4) 0%, transparent 100%),
-      radial-gradient(1px 1px at 30% 85%, rgba(255,255,255,0.3) 0%, transparent 100%),
-      radial-gradient(1.5px 1.5px at 50% 75%, rgba(255,255,255,0.5) 0%, transparent 100%),
-      radial-gradient(1px 1px at 65% 90%, rgba(200,160,220,0.4) 0%, transparent 100%),
-      radial-gradient(1px 1px at 80% 40%, rgba(255,255,255,0.3) 0%, transparent 100%),
-      radial-gradient(1px 1px at 95% 80%, rgba(255,255,255,0.5) 0%, transparent 100%),
-      radial-gradient(1px 1px at 5% 50%, rgba(200,180,255,0.3) 0%, transparent 100%),
-      radial-gradient(1.5px 1.5px at 45% 25%, rgba(255,255,255,0.4) 0%, transparent 100%),
-      radial-gradient(1px 1px at 75% 55%, rgba(255,255,255,0.35) 0%, transparent 100%),
-      radial-gradient(1px 1px at 90% 15%, rgba(200,160,220,0.5) 0%, transparent 100%);
+    width: 100%;
+    height: 100%;
     pointer-events: none;
     z-index: 0;
-    animation: starTwinkle 8s ease-in-out infinite alternate;
   }
-
-  @keyframes starTwinkle {
-    0% { opacity: 0.4; }
-    50% { opacity: 0.7; }
-    100% { opacity: 0.5; }
+  #shootingStarContainer {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+  }
+  .aurora-band {
+    position: fixed;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 0;
   }
 
   @keyframes fadeUp {
@@ -88,65 +78,131 @@
     from { opacity: 0; transform: translateX(30px); }
     to { opacity: 1; transform: translateX(0); }
   }
+  @keyframes shimmer {
+    0% { background-position: 200% center; }
+    100% { background-position: -200% center; }
+  }
+  @keyframes gentlePulse {
+    0%,100% { text-shadow: 0 0 20px rgba(220,190,240,0.25), 0 0 60px rgba(180,140,220,0.1); }
+    50% { text-shadow: 0 0 35px rgba(220,200,255,0.45), 0 0 80px rgba(180,140,220,0.2), 0 0 140px rgba(140,100,200,0.08); }
+  }
+  @keyframes aurora {
+    0%,100% { opacity: 0.04; transform: translateX(-5%) scaleY(1); }
+    50% { opacity: 0.1; transform: translateX(5%) scaleY(1.15); }
+  }
+  @keyframes shootingStar {
+    0% { transform: translateX(0) translateY(0); opacity: 0; }
+    5% { opacity: 1; }
+    80% { opacity: 0.6; }
+    100% { transform: translateX(250px) translateY(120px); opacity: 0; }
+  }
 
   /* ── Landing Page ── */
   .landing {
     min-height: 100vh;
-    background:
-      radial-gradient(ellipse 80% 50% at 50% 0%, rgba(60,30,90,0.4) 0%, transparent 60%),
-      radial-gradient(ellipse 60% 40% at 30% 20%, rgba(90,50,120,0.15) 0%, transparent 50%),
-      radial-gradient(ellipse 50% 30% at 70% 10%, rgba(120,60,140,0.1) 0%, transparent 50%);
     position: relative;
+    z-index: 1;
+    background-image: url('bg-starry.png');
+    background-size: cover;
+    background-position: center top;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
   }
 
   .hero {
-    padding: 80px 40px 50px;
+    padding: 80px 40px 20px;
     text-align: center;
     position: relative;
+    z-index: 2;
   }
   .hero-line {
-    width: 60px;
-    height: 2px;
-    background: linear-gradient(90deg, transparent, var(--accent), transparent);
-    margin: 0 auto 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin-bottom: 28px;
     animation: fadeIn 1s ease 0.2s both;
-    border-radius: 2px;
+  }
+  .hero-line::before,
+  .hero-line::after {
+    content: '';
+    width: 30px;
+    height: 1px;
+    border-radius: 1px;
+  }
+  .hero-line::before {
+    background: linear-gradient(90deg, transparent, rgba(180,200,240,0.4));
+  }
+  .hero-line::after {
+    background: linear-gradient(90deg, rgba(180,200,240,0.4), transparent);
+  }
+  .hero-line-text {
+    font-family: 'Italiana', serif;
+    font-size: 11px;
+    letter-spacing: 8px;
+    color: rgba(180,200,240,0.4);
+    text-transform: uppercase;
   }
   .hero h1 {
     font-family: 'Cinzel Decorative', 'Cormorant Garamond', serif;
     font-weight: 400;
-    font-size: clamp(32px, 5.5vw, 56px);
-    letter-spacing: 6px;
+    font-size: clamp(36px, 6vw, 56px);
+    letter-spacing: 3px;
     text-transform: none;
-    color: var(--text);
-    animation: fadeUp 0.8s ease 0.3s both;
+    color: #f4f0ff;
+    animation: fadeUp 0.8s ease 0.3s both, gentlePulse 6s ease-in-out infinite;
   }
   .hero h1 span {
-    color: var(--accent);
-    display: block;
-    font-size: 0.55em;
-    letter-spacing: 12px;
-    text-transform: uppercase;
-    margin-top: 8px;
-    font-family: 'Quicksand', sans-serif;
+    display: none;
+  }
+  .hero-shimmer {
+    margin-top: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    animation: fadeUp 0.8s ease 0.5s both;
+  }
+  .hero-shimmer::before,
+  .hero-shimmer::after {
+    content: '';
+    width: 40px;
+    height: 1px;
+  }
+  .hero-shimmer::before {
+    background: linear-gradient(90deg, transparent, rgba(200,170,220,0.3));
+  }
+  .hero-shimmer::after {
+    background: linear-gradient(90deg, rgba(200,170,220,0.3), transparent);
+  }
+  .hero-shimmer-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
     font-weight: 300;
+    font-size: 16px;
+    letter-spacing: 4px;
+    background: linear-gradient(90deg, #8aacd0, #c8a0d8, #e0a0b8, #c8a0d8, #8aacd0);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: shimmer 8s linear infinite;
   }
   .hero-sub {
-    font-size: 13px;
+    font-size: 15px;
     letter-spacing: 3px;
     text-transform: lowercase;
     font-style: italic;
-    color: var(--text-dim);
+    color: rgba(180,200,240,0.35);
     margin-top: 20px;
-    animation: fadeUp 0.8s ease 0.5s both;
+    animation: fadeUp 0.8s ease 0.6s both;
     font-family: 'Cormorant Garamond', serif;
-    font-size: 16px;
   }
   .hero-moon {
-    width: 40px;
-    height: 40px;
+    width: 36px;
+    height: 36px;
     margin: 24px auto 0;
-    opacity: 0.3;
+    opacity: 0.15;
     animation: fadeIn 1.5s ease 0.8s both;
   }
 
@@ -180,13 +236,13 @@
     background: linear-gradient(90deg, var(--border), transparent);
   }
   .section-title {
-    font-family: 'Cormorant Garamond', serif;
+    font-family: 'Italiana', serif;
     font-weight: 400;
-    font-style: italic;
-    font-size: clamp(16px, 2.5vw, 22px);
-    letter-spacing: 4px;
+    font-style: normal;
+    font-size: clamp(13px, 2vw, 15px);
+    letter-spacing: 6px;
     text-transform: uppercase;
-    color: var(--accent);
+    color: rgba(180,200,240,0.5);
     white-space: nowrap;
   }
 
@@ -718,16 +774,23 @@
 </head>
 <body>
 
+<!-- ── Animated Stars ── -->
+<canvas id="starCanvas"></canvas>
+<div id="shootingStarContainer"></div>
+<div class="aurora-band" style="top:5%;left:15%;width:500px;height:120px;background:linear-gradient(90deg,transparent,rgba(60,100,180,0.04),rgba(100,60,140,0.06),rgba(160,60,100,0.03),transparent);transform:rotate(-8deg);animation:aurora 12s ease-in-out infinite;"></div>
+<div class="aurora-band" style="top:10%;left:30%;width:400px;height:80px;background:linear-gradient(90deg,transparent,rgba(80,60,160,0.05),rgba(60,100,180,0.04),transparent);transform:rotate(-5deg);animation:aurora 15s ease-in-out 3s infinite;"></div>
+
 <!-- ── Landing Page ── -->
 <div class="landing" id="landing">
   <header class="hero">
-    <div class="hero-line"></div>
-    <h1>Eurielle's <span>✦ Character Gallery ✦</span></h1>
+    <div class="hero-line"><span class="hero-line-text">Character Gallery</span></div>
+    <h1>Eurielle</h1>
+    <div class="hero-shimmer"><span class="hero-shimmer-text">romance & dark fantasy</span></div>
     <p class="hero-sub">select a character to view their collection</p>
     <div class="hero-moon">
-      <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="20" cy="20" r="14" fill="none" stroke="currentColor" stroke-width="0.5" opacity="0.3" color="var(--accent)"/>
-        <path d="M24 8a14 14 0 0 0 0 24a14 14 0 0 1 0-24z" fill="var(--accent)" opacity="0.2"/>
+      <svg viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M30 5a20 20 0 0 0 0 40a20 20 0 0 1 0-40z" fill="#e0d0f0" opacity="0.5"/>
+        <circle cx="25" cy="25" r="20" fill="none" stroke="#d0c0e8" stroke-width="0.3" opacity="0.3"/>
       </svg>
     </div>
   </header>
@@ -907,6 +970,7 @@ const GROUPS = [
       {
         name: "Declan",
         cover: "declan-alley.png",
+        featuredVideo: { id: "SJ4PPks_8DI", caption: "Declan & Rory" },
         images: [
           { src: "declan-car.png",      caption: "Back alley" },
           { src: "declan-whiskey.png",   caption: "Whiskey" },
@@ -918,7 +982,6 @@ const GROUPS = [
           { src: "declan-duo.png",       caption: "In the rain" },
           { src: "declan-mirror.png",    caption: "Mirror" },
           { src: "declan-revolver.png",  caption: "Revolver" },
-          { src: "SJ4PPks_8DI", caption: "Declan & Rory", type: "youtube" },
         ],
         spicy: []
       },
@@ -1091,9 +1154,9 @@ const GROUPS = [
       {
         name: "Andy",
         cover: "andy-mask.png",
+        featuredVideo: { id: "-WI6_crQriU", caption: "Andy" },
         images: [
           { src: "andy-mask.png", caption: "Masked" },
-          { src: "-WI6_crQriU", caption: "Andy", type: "youtube" },
           { src: "andy-shop.png", caption: "Al's Fix It" },
           { src: "andy-back.png", caption: "Getting ready" },
           { src: "andy-drive.png", caption: "Night drive" },
@@ -1190,6 +1253,19 @@ function openGallery(groupName, char) {
         <p>No images yet</p>
       </div>`;
   } else {
+    // Featured video
+    if (char.featuredVideo) {
+      const fv = document.createElement('div');
+      fv.className = 'featured-video';
+      fv.innerHTML = `
+        <div class="featured-label">✦ featured ✦</div>
+        <div class="featured-video-wrap">
+          <iframe src="https://www.youtube.com/embed/${char.featuredVideo.id}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <div class="featured-title">${char.featuredVideo.caption}</div>`;
+      galleryContent.appendChild(fv);
+    }
+
     // Main images
     if (char.images.length > 0) {
       const grid = document.createElement('div');
