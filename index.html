@@ -1,0 +1,2574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>✦ Eurielle's Gallery ✦</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Italiana&family=Quicksand:wght@300;400;500;600&family=Alex+Brush&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg: #020008;
+    --bg-raised: #0c1028;
+    --bg-card: rgba(10,15,35,0.6);
+    --text: #e8e4f0;
+    --text-dim: #8a92b0;
+    --text-faint: #4d5578;
+    --accent: #c8a0d8;
+    --accent-glow: #c8a0d830;
+    --accent-warm: #e0b0a0;
+    --border: #1e2848;
+    --border-hover: #3a4570;
+    --spicy: #d45c8a;
+    --spicy-glow: #d45c8a30;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 400;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    opacity: 0.03;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+  }
+
+  #starCanvas {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+  }
+  #shootingStarContainer {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+  }
+  .aurora-band {
+    position: fixed;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateX(30px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+  @keyframes shimmer {
+    0% { background-position: 200% center; }
+    100% { background-position: -200% center; }
+  }
+  @keyframes gentlePulse {
+    0%,100% { text-shadow: 0 0 20px rgba(220,190,240,0.25), 0 0 60px rgba(180,140,220,0.1); }
+    50% { text-shadow: 0 0 35px rgba(220,200,255,0.45), 0 0 80px rgba(180,140,220,0.2), 0 0 140px rgba(140,100,200,0.08); }
+  }
+  @keyframes aurora {
+    0%,100% { opacity: 0.04; transform: translateX(-5%) scaleY(1); }
+    50% { opacity: 0.1; transform: translateX(5%) scaleY(1.15); }
+  }
+  @keyframes shootingStar {
+    0% { transform: translateX(0) translateY(0); opacity: 0; }
+    5% { opacity: 1; }
+    80% { opacity: 0.6; }
+    100% { transform: translateX(250px) translateY(120px); opacity: 0; }
+  }
+
+  /* ── Nav Bar ── */
+  .site-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    background: rgba(2,0,8,0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(100,130,180,0.1);
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 50px;
+    transition: transform 0.3s ease;
+  }
+  .site-nav-logo {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 16px;
+    color: #f4f0ff;
+    letter-spacing: 2px;
+    flex-shrink: 0;
+  }
+  .site-nav-links {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .site-nav-links::-webkit-scrollbar { display: none; }
+  .site-nav-link {
+    font-family: 'Italiana', serif;
+    font-size: 12px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: rgba(180,200,240,0.4);
+    cursor: pointer;
+    white-space: nowrap;
+    transition: color 0.3s ease;
+    background: none;
+    border: none;
+    padding: 0;
+  }
+  .site-nav-link:hover { color: rgba(200,160,220,0.7); }
+  @media (max-width: 600px) {
+    .site-nav { padding: 0 16px; }
+    .site-nav-links { gap: 14px; }
+    .site-nav-link { font-size: 11px; letter-spacing: 2px; }
+  }
+
+  /* ── Section Description ── */
+  .section-desc {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 16px;
+    color: rgba(180,200,240,0.2);
+    margin-top: 6px;
+    letter-spacing: 1px;
+  }
+
+  /* ── Landing Page ── */
+  .landing {
+    min-height: 100vh;
+    position: relative;
+    z-index: 1;
+    background: #020008;
+  }
+
+  .hero {
+    padding: 110px 40px 20px;
+    text-align: center;
+    position: relative;
+    z-index: 2;
+  }
+  .hero-line {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin-bottom: 28px;
+    animation: fadeIn 1s ease 0.2s both;
+  }
+  .hero-line::before,
+  .hero-line::after {
+    content: '';
+    width: 30px;
+    height: 1px;
+    border-radius: 1px;
+  }
+  .hero-line::before {
+    background: linear-gradient(90deg, transparent, rgba(180,200,240,0.4));
+  }
+  .hero-line::after {
+    background: linear-gradient(90deg, rgba(180,200,240,0.4), transparent);
+  }
+  .hero-line-text {
+    font-family: 'Italiana', serif;
+    font-size: 16px;
+    letter-spacing: 10px;
+    color: rgba(180,200,240,0.4);
+    text-transform: uppercase;
+  }
+  .hero h1 {
+    font-family: 'Cinzel Decorative', 'Cormorant Garamond', serif;
+    font-weight: 400;
+    font-size: clamp(48px, 8vw, 72px);
+    letter-spacing: 3px;
+    text-transform: none;
+    color: #f4f0ff;
+    animation: fadeUp 0.8s ease 0.3s both, gentlePulse 6s ease-in-out infinite;
+  }
+  .hero h1 span {
+    display: none;
+  }
+  .hero-shimmer {
+    margin-top: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    animation: fadeUp 0.8s ease 0.5s both;
+  }
+  .hero-shimmer::before,
+  .hero-shimmer::after {
+    content: '';
+    width: 40px;
+    height: 1px;
+  }
+  .hero-shimmer::before {
+    background: linear-gradient(90deg, transparent, rgba(200,170,220,0.3));
+  }
+  .hero-shimmer::after {
+    background: linear-gradient(90deg, rgba(200,170,220,0.3), transparent);
+  }
+  .hero-shimmer-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: 24px;
+    letter-spacing: 5px;
+    background: linear-gradient(90deg, #8aacd0, #c8a0d8, #e0a0b8, #c8a0d8, #8aacd0);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: shimmer 8s linear infinite;
+  }
+  .hero-sub {
+    font-size: 20px;
+    letter-spacing: 4px;
+    text-transform: lowercase;
+    font-style: italic;
+    color: rgba(180,200,240,0.35);
+    margin-top: 20px;
+    animation: fadeUp 0.8s ease 0.6s both;
+    font-family: 'Cormorant Garamond', serif;
+  }
+  .hero-moon {
+    width: 36px;
+    height: 36px;
+    margin: 24px auto 0;
+    opacity: 0.15;
+    animation: fadeIn 1.5s ease 0.8s both;
+  }
+
+  .section {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 40px;
+    scroll-margin-top: 60px;
+  }
+  @media (max-width: 600px) { .section { padding: 0 16px; } }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-top: 48px;
+    margin-bottom: 8px;
+    animation: fadeUp 0.6s ease both;
+  }
+  .section-header + .section-desc + .char-grid,
+  .section-header + .char-grid {
+    margin-top: 20px;
+  }
+  .section-header::before,
+  .section-header::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+  .section-header::before {
+    max-width: 80px;
+    background: linear-gradient(90deg, transparent, var(--border));
+  }
+  .section-header::after {
+    background: linear-gradient(90deg, var(--border), transparent);
+  }
+  .section-title {
+    font-family: 'Italiana', serif;
+    font-weight: 400;
+    font-style: normal;
+    font-size: clamp(18px, 3vw, 24px);
+    letter-spacing: 8px;
+    text-transform: uppercase;
+    color: rgba(180,200,240,0.5);
+    white-space: nowrap;
+  }
+
+  .char-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 22px;
+    margin-bottom: 20px;
+  }
+  @media (max-width: 600px) {
+    .char-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; }
+  }
+
+  .char-card {
+    animation: fadeUp 0.6s ease both;
+    cursor: pointer;
+    border-radius: 12px;
+    overflow: hidden;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    transition: border-color 0.4s ease, transform 0.35s ease, box-shadow 0.4s ease;
+  }
+  .char-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-6px);
+    box-shadow: 0 16px 48px rgba(100,50,150,0.25), 0 0 0 1px var(--accent-glow), 0 0 30px rgba(200,160,220,0.08);
+  }
+  .char-card-img-wrap {
+    overflow: hidden;
+    position: relative;
+  }
+  .char-card-img-wrap::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 50%;
+    background: linear-gradient(to top, var(--bg-card), transparent);
+    pointer-events: none;
+  }
+  .char-card-img {
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    object-fit: cover;
+    display: block;
+    filter: saturate(0.85);
+    transition: filter 0.4s ease, transform 0.6s ease;
+  }
+  .char-card:hover .char-card-img {
+    filter: saturate(1);
+    transform: scale(1.04);
+  }
+
+  .char-card-placeholder {
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(145deg, #1a1921, #0f0e14);
+    position: relative;
+  }
+  .char-card-placeholder .initial {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 72px;
+    font-weight: 300;
+    color: var(--border-hover);
+    transition: color 0.4s ease;
+  }
+  .char-card:hover .char-card-placeholder .initial { color: var(--accent); }
+  .char-card-placeholder .placeholder-label {
+    position: absolute;
+    bottom: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--text-faint);
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .char-card-info { padding: 16px 18px 20px; position: relative; }
+  .char-card-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 500;
+    font-style: italic;
+    letter-spacing: 2px;
+    transition: color 0.3s ease;
+  }
+  .char-card:hover .char-card-name { color: var(--accent); }
+  .char-card-count {
+    font-size: 12px;
+    color: var(--text-dim);
+    letter-spacing: 2px;
+    margin-top: 4px;
+  }
+  .char-card-spicy {
+    display: inline-block;
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--spicy);
+    border: 1px solid var(--spicy-glow);
+    background: rgba(212,92,138,0.08);
+    padding: 3px 8px;
+    border-radius: 20px;
+    margin-top: 8px;
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 600;
+    transition: background 0.3s ease, border-color 0.3s ease;
+  }
+  .char-card:hover .char-card-spicy {
+    background: rgba(212,92,138,0.15);
+    border-color: var(--spicy);
+  }
+  .char-card-arrow {
+    position: absolute;
+    right: 18px;
+    top: 50%;
+    transform: translateY(-50%) translateX(-6px);
+    color: var(--text-faint);
+    font-size: 18px;
+    transition: transform 0.3s ease, color 0.3s ease;
+  }
+  .char-card:hover .char-card-arrow {
+    transform: translateY(-50%) translateX(0);
+    color: var(--accent);
+  }
+
+  /* ── Gallery Page ── */
+  .gallery-page {
+    display: none;
+    min-height: 100vh;
+    animation: fadeIn 0.4s ease;
+  }
+  .gallery-page.active { display: block; }
+
+  .gallery-header {
+    padding: 40px 40px 32px;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    max-width: 1200px;
+    margin: 0 auto;
+    animation: slideIn 0.5s ease;
+  }
+  @media (max-width: 600px) {
+    .gallery-header { padding: 24px 16px 20px; gap: 16px; }
+  }
+  .back-btn {
+    background: var(--bg-raised);
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    font-family: 'Quicksand', sans-serif;
+    font-size: 13px;
+    padding: 10px 18px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: border-color 0.3s, color 0.3s;
+    letter-spacing: 1px;
+    flex-shrink: 0;
+  }
+  .back-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .gallery-title {
+    font-family: 'Cinzel Decorative', 'Cormorant Garamond', serif;
+    font-weight: 400;
+    font-size: clamp(24px, 4vw, 40px);
+    letter-spacing: 4px;
+    text-transform: none;
+    color: var(--accent);
+  }
+  .gallery-group {
+    font-family: 'Libre Franklin', sans-serif;
+    font-size: 11px;
+    color: var(--text-dim);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+  .gallery-count {
+    font-size: 11px;
+    color: var(--text-dim);
+    letter-spacing: 2px;
+    margin-left: auto;
+    flex-shrink: 0;
+  }
+  .gallery-divider {
+    height: 1px;
+    background: linear-gradient(90deg, var(--accent), var(--border) 50%, transparent);
+    margin: 0 40px;
+    max-width: 1120px;
+  }
+  @media (max-width: 600px) { .gallery-divider { margin: 0 16px; } }
+
+  .gallery-grid {
+    columns: 3;
+    column-gap: 14px;
+    padding: 32px 40px 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  @media (max-width: 900px) { .gallery-grid { columns: 2; } }
+  @media (max-width: 600px) { .gallery-grid { columns: 2; column-gap: 10px; padding: 20px 16px 10px; } }
+  @media (max-width: 400px) { .gallery-grid { columns: 1; max-width: 360px; } }
+
+  .gallery-item {
+    break-inside: avoid;
+    margin-bottom: 14px;
+    border-radius: 6px;
+    overflow: hidden;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    cursor: pointer;
+    transition: transform 0.3s ease, border-color 0.3s ease;
+    animation: fadeUp 0.5s ease both;
+    position: relative;
+  }
+  .gallery-item:hover {
+    transform: translateY(-3px);
+    border-color: var(--border-hover);
+  }
+  .gallery-item:hover .item-overlay { opacity: 1; }
+  .gallery-item img {
+    display: block;
+    width: 100%;
+    height: auto;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+  }
+  .gallery-item img.loaded { opacity: 1; }
+  .gallery-item video {
+    display: block;
+    width: 100%;
+    height: auto;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+  }
+  .gallery-item video.loaded { opacity: 1; }
+  .gallery-video-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 28px;
+    height: 28px;
+    background: rgba(0,0,0,0.5);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    color: rgba(255,255,255,0.7);
+    pointer-events: none;
+    backdrop-filter: blur(4px);
+  }
+  .item-overlay {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    padding: 20px 12px 10px;
+    background: linear-gradient(to top, rgba(0,0,0,0.75), transparent);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  .item-caption {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 13px;
+    color: var(--accent);
+    letter-spacing: 1px;
+  }
+
+  .gallery-empty {
+    text-align: center;
+    padding: 100px 40px;
+    animation: fadeUp 0.5s ease;
+  }
+  .gallery-empty-icon {
+    font-size: 48px;
+    color: var(--text-faint);
+    margin-bottom: 20px;
+  }
+  .gallery-empty p {
+    color: var(--text-dim);
+    font-size: 14px;
+    letter-spacing: 1px;
+  }
+
+  /* ── Spicy Divider inside gallery ── */
+  .spicy-divider {
+    max-width: 1120px;
+    margin: 20px auto 0;
+    padding: 0 40px;
+    animation: fadeUp 0.5s ease both;
+  }
+  @media (max-width: 600px) { .spicy-divider { padding: 0 16px; } }
+
+  .spicy-divider-inner {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 24px 0;
+  }
+  .spicy-divider-inner::before,
+  .spicy-divider-inner::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+  }
+  .spicy-divider-inner::before {
+    max-width: 40px;
+    background: linear-gradient(90deg, transparent, var(--spicy));
+  }
+  .spicy-divider-inner::after {
+    background: linear-gradient(90deg, var(--spicy), transparent);
+  }
+
+  .spicy-unlock-btn {
+    font-family: 'Libre Franklin', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--spicy);
+    cursor: pointer;
+    background: none;
+    border: 1px solid var(--spicy-glow);
+    padding: 10px 24px;
+    border-radius: 4px;
+    transition: background 0.3s, border-color 0.3s, box-shadow 0.3s;
+    white-space: nowrap;
+  }
+  .spicy-unlock-btn:hover {
+    background: var(--spicy-glow);
+    border-color: var(--spicy);
+    box-shadow: 0 0 20px var(--spicy-glow);
+  }
+
+  /* ── Bot Link CTA (links out to DreamjourneyAI) ── */
+  .bot-link-bar {
+    display: flex;
+    justify-content: center;
+    padding: 30px 40px 10px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .bot-link-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 26px;
+    font-family: 'Libre Franklin', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: none;
+    border: 1px solid var(--accent-glow);
+    border-radius: 4px;
+    text-decoration: none;
+    transition: background 0.3s, border-color 0.3s, box-shadow 0.3s, color 0.3s, letter-spacing 0.3s;
+    white-space: nowrap;
+  }
+  .bot-link-btn:hover {
+    background: var(--accent-glow);
+    border-color: var(--accent);
+    box-shadow: 0 0 20px var(--accent-glow);
+    color: var(--text);
+    letter-spacing: 4px;
+  }
+  .bot-link-btn .bot-link-spark {
+    font-size: 13px;
+    transition: transform 0.4s;
+  }
+  .bot-link-btn:hover .bot-link-spark { transform: rotate(72deg); }
+  .bot-link-btn .bot-link-arrow {
+    font-size: 13px;
+    transition: transform 0.3s;
+  }
+  .bot-link-btn:hover .bot-link-arrow { transform: translate(2px, -2px); }
+  @media (max-width: 600px) {
+    .bot-link-bar { padding: 22px 16px 4px; }
+    .bot-link-btn { padding: 10px 18px; letter-spacing: 2.5px; font-size: 10px; gap: 9px; }
+  }
+
+  .spicy-gallery-grid {
+    columns: 3;
+    column-gap: 14px;
+    padding: 20px 40px 80px;
+    max-width: 1200px;
+    margin: 0 auto;
+    animation: fadeUp 0.4s ease both;
+  }
+  @media (max-width: 900px) { .spicy-gallery-grid { columns: 2; } }
+  @media (max-width: 600px) { .spicy-gallery-grid { columns: 2; column-gap: 10px; padding: 16px 16px 60px; } }
+  @media (max-width: 400px) { .spicy-gallery-grid { columns: 1; max-width: 360px; } }
+
+  /* ── Age Gate Modal ── */
+  .age-gate {
+    position: fixed;
+    inset: 0;
+    z-index: 2000;
+    background: rgba(5,5,8,0.97);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    animation: fadeIn 0.3s ease;
+  }
+  .age-gate.open { display: flex; }
+
+  .age-gate-box {
+    background: var(--bg-raised);
+    border: 1px solid var(--spicy);
+    border-radius: 12px;
+    padding: 48px 40px;
+    max-width: 440px;
+    text-align: center;
+    box-shadow: 0 0 60px var(--spicy-glow);
+  }
+  .age-gate-box h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px;
+    font-weight: 400;
+    color: var(--spicy);
+    letter-spacing: 4px;
+    margin-bottom: 16px;
+  }
+  .age-gate-box p {
+    color: var(--text-dim);
+    font-size: 14px;
+    line-height: 1.6;
+    margin-bottom: 32px;
+  }
+  .age-gate-buttons {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+  }
+  .age-gate-btn {
+    font-family: 'Libre Franklin', sans-serif;
+    font-size: 13px;
+    letter-spacing: 2px;
+    padding: 12px 32px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-transform: uppercase;
+  }
+  .age-gate-enter {
+    background: var(--spicy);
+    border: 1px solid var(--spicy);
+    color: white;
+  }
+  .age-gate-enter:hover {
+    background: #d44a4a;
+    box-shadow: 0 0 24px var(--spicy-glow);
+  }
+  .age-gate-leave {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+  }
+  .age-gate-leave:hover {
+    border-color: var(--text-dim);
+    color: var(--text);
+  }
+
+  /* ── Lightbox ── */
+  .lightbox {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    background: rgba(5,5,8,0.95);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+  }
+  .lightbox.open { display: flex; animation: fadeIn 0.25s ease; }
+  .lightbox img {
+    max-width: 90vw;
+    max-height: 85vh;
+    object-fit: contain;
+    border-radius: 4px;
+    box-shadow: 0 24px 80px rgba(0,0,0,0.5);
+  }
+  .lb-btn {
+    position: absolute;
+    background: none;
+    border: none;
+    color: var(--text-dim);
+    cursor: pointer;
+    transition: color 0.2s;
+    font-family: 'Libre Franklin', sans-serif;
+  }
+  .lb-btn:hover { color: var(--accent); }
+  .lb-close { top: 24px; right: 28px; font-size: 28px; }
+  .lb-nav { top: 50%; transform: translateY(-50%); font-size: 36px; padding: 16px; }
+  .lb-prev { left: 16px; }
+  .lb-next { right: 16px; }
+  .lb-caption {
+    position: absolute;
+    bottom: 28px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 14px;
+    letter-spacing: 3px;
+    color: var(--accent);
+    background: rgba(12,11,15,0.7);
+    padding: 8px 24px;
+    border-radius: 24px;
+    border: 1px solid var(--accent-glow);
+    white-space: nowrap;
+  }
+
+  .footer {
+    text-align: center;
+    padding: 40px 24px 24px;
+    font-size: 11px;
+    color: var(--text-faint);
+    letter-spacing: 3px;
+    text-transform: lowercase;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 14px;
+  }
+  /* ── Featured Video ── */
+  .featured-video {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 0 40px 20px;
+    text-align: center;
+    animation: fadeUp 0.8s ease 0.7s both;
+  }
+  .featured-label {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 16px;
+    letter-spacing: 4px;
+    color: var(--text-dim);
+    margin-bottom: 16px;
+    text-transform: lowercase;
+  }
+  .featured-video-wrap {
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    background: var(--bg-card);
+    transition: border-color 0.4s ease, box-shadow 0.4s ease;
+  }
+  .featured-video-wrap:hover {
+    border-color: var(--accent);
+    box-shadow: 0 8px 40px rgba(100,50,150,0.2), 0 0 20px rgba(200,160,220,0.06);
+  }
+  .featured-video-wrap video,
+  .featured-video-wrap iframe {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    height: auto;
+    border-radius: 11px;
+    border: none;
+  }
+  .featured-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 18px;
+    letter-spacing: 2px;
+    color: var(--text-faint);
+    margin-top: 14px;
+  }
+  @media (max-width: 600px) {
+    .featured-video { padding: 0 16px 16px; }
+  }
+  /* ── Group Banner Card ── */
+  .group-banner {
+    border-radius: 12px;
+    overflow: hidden;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    cursor: pointer;
+    transition: border-color 0.4s ease, transform 0.35s ease, box-shadow 0.4s ease;
+    animation: fadeUp 0.6s ease both;
+    position: relative;
+    margin-bottom: 20px;
+  }
+  .group-banner:hover {
+    border-color: var(--accent);
+    transform: translateY(-4px);
+    box-shadow: 0 16px 48px rgba(100,50,150,0.25), 0 0 30px rgba(200,160,220,0.08);
+  }
+  .group-banner-inner {
+    display: flex;
+    align-items: stretch;
+    min-height: 180px;
+  }
+  .group-banner-covers {
+    display: flex;
+    flex-shrink: 0;
+    width: 360px;
+    overflow: hidden;
+  }
+  .group-banner-covers img {
+    width: 25%;
+    object-fit: cover;
+    filter: saturate(0.8);
+    transition: filter 0.4s;
+  }
+  .group-banner:hover .group-banner-covers img { filter: saturate(1); }
+  .group-banner-info {
+    padding: 28px 32px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex: 1;
+    position: relative;
+  }
+  .group-banner-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 32px;
+    font-weight: 500;
+    font-style: italic;
+    letter-spacing: 3px;
+    color: var(--text);
+    transition: color 0.3s;
+  }
+  .group-banner:hover .group-banner-name { color: var(--accent); }
+  .group-banner-desc {
+    font-size: 15px;
+    color: var(--text-dim);
+    margin-top: 6px;
+    letter-spacing: 1px;
+  }
+  .group-banner-count {
+    font-size: 11px;
+    color: var(--text-faint);
+    letter-spacing: 2px;
+    margin-top: 10px;
+  }
+  .group-banner-cta {
+    font-family: 'Italiana', serif;
+    font-size: 12px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-top: 14px;
+    opacity: 0;
+    transform: translateX(-8px);
+    transition: opacity 0.3s, transform 0.3s;
+  }
+  .group-banner:hover .group-banner-cta {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  .group-banner-arrow {
+    position: absolute;
+    right: 28px;
+    top: 50%;
+    transform: translateY(-50%) translateX(-6px);
+    color: var(--text-faint);
+    font-size: 24px;
+    transition: transform 0.3s, color 0.3s;
+  }
+  .group-banner:hover .group-banner-arrow {
+    transform: translateY(-50%) translateX(0);
+    color: var(--accent);
+  }
+  @media (max-width: 600px) {
+    .group-banner-covers { width: 140px; }
+    .group-banner-covers img { width: 50%; }
+    .group-banner-info { padding: 20px 18px; }
+    .group-banner-name { font-size: 22px; }
+  }
+
+  /* ── Creator's Favorites · heart decoration ── */
+  .section[data-deco="hearts"] {
+    position: relative;
+    padding-top: 30px;
+    padding-bottom: 40px;
+  }
+  /* Hearts flanking the title text */
+  .section[data-deco="hearts"] .section-title {
+    display: inline-block;
+    position: relative;
+  }
+  .section[data-deco="hearts"] .section-title::before,
+  .section[data-deco="hearts"] .section-title::after {
+    display: inline-block;
+    color: #e85a7a;
+    font-size: 0.7em;
+    margin: 0 22px;
+    position: relative;
+    top: -3px;
+    vertical-align: middle;
+    text-shadow: 0 0 12px rgba(232, 90, 122, 0.5);
+    animation: heartPulse 2.4s ease-in-out infinite;
+  }
+  .section[data-deco="hearts"] .section-title::before { content: '♥'; }
+  .section[data-deco="hearts"] .section-title::after  { content: '♥'; animation-delay: 1.2s; }
+  @keyframes heartPulse {
+    0%, 100% { transform: scale(1); opacity: 0.85; }
+    50%      { transform: scale(1.18); opacity: 1; }
+  }
+  /* Scattered ambient hearts floating around the section */
+  .hearts-bg {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+  }
+  .hearts-bg .heart {
+    position: absolute;
+    font-family: serif;
+    opacity: 0.55;
+    animation: heartFloat 6s ease-in-out infinite;
+    will-change: transform;
+  }
+  @keyframes heartFloat {
+    0%, 100% { transform: translateY(0) rotate(var(--rot, 0deg)); }
+    50%      { transform: translateY(-14px) rotate(calc(var(--rot, 0deg) + 8deg)); }
+  }
+  /* Empty-state hint when no characters added yet */
+  .section[data-deco="hearts"] .favorites-empty {
+    text-align: center;
+    color: rgba(232, 90, 122, 0.55);
+    font-style: italic;
+    font-size: 15px;
+    letter-spacing: 1px;
+    padding: 40px 20px 30px;
+    position: relative;
+    z-index: 2;
+  }
+
+  /* ════════════════════════════════════════════════════════
+     ── Highlight banners ──
+     featured: THE highlight (Creator's Favorites) - rose-gold/pink ACOTAR-style glow
+     popular:  second highlight (Street Rats) - hot pink/punk accent
+     ════════════════════════════════════════════════════════ */
+
+  .group-banner.is-featured {
+    border: 1px solid #d4a070;
+    box-shadow: 0 0 0 1px rgba(212, 160, 112, 0.25), 0 16px 50px rgba(255, 143, 163, 0.18), 0 0 60px rgba(212, 160, 112, 0.12);
+    animation: featuredGlow 4s ease-in-out infinite;
+    overflow: visible;
+  }
+  @keyframes featuredGlow {
+    0%, 100% { box-shadow: 0 0 0 1px rgba(212, 160, 112, 0.25), 0 16px 50px rgba(255, 143, 163, 0.18), 0 0 60px rgba(212, 160, 112, 0.12); }
+    50%      { box-shadow: 0 0 0 1px rgba(255, 175, 200, 0.5),  0 22px 60px rgba(255, 143, 163, 0.32), 0 0 80px rgba(255, 175, 200, 0.25); }
+  }
+  .group-banner.is-featured:hover {
+    border-color: #ffafc8;
+    transform: translateY(-6px);
+    box-shadow: 0 0 0 1px rgba(255, 175, 200, 0.7), 0 28px 70px rgba(255, 143, 163, 0.4), 0 0 100px rgba(255, 175, 200, 0.3);
+  }
+  .group-banner.is-featured::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    background: linear-gradient(135deg, #ffafc8, #d4a070, #c43868, #ffafc8);
+    background-size: 300% 300%;
+    z-index: -1;
+    border-radius: 13px;
+    opacity: 0.4;
+    animation: shimmerEdge 8s linear infinite;
+    pointer-events: none;
+  }
+  @keyframes shimmerEdge {
+    0%   { background-position:   0% 50%; }
+    50%  { background-position: 100% 50%; }
+    100% { background-position:   0% 50%; }
+  }
+  .group-banner.is-featured .group-banner-name {
+    background: linear-gradient(90deg, #fff5fa, #ffafc8, #d4a070, #ffafc8, #fff5fa);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    animation: shimmerText 6s linear infinite;
+    text-shadow: none;
+  }
+  @keyframes shimmerText {
+    0%   { background-position:   0% 50%; }
+    100% { background-position: 200% 50%; }
+  }
+  .group-banner.is-featured .group-banner-cta { color: #ffafc8; }
+  .group-banner.is-featured .group-banner-arrow { color: #d4a070; }
+  .group-banner.is-featured:hover .group-banner-arrow { color: #ffafc8; }
+  .group-banner.is-featured:hover .group-banner-covers img { filter: saturate(1.1); }
+
+  .highlight-badge {
+    position: absolute;
+    top: -12px;
+    right: 24px;
+    z-index: 10;
+    padding: 6px 14px;
+    font-family: 'Italiana', serif;
+    font-size: 10px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    font-weight: 600;
+    pointer-events: none;
+    border: 1px solid;
+  }
+  .highlight-badge.featured {
+    background: linear-gradient(135deg, #c43868, #d4a070);
+    color: #fff5fa;
+    border-color: #ffafc8;
+    box-shadow: 0 4px 14px rgba(196, 56, 104, 0.5), 0 0 20px rgba(255, 175, 200, 0.4);
+  }
+  .highlight-badge.popular {
+    background: linear-gradient(135deg, #e85a7a, #ff4080);
+    color: #fff;
+    border-color: #ffafc8;
+    box-shadow: 0 4px 14px rgba(232, 90, 122, 0.5);
+  }
+  /* Sparkle decorations on the featured banner */
+  .group-banner.is-featured .featured-sparkles {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 1;
+  }
+  .group-banner.is-featured .featured-sparkles .sp {
+    position: absolute;
+    color: #ffafc8;
+    font-size: 12px;
+    opacity: 0;
+    animation: sparkleFade 3s ease-in-out infinite;
+    text-shadow: 0 0 8px rgba(255, 175, 200, 0.7);
+  }
+  @keyframes sparkleFade {
+    0%, 100% { opacity: 0; transform: scale(0.5) rotate(0deg); }
+    50%      { opacity: 0.85; transform: scale(1) rotate(180deg); }
+  }
+
+  .group-banner.is-silver {
+    border: 1px solid #b8c2d6;
+    box-shadow: 0 0 0 1px rgba(184, 194, 214, 0.18), 0 14px 40px rgba(0,0,0,0.45), 0 0 50px rgba(184, 194, 214, 0.18);
+    animation: silverGlow 5s ease-in-out infinite;
+  }
+  @keyframes silverGlow {
+    0%, 100% { box-shadow: 0 0 0 1px rgba(184, 194, 214, 0.2),  0 14px 40px rgba(0,0,0,0.45), 0 0 50px rgba(184, 194, 214, 0.18); }
+    50%      { box-shadow: 0 0 0 1px rgba(212, 220, 232, 0.42), 0 18px 50px rgba(0,0,0,0.55), 0 0 78px rgba(212, 220, 232, 0.32); }
+  }
+  .group-banner.is-silver:hover {
+    border-color: #d4dce8;
+    transform: translateY(-5px);
+    box-shadow: 0 0 0 1px rgba(212, 220, 232, 0.6), 0 22px 60px rgba(0,0,0,0.6), 0 0 95px rgba(212, 220, 232, 0.4);
+  }
+  .group-banner.is-silver .group-banner-name { color: #d4dce8; }
+  .group-banner.is-silver:hover .group-banner-name { color: #ffffff; }
+  .group-banner.is-silver .group-banner-cta    { color: #b8c2d6; }
+  .group-banner.is-silver .group-banner-arrow  { color: #b8c2d6; }
+  .group-banner.is-silver:hover .group-banner-arrow { color: #d4dce8; }
+  .group-banner.is-silver:hover .group-banner-covers img { filter: saturate(0.95) brightness(1.05); }
+</style>
+</head>
+<body>
+
+<!-- ── Animated Stars ── -->
+<canvas id="starCanvas"></canvas>
+<div id="shootingStarContainer"></div>
+<div class="aurora-band" style="top:5%;left:15%;width:500px;height:120px;background:linear-gradient(90deg,transparent,rgba(60,100,180,0.04),rgba(100,60,140,0.06),rgba(160,60,100,0.03),transparent);transform:rotate(-8deg);animation:aurora 12s ease-in-out infinite;"></div>
+<div class="aurora-band" style="top:10%;left:30%;width:400px;height:80px;background:linear-gradient(90deg,transparent,rgba(80,60,160,0.05),rgba(60,100,180,0.04),transparent);transform:rotate(-5deg);animation:aurora 15s ease-in-out 3s infinite;"></div>
+
+<!-- ── Nav Bar ── -->
+<nav class="site-nav" id="siteNav">
+  <div class="site-nav-logo">Eurielle</div>
+  <div class="site-nav-links" id="navLinks"></div>
+</nav>
+
+<!-- ── Landing Page ── -->
+<div class="landing" id="landing">
+  <header class="hero">
+    <div class="hero-line"><span class="hero-line-text">Character Gallery</span></div>
+    <h1>Eurielle</h1>
+    <div class="hero-shimmer"><span class="hero-shimmer-text">romance & dark fantasy</span></div>
+    <p class="hero-sub">select a character to view their collection</p>
+    <div class="hero-moon">
+      <svg viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M30 5a20 20 0 0 0 0 40a20 20 0 0 1 0-40z" fill="#e0d0f0" opacity="0.5"/>
+        <circle cx="25" cy="25" r="20" fill="none" stroke="#d0c0e8" stroke-width="0.3" opacity="0.3"/>
+      </svg>
+    </div>
+  </header>
+  <div class="featured-video">
+    <div class="featured-label">✦ featured ✦</div>
+    <div class="featured-video-wrap">
+      <iframe src="https://www.youtube.com/embed/ko9wrdlZCog" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
+    <div class="featured-title">Invoka Rishi</div>
+  </div>
+  <div id="sections"></div>
+  <div class="footer">✦ Eurielle's Gallery ✦</div>
+</div>
+
+<!-- ── Gallery Page ── -->
+<div class="gallery-page" id="galleryPage">
+  <div class="gallery-header">
+    <button class="back-btn" onclick="goHome()">&#8592; Back</button>
+    <div>
+      <div class="gallery-group" id="galleryGroup"></div>
+      <h2 class="gallery-title" id="galleryTitle"></h2>
+    </div>
+    <span class="gallery-count" id="galleryCount"></span>
+  </div>
+  <div class="gallery-divider"></div>
+  <div id="galleryContent"></div>
+  <div class="footer">✦ Eurielle's Gallery ✦</div>
+</div>
+
+<!-- ── Age Gate ── -->
+<div class="age-gate" id="ageGate">
+  <div class="age-gate-box">
+    <h2>18+ Content</h2>
+    <p>This section contains mature content.<br>Are you 18 or older?</p>
+    <div class="age-gate-buttons">
+      <button class="age-gate-btn age-gate-enter" onclick="confirmAge()">Yes, Enter</button>
+      <button class="age-gate-btn age-gate-leave" onclick="closeAgeGate()">No, Go Back</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── Lightbox ── -->
+<div class="lightbox" id="lightbox">
+  <button class="lb-btn lb-close" onclick="closeLightbox()">&#215;</button>
+  <button class="lb-btn lb-nav lb-prev" onclick="lbNav(-1)">&#8249;</button>
+  <img id="lbImg" src="" alt="">
+  <video id="lbVid" src="" controls autoplay loop playsinline style="display:none; max-height:90vh; max-width:90vw; border-radius:4px;"></video>
+  <iframe id="lbYt" src="" style="display:none; width:90vw; max-width:960px; aspect-ratio:16/9; border:none; border-radius:4px;" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+  <button class="lb-btn lb-nav lb-next" onclick="lbNav(1)">&#8250;</button>
+  <div class="lb-caption" id="lbCaption"></div>
+</div>
+
+<script>
+// ╔══════════════════════════════════════════════════════════════════════╗
+// ║                                                                    ║
+// ║   YOUR CHARACTERS GO HERE!                                         ║
+// ║                                                                    ║
+// ║   Each character has:                                              ║
+// ║     name   — display name                                          ║
+// ║     cover  — landing page image (or "" for placeholder)            ║
+// ║     images — array of { src, caption } for their main gallery      ║
+// ║     spicy  — array of { src, caption } for their 18+ gallery       ║
+// ║                                                                    ║
+// ╚══════════════════════════════════════════════════════════════════════╝
+
+const GROUPS = [
+  {
+    title: "ACOTAR",
+    desc: "a court of thorns and roses collection",
+    highlight: "silver",
+    dedicatedPage: "acotar.html",
+    characters: [
+      {
+        name: "Rhysand",
+        tropes: ["fated mates", "angst / longing", "captor & captive"],
+        cover: "rhysand-portrait.png",
+        images: [
+          { src: "rhysand-portrait.png", caption: "Portrait" },
+          { src: "rhysand-throne.png", caption: "The throne" },
+          { src: "rhysand-wings.png", caption: "Night Court" },
+          { src: "rhysand-starlight.png", caption: "Starlight" },
+          { src: "rhysand-silk.png", caption: "Black silk" },
+        ],
+        spicy: []
+      },
+      {
+        name: "Azriel",
+        tropes: ["childhood friends", "angst / longing", "fated mates", "caretaker", "arranged marriage", "unrequited love", "kidnapping / forced proximity", "spicy start"],
+        cover: "azriel-shadows.png",
+        images: [
+          { src: "azriel-shadows.png", caption: "Shadowsinger" },
+          { src: "azriel-wings.png", caption: "Fae prince" },
+          { src: "azriel-moonlight.png", caption: "Moonlight" },
+          { src: "azriel-ivy.png", caption: "Black armor" },
+          { src: "group-azriel-sunset.png", caption: "Azriel & mate" },
+          { src: "group-azriel-embrace.png", caption: "Embrace" },
+        ],
+        spicy: []
+      },
+      {
+        name: "Cassian",
+        tropes: ["bodyguard", "caretaker", "spicy start"],
+        cover: "cassian-wings.png",
+        images: [
+          { src: "cassian-wings.png", caption: "The General" },
+        ],
+        spicy: []
+      },
+      {
+        name: "Amren",
+        cover: "amren-wine.png",
+        images: [
+          { src: "amren-wine.png", caption: "The Ancient One" },
+        ],
+        spicy: []
+      },
+      {
+        name: "Eris",
+        tropes: ["arranged marriage"],
+        cover: "eris-fire.png",
+        images: [
+          { src: "eris-fire.png", caption: "Autumn Court" },
+        ],
+        spicy: []
+      },
+      {
+        name: "Tamlin",
+        tropes: ["spicy start", "fated mates"],
+        cover: "tamlin-forest.png",
+        images: [
+          { src: "tamlin-forest.png", caption: "Spring Court" },
+        ],
+        spicy: []
+      },
+      {
+        name: "Lucien",
+        tropes: ["childhood friends"],
+        cover: "lucien-portrait.png",
+        images: [
+          { src: "lucien-portrait.png", caption: "Emisary" },
+        ],
+        spicy: []
+      },
+      {
+        name: "Group Gens",
+        cover: "group-azriel-sunset.png",
+        images: [
+          { src: "group-azriel-sunset.png", caption: "Azriel & mate" },
+          { src: "group-azriel-embrace.png", caption: "Embrace" },
+          { src: "group-war-council.png", caption: "War council" },
+          { src: "group-wine-night.png", caption: "Wine night" },
+          { src: "group-bat-boys.png", caption: "The bat boys" },
+          { src: "group-bat-boys2.png", caption: "The bat boys II" },
+        ],
+        spicy: []
+      },
+    ]
+  },
+  {
+    title: "The Street Rats",
+    desc: "a punk rock band with no future and no regrets",
+    dedicatedPage: "street-rats.html",
+    characters: [
+      {
+        name: "Ash",
+        tropes: ["pregnancy / surprise baby", "caretaker"],
+        cover: "ash.png",
+        images: [
+          { src: "ash.png",        caption: "Guitar" },
+          { src: "ash-bed.png",    caption: "Tour bus" },
+          { src: "ash-doorway.png", caption: "Doorway" },
+          { src: "ash-stage1.png", caption: "Live show" },
+          { src: "ash-stage2.png", caption: "On stage" },
+          { src: "ash-club1.png",  caption: "Club" },
+          { src: "ash-club2.png",  caption: "Afterparty" },
+        ],
+        spicy: [
+          { src: "ashspring.png",  caption: "Hot spring" },
+          { src: "ashsprings.png", caption: "Hot spring sunset" },
+          { src: "ashcover.png",   caption: "Tour bus bunk" },
+          { src: "ashcovers.png",  caption: "Tour bus bunk II" },
+          { src: "ash-bus.png",    caption: "On the road" },
+        ]
+      },
+      {
+        name: "Skye",
+        tropes: ["pregnancy / surprise baby"],
+        cover: "skye.png",
+        images: [
+          { src: "skye.png",         caption: "Bass" },
+          { src: "skye-hotel.png",   caption: "Hotel room" },
+          { src: "skye-alley.jpg",   caption: "Back alley" },
+          { src: "skye-wall.jpg",    caption: "Against the wall" },
+          { src: "skye-stage.png",   caption: "On stage" },
+          { src: "skye-bass.png",    caption: "Close-up" },
+          { src: "skye-campfire.png", caption: "Campfire" },
+          { src: "skye-cave1.png",   caption: "Glowing cave" },
+          { src: "skye-cave2.png",   caption: "Glowing cave II" },
+          { src: "skye-lake.png",    caption: "Moonlit lake" },
+          { src: "skye-bedsheet.png", caption: "Morning after" },
+          { src: "skye-hotel2.png",  caption: "Hotel room II" },
+          { src: "skye-hotel3.png",  caption: "City view" },
+        ],
+        spicy: [
+          { src: "skye-sp-hotspring.png",  caption: "Hot spring" },
+          { src: "skye-sp-waterfall.png",  caption: "Waterfall" },
+          { src: "skye-sp-hammock.png",    caption: "Hammock" },
+          { src: "skye-sp-forest.png",     caption: "Forest rain" },
+          { src: "skye-sp-waterfall2.png", caption: "Waterfall II" },
+          { src: "skye-sp-sauna1.png",     caption: "Sauna" },
+          { src: "skye-sp-sauna2.png",     caption: "Sauna II" },
+          { src: "skye-sp-sauna3.png",     caption: "Sauna III" },
+          { src: "skye-sp-onsen1.png",     caption: "Onsen" },
+          { src: "skye-sp-onsen2.png",     caption: "Onsen II" },
+          { src: "skye-sp-shower1.png",    caption: "Shower" },
+          { src: "skye-sp-shower2.png",    caption: "Shower II" },
+          { src: "skye-sp-bed1.png",       caption: "Hotel bed" },
+          { src: "skye-sp-bed2.png",       caption: "Hotel bed II" },
+        ]
+      },
+      {
+        name: "Sin",
+        tropes: ["enemies to lovers", "pregnancy / surprise baby"],
+        cover: "sin.png",
+        images: [
+          { src: "sin.png",          caption: "Vocalist" },
+          { src: "sin-jail.png",     caption: "Phone call" },
+          { src: "sin-gasstation.png", caption: "Gas station" },
+          { src: "sin-liveshow.png", caption: "Live show" },
+          { src: "sin-motel.png",    caption: "Motel" },
+          { src: "sin-bar.png",      caption: "At the bar" },
+          { src: "sin-highway.png",  caption: "Highway" },
+          { src: "sin-diner.png",    caption: "Diner" },
+          { src: "sin-graffiti.png", caption: "Graffiti" },
+          { src: "sin-hotspring1.png", caption: "Hot spring" },
+          { src: "sin-hotspring2.png", caption: "Hot spring II" },
+          { src: "sin-sunset.png",   caption: "Sunset" },
+          { src: "sin-confined.png",  caption: "Confined" },
+          { src: "sin-fans.png",      caption: "The fans" },
+          { src: "sin-vanlife.png",   caption: "Van life" },
+          { src: "sin-rooftop-tub.png", caption: "Rooftop tub" },
+          { src: "sin-redroom.png",   caption: "Red room" },
+          { src: "sin-cereal.png",    caption: "Late night snack" },
+          { src: "sin-pizza.png",     caption: "Pizza at 3AM" },
+          { src: "sin-patio.png",     caption: "Rooftop patio" },
+          { src: "sin-rooftop-smoke.png", caption: "Smoke break" },
+          { src: "sin-rooftop-cam.png",   caption: "CAM 04" },
+          { src: "sin-neonroom.png",  caption: "Neon room" },
+          { src: "sin-closeup.png",   caption: "Up close" },
+          { src: "sin-mansion-cam.png", caption: "Mansion rooftop" },
+        ],
+        spicy: [
+          { src: "sin-sp-tourbus.png",  caption: "Tour bus" },
+          { src: "sin-sp-rainybed.png", caption: "Rainy night" },
+          { src: "sin-sp-onsen1.png",   caption: "Onsen" },
+          { src: "sin-sp-onsen2.png",   caption: "Onsen II" },
+          { src: "sin-sp-penthouse.png", caption: "Penthouse" },
+          { src: "sin-sp-poolside.png",  caption: "Poolside" },
+        ]
+      },
+      {
+        name: "Mason",
+        tropes: ["pregnancy / surprise baby"],
+        cover: "mason.png",
+        images: [
+          { src: "mason.png", caption: "Drums" },
+          { src: "mason-barfight.png", caption: "Bar fight" },
+          { src: "mason-bar.png", caption: "Live loud" },
+          { src: "mason-bunk.png", caption: "The van" },
+        ],
+        spicy: []
+      },
+    ]
+  },
+  {
+    title: "The Mafia",
+    desc: "Dark Romance and Dangerous Obsession",
+    dedicatedPage: "mafia.html",
+    characters: [
+      {
+        name: "Declan",
+        tropes: ["arranged marriage", "sunshine \u00d7 grumpy"],
+        bot: "https://www.dreamjourneyai.com/app/creation/196f4ac8-1d45-4166-8fde-f6e5a2862043",
+        cover: "declan-alley.png",
+        featuredVideo: { id: "SJ4PPks_8DI", caption: "Declan & Rory" },
+        images: [
+          { src: "declan-car.png",      caption: "Back alley" },
+          { src: "declan-whiskey.png",   caption: "Whiskey" },
+          { src: "declan-street.png",    caption: "Cobblestone" },
+          { src: "declan-pub.png",       caption: "At the pub" },
+          { src: "declan-alley.png",     caption: "Night smoke" },
+          { src: "declan-poker.png",     caption: "Poker" },
+          { src: "declan-gun.png",       caption: "Business" },
+          { src: "declan-duo.png",       caption: "In the rain" },
+          { src: "declan-mirror.png",    caption: "Mirror" },
+          { src: "declan-revolver.png",  caption: "Revolver" },
+        ],
+        spicy: []
+      },
+      {
+        name: "Angelo",
+        tropes: ["lovers from the start", "soft for one person only"],
+        bot: "https://www.dreamjourneyai.com/app/creation/e8f4b894-a1b5-49d0-a3a6-a96984b19c5f",
+        cover: "angelo-throne.png",
+        images: [
+          { src: "angelo-throne.png",  caption: "The throne" },
+          { src: "angelo-suit.png",    caption: "Black suit" },
+          { src: "angelo-dinner.png",  caption: "Dinner date" },
+          { src: "angelo-docks.png",   caption: "The docks" },
+          { src: "angelo-mansion.png", caption: "Mansion" },
+          { src: "angelo-kneel.png",   caption: "Devotion" },
+        ],
+        spicy: []
+      },
+      {
+        name: "Nero",
+        tropes: ["soft for one person only", "kidnapping / forced proximity"],
+        bot: "https://www.dreamjourneyai.com/app/creation/049730f4-d02f-4f4a-9c31-8c77be7c39a9",
+        cover: "nero-armed.png",
+        images: [
+          { src: "nero-armed.png",  caption: "Armed" },
+          { src: "nero-lounge.png", caption: "Lounge" },
+          { src: "nero-bed.png",    caption: "Firelight" },
+          { src: "nero-bed2.png",   caption: "Firelight II" },
+          { src: "nero-door13.png", caption: "Room 13" },
+          { src: "nero-bloody.png", caption: "Clean up" },
+          { src: "nero-car.png", caption: "Arrival" },
+          { src: "nero-elevator.png", caption: "CAM 01" },
+          { src: "nero-hallway.png", caption: "The hallway" },
+          { src: "nero-shattered.png", caption: "Shattered" },
+        ],
+        spicy: [
+          { src: "nero-sp-bath.png",  caption: "Marble bath" },
+          { src: "nero-sp-bath2.png", caption: "Marble bath II" },
+        ]
+      },
+      {
+        name: "Mikhail",
+        tropes: ["kidnapping / forced proximity", "enemies to lovers"],
+        bot: "https://www.dreamjourneyai.com/app/creation/902703e8-9e2d-4605-a361-3378d1d21a29",
+        cover: "mikhail-rain.png",
+        images: [
+          { src: "mikhail-rain.png",  caption: "In the rain" },
+          { src: "mikhail-storm.png", caption: "Storm" },
+        ],
+        spicy: []
+      },
+      {
+        name: "Luca",
+        tropes: ["arranged marriage", "cheating"],
+        bot: "https://www.dreamjourneyai.com/app/creation/7b3a91f7-f901-40de-b769-f5f38c8147e5",
+        cover: "luca-cigar.png",
+        images: [
+          { src: "luca-cigar.png", caption: "The heir" },
+          { src: "luca-club-kiss.png", caption: "VIP booth" },
+          { src: "luca-club-booth.png", caption: "His eyes on you" },
+          { src: "luca-club-embrace.png", caption: "Closing time" },
+          { src: "luca-nocturne.png", caption: "Nocturne" },
+          { src: "luca-nocturne-kiss.png", caption: "Curbside" },
+          { src: "luca-booth-stare.png", caption: "The stare" },
+          { src: "luca-bar-cigar.png", caption: "Cigar & whiskey" },
+          { src: "luca-whiskey.png", caption: "Old fashioned" },
+          { src: "luca-gravestone.png", caption: "Maria Vitello" },
+          { src: "luca-silk.png", caption: "Black silk" },
+        ],
+        spicy: [
+          { src: "luca-sp-shower1.png", caption: "Marble shower" },
+          { src: "luca-sp-shower2.png", caption: "Marble shower II" },
+          { src: "luca-sp-satin.png", caption: "Satin sheets" },
+          { src: "luca-sp-candlelit.png", caption: "Candlelit" },
+          { src: "luca-sp-stoneshower.png", caption: "Stone shower" },
+          { src: "luca-sp-morning.png", caption: "Morning light" },
+          { src: "luca-sp-stoneshower2.png", caption: "Stone shower II" },
+          { src: "luca-sp-whitesatin.png", caption: "White satin" },
+          { src: "luca-sp-blacksilk2.png", caption: "Black silk II" },
+          { src: "luca-sp-armed.png", caption: "Armed" },
+          { src: "luca-sp-blacksilk3.png", caption: "Black silk III" },
+          { src: "luca-sp-blacksilk4.png", caption: "Black silk IV" },
+          { src: "luca-sp-pool.png", caption: "Midnight pool" },
+        ]
+      },
+    ]
+  },
+  {
+    title: "Medieval/Fantasy OC",
+    desc: "across centuries and realms",
+    dedicatedPage: "chronicles.html",
+    characters: [
+      {
+        name: "Varro",
+        tropes: ["sunshine \u00d7 grumpy", "captor & captive", "soft for one person only"],
+        cover: "varro-champion.png",
+        images: [
+          { src: "varro-champion.png",  caption: "Champion" },
+          { src: "varro-triumph.png",   caption: "Triumph" },
+          { src: "varro-crowd.png",     caption: "The crowd" },
+          { src: "varro-mural.png",     caption: "The mural" },
+          { src: "varro-cell.png",      caption: "The cell" },
+          { src: "varro-villa.png",     caption: "The villa" },
+          { src: "varro-wine.png",      caption: "Wine & rest" },
+          { src: "varro-bathhouse.png", caption: "Bathhouse" },
+          { src: "varro-arena.png",     caption: "The arena" },
+          { src: "varro-victor.png",    caption: "Victor" },
+                    { src: "varro-rain.png",      caption: "In the rain" },
+          { src: "varro-training.png",  caption: "Training" },
+          { src: "varro-fortis.png",    caption: "Fortis Fideles" },
+          { src: "varro-dungeon.png",   caption: "The dungeon" },
+          { src: "varro-scars.png",     caption: "Battle scars" },
+          { src: "varro-wall.png",      caption: "Against the wall" },
+          { src: "varro-cot.png",       caption: "The cot" },
+        ],
+        spicy: [
+          { src: "varro-sp-pool.png",   caption: "The pool" },
+          { src: "varro-sp-baths.png",  caption: "Roman baths" },
+          { src: "varro-sp-lounge.png", caption: "Lounging" },
+          { src: "varro-sp-steam.png",  caption: "Steam" },
+          { src: "varro-sp-marble.png", caption: "Marble baths" },
+          { src: "varro-sp-crimson.png", caption: "Crimson silk" },
+          { src: "varro-sp-arms.png",    caption: "Arms crossed" },
+          { src: "varro-sp-gold.png",    caption: "Gold & velvet" },
+          { src: "varro-sp-sunset.png",  caption: "Sunset chamber" },
+          { src: "varro-sp-basin.png",   caption: "The basin" },
+          { src: "varro-sp-strigil.png", caption: "Strigil" },
+          { src: "varro-sp-golden.png",  caption: "Golden hour" },
+          { src: "varro-sp-standing.png", caption: "Rising steam" },
+        ]
+      },
+      {
+        name: "Samuel",
+        tropes: ["caretaker", "enemies to lovers", "captor & captive", "true villain (hardest)"],
+        cover: "samuel.png",
+        images: [
+          { src: "samuel.png",          caption: "Bound" },
+          { src: "samuel-wrath.png",    caption: "Wrath" },
+          { src: "samuel-runes.png",    caption: "Runes" },
+          { src: "samuel-torch.png",    caption: "Torchlight" },
+          { src: "samuel-snarl.png",    caption: "Snarl" },
+          { src: "samuel-rest.png",     caption: "Resting" },
+          { src: "samuel-fallen.png",   caption: "Fallen" },
+          { src: "samuel-circle.png",   caption: "The circle" },
+          { src: "samuel-fed.png",      caption: "Just fed" },
+          { src: "samuel-lunge.png",    caption: "Lunge" },
+          { src: "samuel-escape.png",   caption: "Escape" },
+          { src: "samuel-bite.png",     caption: "The bite" },
+          { src: "samuel-drink.png",    caption: "Drinking" },
+          { src: "samuel-grin.png",     caption: "Grin" },
+          { src: "samuel-taunt.png",    caption: "Taunt" },
+          { src: "samuel-patient.png",  caption: "Patient" },
+          { src: "samuel-penance.png",  caption: "Penance" },
+          { src: "samuel-vigil.png",    caption: "Vigil" },
+          { src: "samuel-hunger.png",   caption: "Hunger" },
+        ],
+        spicy: []
+      },
+      {
+        name: "Austen Haverford",
+        tropes: ["sunshine \u00d7 grumpy", "caretaker"],
+        cover: "austen.png",
+        desc: "Regency-era England",
+        images: [
+          { src: "austen.png", caption: "Portrait" },
+        ],
+        spicy: []
+      },
+      {
+        name: "Verus Marcellus",
+        tropes: ["caretaker", "sunshine \u00d7 grumpy"],
+        cover: "verus.png",
+        desc: "Ancient Rome · The Champion",
+        images: [
+          { src: "verus.png", caption: "The arena" },
+        ],
+        spicy: []
+      },
+      {
+        name: "Dareth Vellium",
+        cover: "dareth.png",
+        desc: "The Fae Courts · Twilight Lord",
+        images: [
+          { src: "dareth.png", caption: "The court" },
+        ],
+        spicy: []
+      },
+      {
+        name: "Tyran Deathsong",
+        tropes: ["arranged marriage", "enemies to lovers", "caretaker"],
+        cover: "tyran.png",
+        desc: "Norse wilds · The Warrior",
+        images: [
+          { src: "tyran.png", caption: "The wilds" },
+        ],
+        spicy: []
+      },
+    ]
+  },
+  {
+    title: "Modern Day OC",
+    desc: "modern day shadows",
+    dedicatedPage: "afterhours.html",
+    characters: [
+      {
+        name: "Alec: The Surgeon",
+        cover: "alec.png",
+        desc: "Modern Day · The Surgeon",
+        images: [
+          { src: "alec.png", caption: "Watching" },
+        ],
+        spicy: []
+      },
+      {
+        name: "Kael",
+        cover: "kael.png",
+        images: [
+          { src: "kael.png", caption: "At dusk" },
+        ],
+        spicy: []
+      },
+      {
+        name: "Ethan Finley",
+        tropes: ["unrequited love", "soft for one person only", "stalking"],
+        cover: "ethan.png",
+        images: [
+          { src: "ethan.png",         caption: "Unhinged" },
+          { src: "ethan-502.png",     caption: "Door 502" },
+          { src: "ethan-rain.png",    caption: "For her" },
+          { src: "ethan-woods.png",   caption: "Burial" },
+          { src: "ethan-shower.jpg",  caption: "Aftermath" },
+        ],
+        spicy: []
+      },
+      {
+        name: "Dax",
+        tropes: ["true villain (hardest)"],
+        cover: "dax.png",
+        images: [
+          { src: "dax.png", caption: "The voices" },
+        ],
+        spicy: []
+      },
+      {
+        name: "Torbjørn \"Torb\" Haugland",
+        cover: "torb.png",
+        images: [
+          { src: "torb.png", caption: "Aurora" },
+        ],
+        spicy: []
+      },
+    ]
+  },
+  {
+    title: "Kingdom of Vellara OC",
+    desc: "a kingdom forged in shadow and intrigue",
+    dedicatedPage: "vellara.html",
+    characters: [
+      {
+        name: "Ser William Bramwell of Brackenridge",
+        tropes: ["arranged marriage", "sunshine \u00d7 grumpy"],
+        cover: "bramwell.png",
+        images: [
+          { src: "bramwell.png", caption: "At the tourney" },
+        ],
+        spicy: []
+      },
+      {
+        name: "Jorah",
+        tropes: ["arranged marriage", "enemies to lovers"],
+        cover: "jorah.png",
+        images: [
+          { src: "jorah.png", caption: "Jousting" },
+        ],
+        spicy: []
+      },
+      {
+        name: "Prince Edmund",
+        tropes: ["unrequited love", "forbidden romance", "angst / longing"],
+        cover: "edmund.png",
+        images: [
+          { src: "edmund.png", caption: "Castle window" },
+        ],
+        spicy: []
+      },
+      {
+        name: "William",
+        tropes: ["childhood friends"],
+        cover: "william.png",
+        images: [
+          { src: "william.png", caption: "The letter" },
+        ],
+        spicy: []
+      },
+      {
+        name: "Eryk",
+        tropes: ["enemies to lovers", "bodyguard", "sunshine \u00d7 grumpy"],
+        cover: "eryk.png",
+        images: [
+          { src: "eryk.png", caption: "Standing guard" },
+        ],
+        spicy: []
+      },
+      {
+        name: "Jarek: The King's Assassin",
+        tropes: ["arranged marriage", "bodyguard", "sunshine \u00d7 grumpy"],
+        cover: "jarek.png",
+        images: [
+          { src: "jarek.png", caption: "Shadows" },
+        ],
+        spicy: []
+      },
+      {
+        name: "Lowen of Vellara",
+        tropes: ["enemies to lovers", "kidnapping / forced proximity", "sunshine \u00d7 grumpy"],
+        cover: "lowen.png",
+        images: [
+          { src: "lowen.png", caption: "In the rain" },
+        ],
+        spicy: []
+      },
+    ]
+  },
+  {
+    title: "Other Book Bots",
+    desc: "characters inspired by other books and worlds",
+    dedicatedPage: "book-bots.html",
+    characters: [
+      {
+        name: "Andy",
+        cover: "andy-mask.png",
+        featuredVideo: { id: "-WI6_crQriU", caption: "Andy" },
+        images: [
+          { src: "andy-mask.png", caption: "Masked" },
+          { src: "andy-shop.png", caption: "Al's Fix It" },
+          { src: "andy-back.png", caption: "Getting ready" },
+          { src: "andy-drive.png", caption: "Night drive" },
+          { src: "andy-mirror.png", caption: "Mirror" },
+          { src: "andy-mirror2.png", caption: "Mirror II" },
+          { src: "andy-bus.png", caption: "Bus ride" },
+          { src: "andy-throne.png", caption: "In the dark" },
+          { src: "andy-tiktok.png", caption: "Viral" },
+          { src: "andy-hooded.png", caption: "Hooded" },
+        ],
+        spicy: []
+      },
+      {
+        name: "Callum",
+        cover: "callum.png",
+        images: [
+          { src: "callum.png", caption: "Highland watch" },
+        ],
+        spicy: []
+      },
+      {
+        name: "Josh",
+        tropes: ["stalking", "unrequited love", "soft for one person only"],
+        cover: "josh.png",
+        images: [
+          { src: "josh.png", caption: "Hood up" },
+        ],
+        spicy: []
+      },
+      {
+        name: "Rowan Kane",
+        cover: "rowan.png",
+        images: [
+          { src: "rowan.png", caption: "The line" },
+        ],
+        spicy: []
+      },
+      {
+        name: "Theon",
+        tropes: ["sunshine \u00d7 grumpy", "caretaker", "arranged marriage"],
+        cover: "theon.png",
+        images: [
+          { src: "theon.png", caption: "Among the stars" },
+        ],
+        spicy: []
+      },
+      {
+        name: "Dante Russo",
+        tropes: ["enemies to lovers", "arranged marriage"],
+        cover: "dante.png",
+        images: [
+          { src: "dante.png", caption: "Fire and faith" },
+        ],
+        spicy: []
+      },
+      {
+        name: "Lachlan Kane",
+        tropes: ["bodyguard", "sunshine \u00d7 grumpy"],
+        cover: "lachlan.png",
+        images: [
+          { src: "lachlan.png", caption: "The driver's seat" },
+        ],
+        spicy: []
+      },
+    ]
+  },
+  {
+    title: "Creator's Favorites",
+    desc: "the ones I love most",
+    decoration: "hearts",
+    highlight: "featured",
+    dedicatedPage: "favorites.html",
+    characters: [
+      {
+        name: "Azriel",
+        tropes: ["childhood friends", "angst / longing", "fated mates", "caretaker", "arranged marriage", "unrequited love", "kidnapping / forced proximity", "spicy start"],
+        cover: "azriel-shadows.png",
+        images: [
+          { src: "azriel-shadows.png",       caption: "Shadowsinger" },
+          { src: "azriel-wings.png",         caption: "Fae prince" },
+          { src: "azriel-moonlight.png",     caption: "Moonlight" },
+          { src: "azriel-ivy.png",           caption: "Black armor" },
+          { src: "group-azriel-sunset.png",  caption: "Azriel & mate" },
+          { src: "group-azriel-embrace.png", caption: "Embrace" },
+        ],
+        spicy: []
+      },
+      {
+        name: "Angelo",
+        tropes: ["lovers from the start", "soft for one person only"],
+        cover: "angelo-throne.png",
+        images: [
+          { src: "angelo-throne.png", caption: "The throne" },
+          { src: "angelo-suit.png",   caption: "Black suit" },
+        ],
+        spicy: []
+      },
+      {
+        name: "Lachlan Kane",
+        tropes: ["bodyguard", "sunshine \u00d7 grumpy"],
+        cover: "lachlan.png",
+        images: [
+          { src: "lachlan.png", caption: "The driver's seat" },
+        ],
+        spicy: []
+      },
+      {
+        name: "Ser William Bramwell of Brackenridge",
+        tropes: ["arranged marriage", "sunshine \u00d7 grumpy"],
+        cover: "bramwell.png",
+        images: [
+          { src: "bramwell.png", caption: "At the tourney" },
+        ],
+        spicy: []
+      },
+      {
+        name: "Callum",
+        cover: "callum.png",
+        images: [
+          { src: "callum.png", caption: "Highland watch" },
+        ],
+        spicy: []
+      },
+      {
+        name: "Declan O'Malley",
+        tropes: ["arranged marriage", "sunshine \u00d7 grumpy"],
+        cover: "declan-alley.png",
+        images: [
+          { src: "declan-car.png",      caption: "Back alley" },
+          { src: "declan-whiskey.png",  caption: "Whiskey" },
+          { src: "declan-street.png",   caption: "Cobblestone" },
+          { src: "declan-pub.png",      caption: "At the pub" },
+          { src: "declan-alley.png",    caption: "Night smoke" },
+          { src: "declan-poker.png",    caption: "Poker" },
+          { src: "declan-gun.png",      caption: "Business" },
+          { src: "declan-duo.png",      caption: "In the rain" },
+          { src: "declan-mirror.png",   caption: "Mirror" },
+          { src: "declan-revolver.png", caption: "Revolver" },
+        ],
+        spicy: []
+      },
+      {
+        name: "Sin Anders",
+        tropes: ["enemies to lovers", "pregnancy / surprise baby"],
+        cover: "sin.png",
+        images: [
+          { src: "sin.png",             caption: "Vocalist" },
+          { src: "sin-jail.png",        caption: "Phone call" },
+          { src: "sin-gasstation.png",  caption: "Gas station" },
+          { src: "sin-liveshow.png",    caption: "Live show" },
+          { src: "sin-motel.png",       caption: "Motel" },
+          { src: "sin-bar.png",         caption: "At the bar" },
+          { src: "sin-highway.png",     caption: "Highway" },
+          { src: "sin-diner.png",       caption: "Diner" },
+          { src: "sin-graffiti.png",    caption: "Graffiti" },
+          { src: "sin-hotspring1.png",  caption: "Hot spring" },
+          { src: "sin-hotspring2.png",  caption: "Hot spring II" },
+          { src: "sin-sunset.png",      caption: "Sunset" },
+          { src: "sin-confined.png",    caption: "Confined" },
+          { src: "sin-fans.png",        caption: "The fans" },
+          { src: "sin-vanlife.png",     caption: "Van life" },
+          { src: "sin-rooftop-tub.png", caption: "Rooftop tub" },
+          { src: "sin-redroom.png",     caption: "Red room" },
+          { src: "sin-cereal.png",      caption: "Late night snack" },
+          { src: "sin-pizza.png",       caption: "Pizza at 3AM" },
+          { src: "sin-patio.png",       caption: "Rooftop patio" },
+          { src: "sin-rooftop-smoke.png", caption: "Smoke break" },
+          { src: "sin-rooftop-cam.png",   caption: "CAM 04" },
+          { src: "sin-neonroom.png",    caption: "Neon room" },
+          { src: "sin-closeup.png",     caption: "Up close" },
+          { src: "sin-mansion-cam.png", caption: "Mansion rooftop" },
+        ],
+        spicy: [
+          { src: "sin-sp-tourbus.png",   caption: "Tour bus" },
+          { src: "sin-sp-rainybed.png",  caption: "Rainy night" },
+          { src: "sin-sp-onsen1.png",    caption: "Onsen" },
+          { src: "sin-sp-onsen2.png",    caption: "Onsen II" },
+          { src: "sin-sp-penthouse.png", caption: "Penthouse" },
+          { src: "sin-sp-poolside.png",  caption: "Poolside" },
+        ]
+      },
+      {
+        name: "Kazimir \"Kage\" Portnov",
+        tropes: ["unrequited love", "kidnapping / forced proximity", "soft for one person only"],
+        cover: "kage.png",
+        images: [
+          { src: "kage.png",           caption: "Throne" },
+          { src: "kage-retrieval.png", caption: "Retrieval" },
+          { src: "kage-klub.png",      caption: "Klub Metel'" },
+          { src: "kage-smoke.png",     caption: "Smoke" },
+          { src: "kage-boss.png",      caption: "The boss" },
+          { src: "kage-carry.png",     caption: "Carry" },
+          { src: "kage-shadows.png",   caption: "Shadows" },
+          { src: "kage-tishina.png",   caption: "Tishina" },
+          { src: "kage-penthouse.png", caption: "Penthouse" },
+          { src: "kage-docks.png",     caption: "The docks" },
+          { src: "kage-hers.png",      caption: "Hers" },
+          { src: "kage-nightcap.png",  caption: "Nightcap" },
+        ],
+        spicy: []
+      },
+      {
+        name: "Khael Karak",
+        cover: "khael.png",
+        images: [
+          { src: "khael.png", caption: "Battlefield" },
+        ],
+        spicy: []
+      },
+    ]
+  },
+];
+
+
+// ═══════════════════════════════════════════════════════════
+// You don't need to touch anything below this line
+// ═══════════════════════════════════════════════════════════
+
+const sectionsEl = document.getElementById('sections');
+const navLinksEl = document.getElementById('navLinks');
+
+GROUPS.forEach((group, gi) => {
+  const section = document.createElement('div');
+  section.className = 'section';
+  section.id = 'section-' + gi;
+
+  // Heart decoration (Creator's Favorites)
+  if (group.decoration === 'hearts') {
+    section.setAttribute('data-deco', 'hearts');
+    const heartsBg = document.createElement('div');
+    heartsBg.className = 'hearts-bg';
+    const heartChars = ['♡', '♥', '❥', '♡', '♥'];
+    const positions = [
+      { top: '8%',  left: '6%',  size: 22, color: '#ff8fa3', rot: -10, delay: 0   },
+      { top: '14%', right: '8%', size: 16, color: '#e85a7a', rot:  18, delay: 1.2 },
+      { top: '34%', left: '12%', size: 13, color: '#ff6b8c', rot:  -5, delay: 2.4 },
+      { top: '48%', right: '5%', size: 19, color: '#ff8fa3', rot:  25, delay: 0.6 },
+      { top: '62%', left: '4%',  size: 14, color: '#e85a7a', rot: -18, delay: 3.0 },
+      { top: '74%', right: '12%',size: 17, color: '#ff8fa3', rot:  10, delay: 1.8 },
+      { top: '85%', left: '18%', size: 12, color: '#ff6b8c', rot:   0, delay: 2.2 },
+      { top: '20%', left: '40%', size: 11, color: 'rgba(255,143,163,0.5)', rot: 15, delay: 4.0 },
+      { top: '90%', right: '30%',size: 13, color: 'rgba(232,90,122,0.5)',  rot:-12, delay: 3.6 },
+    ];
+    positions.forEach((p, i) => {
+      const h = document.createElement('span');
+      h.className = 'heart';
+      h.textContent = heartChars[i % heartChars.length];
+      h.style.fontSize = p.size + 'px';
+      h.style.color = p.color;
+      h.style.setProperty('--rot', p.rot + 'deg');
+      h.style.animationDelay = p.delay + 's';
+      if (p.top) h.style.top = p.top;
+      if (p.left) h.style.left = p.left;
+      if (p.right) h.style.right = p.right;
+      heartsBg.appendChild(h);
+    });
+    section.appendChild(heartsBg);
+  }
+
+  // Nav link
+  const navLink = document.createElement('button');
+  navLink.className = 'site-nav-link';
+  navLink.textContent = group.title;
+  navLink.onclick = () => document.getElementById('section-' + gi).scrollIntoView({ behavior: 'smooth', block: 'start' });
+  navLinksEl.appendChild(navLink);
+
+  const header = document.createElement('div');
+  header.className = 'section-header';
+  header.innerHTML = `<span class="section-title">${group.title}</span>`;
+  section.appendChild(header);
+
+  if (group.desc) {
+    const desc = document.createElement('div');
+    desc.className = 'section-desc';
+    desc.textContent = group.desc;
+    section.appendChild(desc);
+  }
+
+  // Empty-state hint for decorated empty groups
+  if (group.decoration === 'hearts' && group.characters.length === 0) {
+    const empty = document.createElement('div');
+    empty.className = 'favorites-empty';
+    empty.textContent = '· coming soon ·';
+    section.appendChild(empty);
+    sectionsEl.appendChild(section);
+    return;  // skip the grid/banner rendering for empty decorated section
+  }
+
+  const grid = document.createElement('div');
+  grid.className = 'char-grid';
+
+  // If this group has a dedicated page, show a banner link instead
+  if (group.dedicatedPage) {
+    const banner = document.createElement('div');
+    banner.className = 'group-banner';
+    if (group.highlight === 'featured') banner.classList.add('is-featured');
+    else if (group.highlight === 'silver') banner.classList.add('is-silver');
+    banner.onclick = () => { window.location.href = group.dedicatedPage; };
+    banner.style.gridColumn = '1 / -1';
+
+    const covers = group.characters.slice(0, 4).map(c => c.cover).filter(Boolean);
+    const coversHTML = covers.map(c => `<img src="${c}" alt="" onload="this.style.opacity=1" style="opacity:0;transition:opacity 0.5s">`).join('');
+    const totalImages = group.characters.reduce((s, c) => s + c.images.length + (c.spicy ? c.spicy.length : 0), 0);
+    const memberNames = group.characters.map(c => c.name).join(' · ');
+
+    let badgeHTML = '';
+    let sparklesHTML = '';
+    if (group.highlight === 'featured') {
+      badgeHTML = `<div class="highlight-badge featured">❥ Featured</div>`;
+      const sparklePositions = [
+        { top: '15%',  left: '38%', delay: 0,    glyph: '✦' },
+        { top: '70%',  left: '45%', delay: 0.8,  glyph: '✧' },
+        { top: '25%',  left: '60%', delay: 1.6,  glyph: '❥' },
+        { top: '55%',  left: '52%', delay: 0.4,  glyph: '✦' },
+        { top: '40%',  left: '72%', delay: 2.2,  glyph: '✧' },
+        { top: '80%',  left: '68%', delay: 1.2,  glyph: '✦' },
+        { top: '20%',  left: '85%', delay: 1.8,  glyph: '❥' },
+      ];
+      sparklesHTML = `<div class="featured-sparkles">${
+        sparklePositions.map(p => `<span class="sp" style="top:${p.top};left:${p.left};animation-delay:${p.delay}s;font-size:${p.glyph === '❥' ? '14px' : '12px'}">${p.glyph}</span>`).join('')
+      }</div>`;
+    }
+
+    banner.innerHTML = `
+      ${badgeHTML}
+      ${sparklesHTML}
+      <div class="group-banner-inner">
+        <div class="group-banner-covers">${coversHTML}</div>
+        <div class="group-banner-info">
+          <div class="group-banner-name">${group.title}</div>
+          <div class="group-banner-desc">${memberNames}</div>
+          <div class="group-banner-count">${group.characters.length} members · ${totalImages} images</div>
+          <div class="group-banner-cta">Enter their world &rarr;</div>
+          <div class="group-banner-arrow">&rarr;</div>
+        </div>
+      </div>`;
+    grid.appendChild(banner);
+  } else {
+    group.characters.forEach((char, i) => {
+    const card = document.createElement('div');
+    card.className = 'char-card';
+    card.style.animationDelay = `${i * 0.08}s`;
+    card.onclick = () => openGallery(group.title, char);
+
+    let imgHTML;
+    if (char.cover) {
+      imgHTML = `<div class="char-card-img-wrap">
+        <img class="char-card-img" src="${char.cover}" alt="${char.name}"
+             onload="this.style.opacity=1" style="opacity:0;transition:opacity 0.5s">
+      </div>`;
+    } else {
+      imgHTML = `<div class="char-card-img-wrap">
+        <div class="char-card-placeholder">
+          <span class="initial">${char.name.charAt(0)}</span>
+          <span class="placeholder-label">No images yet</span>
+        </div>
+      </div>`;
+    }
+
+    const total = char.images.length + (char.spicy ? char.spicy.length : 0);
+    const spicyBadge = (char.spicy && char.spicy.length > 0) ? `<div class="char-card-spicy">🌶 spicy</div>` : '';
+    card.innerHTML = `${imgHTML}
+      <div class="char-card-info">
+        <div class="char-card-name">${char.name}</div>
+        <div class="char-card-count">${total} image${total !== 1 ? 's' : ''}</div>
+        ${spicyBadge}
+        <div class="char-card-arrow">&rarr;</div>
+      </div>`;
+    grid.appendChild(card);
+  });
+  }
+
+  section.appendChild(grid);
+  sectionsEl.appendChild(section);
+});
+
+// ── Gallery ──
+
+const landing        = document.getElementById('landing');
+const galleryPage    = document.getElementById('galleryPage');
+const galleryGroup   = document.getElementById('galleryGroup');
+const galleryTitle   = document.getElementById('galleryTitle');
+const galleryCount   = document.getElementById('galleryCount');
+const galleryContent = document.getElementById('galleryContent');
+const ageGate        = document.getElementById('ageGate');
+
+let lbImages = [];
+let lbIndex  = 0;
+let pendingSpicyChar = null;
+let ageVerified = false;
+
+function openGallery(groupName, char) {
+  galleryGroup.textContent = groupName;
+  galleryTitle.textContent = char.name;
+  const total = char.images.length + (char.spicy ? char.spicy.length : 0);
+  galleryCount.textContent = total + ' image' + (total !== 1 ? 's' : '');
+
+  galleryContent.innerHTML = '';
+
+  // Bot link (only renders if char.bot is set)
+  if (char.bot) {
+    const linkBar = document.createElement('div');
+    linkBar.className = 'bot-link-bar';
+    linkBar.innerHTML = `
+      <a class="bot-link-btn" href="${char.bot}" target="_blank" rel="noopener noreferrer">
+        <span class="bot-link-spark">✦</span>
+        <span>Chat on DreamjourneyAI</span>
+        <span class="bot-link-arrow">↗</span>
+      </a>
+    `;
+    galleryContent.appendChild(linkBar);
+  }
+
+  if (char.images.length === 0 && (!char.spicy || char.spicy.length === 0)) {
+    galleryContent.innerHTML = `
+      <div class="gallery-empty">
+        <div class="gallery-empty-icon">&#9744;</div>
+        <p>No images yet</p>
+      </div>`;
+  } else {
+    // Featured video
+    if (char.featuredVideo) {
+      const fv = document.createElement('div');
+      fv.className = 'featured-video';
+      fv.innerHTML = `
+        <div class="featured-label">✦ featured ✦</div>
+        <div class="featured-video-wrap">
+          <iframe src="https://www.youtube.com/embed/${char.featuredVideo.id}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <div class="featured-title">${char.featuredVideo.caption}</div>`;
+      galleryContent.appendChild(fv);
+    }
+
+    // Main images
+    if (char.images.length > 0) {
+      const grid = document.createElement('div');
+      grid.className = 'gallery-grid';
+      char.images.forEach((img, j) => {
+        const item = document.createElement('div');
+        item.className = 'gallery-item';
+        item.style.animationDelay = `${j * 0.06}s`;
+        item.onclick = () => { lbImages = char.images; openLightbox(j); };
+        if (img.type === 'youtube') {
+          item.innerHTML = `
+            <img src="https://img.youtube.com/vi/${img.src}/maxresdefault.jpg" alt="${img.caption || ''}"
+                 onload="this.classList.add('loaded')">
+            <div class="gallery-video-badge">▶</div>
+            ${img.caption ? `<div class="item-overlay"><div class="item-caption">${img.caption}</div></div>` : ''}`;
+        } else if (img.type === 'video') {
+          item.innerHTML = `
+            <video src="${img.src}" muted loop playsinline
+                   onloadeddata="this.classList.add('loaded')"
+                   onmouseenter="this.play()" onmouseleave="this.pause();this.currentTime=0;"></video>
+            <div class="gallery-video-badge">▶</div>
+            ${img.caption ? `<div class="item-overlay"><div class="item-caption">${img.caption}</div></div>` : ''}`;
+        } else {
+          item.innerHTML = `
+            <img src="${img.src}" alt="${img.caption || ''}"
+                 onload="this.classList.add('loaded')">
+            ${img.caption ? `<div class="item-overlay"><div class="item-caption">${img.caption}</div></div>` : ''}`;
+        }
+        grid.appendChild(item);
+      });
+      galleryContent.appendChild(grid);
+    }
+
+    // Spicy section
+    if (char.spicy && char.spicy.length > 0) {
+      const divider = document.createElement('div');
+      divider.className = 'spicy-divider';
+
+      const divInner = document.createElement('div');
+      divInner.className = 'spicy-divider-inner';
+
+      const btn = document.createElement('button');
+      btn.className = 'spicy-unlock-btn';
+      btn.textContent = 'Spicy Gens';
+      btn.onclick = () => {
+        if (ageVerified) {
+          showSpicyImages(char, divider);
+        } else {
+          pendingSpicyChar = { char, divider };
+          ageGate.classList.add('open');
+        }
+      };
+
+      divInner.appendChild(btn);
+      divider.appendChild(divInner);
+      galleryContent.appendChild(divider);
+
+      // Container for spicy images (hidden until unlocked)
+      const spicyContainer = document.createElement('div');
+      spicyContainer.id = 'spicyContainer';
+      galleryContent.appendChild(spicyContainer);
+    }
+  }
+
+  landing.style.display = 'none';
+  document.getElementById('siteNav').style.display = 'none';
+  galleryPage.classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+function showSpicyImages(char, dividerEl) {
+  // Replace button with just the label
+  const divInner = dividerEl.querySelector('.spicy-divider-inner');
+  divInner.innerHTML = `<span class="section-title" style="color: var(--spicy); font-size: 18px; letter-spacing: 4px;">Spicy Gens</span>`;
+
+  const container = document.getElementById('spicyContainer');
+  container.innerHTML = '';
+
+  const grid = document.createElement('div');
+  grid.className = 'spicy-gallery-grid';
+  char.spicy.forEach((img, j) => {
+    const item = document.createElement('div');
+    item.className = 'gallery-item';
+    item.style.animationDelay = `${j * 0.06}s`;
+    item.onclick = () => { lbImages = char.spicy; openLightbox(j); };
+    item.innerHTML = `
+      <img src="${img.src}" alt="${img.caption || ''}"
+           onload="this.classList.add('loaded')">
+      ${img.caption ? `<div class="item-overlay"><div class="item-caption" style="color: var(--spicy);">${img.caption}</div></div>` : ''}`;
+    grid.appendChild(item);
+  });
+  container.appendChild(grid);
+}
+
+function confirmAge() {
+  ageVerified = true;
+  ageGate.classList.remove('open');
+  if (pendingSpicyChar) {
+    showSpicyImages(pendingSpicyChar.char, pendingSpicyChar.divider);
+    pendingSpicyChar = null;
+  }
+}
+
+function closeAgeGate() {
+  ageGate.classList.remove('open');
+  pendingSpicyChar = null;
+}
+
+function goHome() {
+  galleryPage.classList.remove('active');
+  landing.style.display = '';
+  document.getElementById('siteNav').style.display = '';
+  window.scrollTo(0, 0);
+}
+
+// ── Lightbox ──
+
+const lightbox  = document.getElementById('lightbox');
+const lbImg     = document.getElementById('lbImg');
+const lbVid     = document.getElementById('lbVid');
+const lbYt      = document.getElementById('lbYt');
+const lbCaption = document.getElementById('lbCaption');
+
+function hideAllLbMedia() {
+  lbImg.style.display = 'none';
+  lbVid.pause(); lbVid.src = ''; lbVid.style.display = 'none';
+  lbYt.src = ''; lbYt.style.display = 'none';
+}
+
+function openLightbox(i) {
+  lbIndex = i;
+  updateLightbox();
+  lightbox.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeLightbox() {
+  lightbox.classList.remove('open');
+  document.body.style.overflow = '';
+  hideAllLbMedia();
+}
+function lbNav(dir) {
+  event.stopPropagation();
+  lbIndex = (lbIndex + dir + lbImages.length) % lbImages.length;
+  updateLightbox();
+}
+function updateLightbox() {
+  hideAllLbMedia();
+  const item = lbImages[lbIndex];
+  if (item.type === 'youtube') {
+    lbYt.style.display = 'block';
+    lbYt.src = `https://www.youtube.com/embed/${item.src}?autoplay=1`;
+  } else if (item.type === 'video') {
+    lbVid.style.display = 'block';
+    lbVid.src = item.src;
+    lbVid.play();
+  } else {
+    lbImg.style.display = '';
+    lbImg.src = item.src;
+  }
+  lbCaption.textContent = item.caption || '';
+}
+
+lightbox.addEventListener('click', (e) => {
+  if (e.target === lightbox) closeLightbox();
+});
+document.addEventListener('keydown', (e) => {
+  if (!lightbox.classList.contains('open')) return;
+  if (e.key === 'Escape')    closeLightbox();
+  if (e.key === 'ArrowLeft')  lbNav(-1);
+  if (e.key === 'ArrowRight') lbNav(1);
+});
+
+// ── Magical Star Canvas ──
+
+const starCanvas = document.getElementById('starCanvas');
+const starCtx = starCanvas.getContext('2d');
+
+function resizeCanvas() {
+  starCanvas.width = window.innerWidth * 2;
+  starCanvas.height = window.innerHeight * 2;
+  starCanvas.style.width = window.innerWidth + 'px';
+  starCanvas.style.height = window.innerHeight + 'px';
+  starCtx.setTransform(2, 0, 0, 2, 0, 0);
+}
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
+
+const starColors = [
+  [255,255,255],
+  [200,210,255],
+  [180,200,255],
+  [220,180,240],
+  [255,200,220],
+  [200,220,255],
+  [240,210,255],
+  [255,180,200],
+  [170,200,240],
+];
+
+const bgStars = [];
+for (let i = 0; i < 200; i++) {
+  const c = starColors[Math.floor(Math.random() * starColors.length)];
+  bgStars.push({
+    x: Math.random() * window.innerWidth,
+    y: Math.random() * window.innerHeight,
+    r: Math.random() * 1.2 + 0.3,
+    baseAlpha: Math.random() * 0.4 + 0.1,
+    twinkleSpeed: Math.random() * 0.02 + 0.005,
+    twinkleOffset: Math.random() * Math.PI * 2,
+    driftRange: Math.random() * 8 + 3,
+    driftSpeed: Math.random() * 0.008 + 0.002,
+    driftOffset: Math.random() * Math.PI * 2,
+    color: c,
+    glowSize: Math.random() * 4 + 1,
+  });
+}
+
+const sparkles = [];
+for (let i = 0; i < 15; i++) {
+  sparkles.push({
+    x: Math.random() * window.innerWidth,
+    y: Math.random() * window.innerHeight * 0.6,
+    life: Math.random() * 200,
+    maxLife: 200 + Math.random() * 150,
+    size: Math.random() * 2 + 1,
+    color: starColors[Math.floor(Math.random() * starColors.length)],
+    speed: Math.random() * 0.3 + 0.1,
+  });
+}
+
+let frame = 0;
+function drawStars() {
+  frame++;
+  starCtx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+
+  for (const s of bgStars) {
+    const twinkle = Math.sin(frame * s.twinkleSpeed + s.twinkleOffset);
+    const alpha = s.baseAlpha + twinkle * s.baseAlpha * 0.6;
+    const drift = Math.sin(frame * s.driftSpeed + s.driftOffset);
+    const dx = drift * s.driftRange * 0.3;
+    const dy = drift * s.driftRange * 0.5;
+    const x = s.x + dx;
+    const y = s.y + dy;
+
+    if (s.r > 0.8 && alpha > 0.3) {
+      starCtx.beginPath();
+      starCtx.arc(x, y, s.r + s.glowSize, 0, Math.PI * 2);
+      starCtx.fillStyle = `rgba(${s.color[0]},${s.color[1]},${s.color[2]},${alpha * 0.08})`;
+      starCtx.fill();
+    }
+
+    starCtx.beginPath();
+    starCtx.arc(x, y, s.r, 0, Math.PI * 2);
+    starCtx.fillStyle = `rgba(${s.color[0]},${s.color[1]},${s.color[2]},${Math.max(0, alpha)})`;
+    starCtx.fill();
+
+    if (s.r > 1 && alpha > 0.35) {
+      starCtx.save();
+      starCtx.globalAlpha = alpha * 0.15;
+      starCtx.strokeStyle = `rgba(${s.color[0]},${s.color[1]},${s.color[2]},1)`;
+      starCtx.lineWidth = 0.3;
+      starCtx.beginPath();
+      starCtx.moveTo(x - s.r * 2.5, y);
+      starCtx.lineTo(x + s.r * 2.5, y);
+      starCtx.stroke();
+      starCtx.beginPath();
+      starCtx.moveTo(x, y - s.r * 2.5);
+      starCtx.lineTo(x, y + s.r * 2.5);
+      starCtx.stroke();
+      starCtx.restore();
+    }
+  }
+
+  for (const sp of sparkles) {
+    sp.life++;
+    sp.y -= sp.speed;
+    if (sp.life > sp.maxLife) {
+      sp.life = 0;
+      sp.x = Math.random() * window.innerWidth;
+      sp.y = Math.random() * window.innerHeight * 0.6 + window.innerHeight * 0.1;
+      sp.color = starColors[Math.floor(Math.random() * starColors.length)];
+    }
+    const prog = sp.life / sp.maxLife;
+    const fade = prog < 0.2 ? prog / 0.2 : prog > 0.8 ? (1 - prog) / 0.2 : 1;
+    starCtx.beginPath();
+    starCtx.arc(sp.x, sp.y, sp.size * fade, 0, Math.PI * 2);
+    starCtx.fillStyle = `rgba(${sp.color[0]},${sp.color[1]},${sp.color[2]},${fade * 0.4})`;
+    starCtx.fill();
+  }
+
+  requestAnimationFrame(drawStars);
+}
+drawStars();
+
+function shootStar() {
+  const el = document.createElement('div');
+  const startX = Math.random() * window.innerWidth * 0.6;
+  const startY = Math.random() * window.innerHeight * 0.3;
+  const angle = 25 + Math.random() * 20;
+  const hues = [
+    'rgba(200,210,255,',
+    'rgba(255,200,220,',
+    'rgba(220,200,255,',
+  ];
+  const hue = hues[Math.floor(Math.random() * hues.length)];
+  el.style.cssText = `position:absolute;left:${startX}px;top:${startY}px;width:40px;height:1px;background:linear-gradient(90deg,${hue}0.6),${hue}0));border-radius:1px;transform:rotate(${angle}deg);pointer-events:none;z-index:2;animation:shootingStar ${1 + Math.random() * 0.5}s linear forwards;`;
+  document.getElementById('shootingStarContainer').appendChild(el);
+  setTimeout(() => el.remove(), 2000);
+  setTimeout(shootStar, 4000 + Math.random() * 8000);
+}
+setTimeout(shootStar, 2000);
+
+</script>
+
+</body>
+</html>
