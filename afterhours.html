@@ -1,0 +1,1346 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Modern Day OC · Eurielle's Gallery</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --bg: #0a0d11;
+  --bg-deep: #06080b;
+  --bg-card: #12161c;
+  --bg-card-hover: #1a1f27;
+  --border: #232a35;
+  --border-bright: #3a4555;
+  --text: #e6e8ec;
+  --text-dim: #a0a8b4;
+  --text-muted: #6a727e;
+  --accent: #4ba9c9;
+  --accent-bright: #6fc5e0;
+  --amber: #ff9555;
+  --amber-bright: #ffb085;
+  --crimson: #c8344b;
+  --spicy: #c8344b;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Ambient streetlight pools */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 700px 500px at 5% 0%, rgba(255, 149, 85, 0.07), transparent 60%),
+    radial-gradient(ellipse 700px 500px at 95% 100%, rgba(75, 169, 201, 0.05), transparent 60%),
+    radial-gradient(ellipse 500px 400px at 50% 50%, rgba(35, 42, 53, 0.3), transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Rain canvas overlay */
+#rainCanvas {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.45;
+}
+
+/* Back link */
+.back-link {
+  position: fixed;
+  top: 24px;
+  left: 24px;
+  z-index: 50;
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  letter-spacing: 4px;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 11px 18px;
+  border: 1px solid var(--border);
+  background: rgba(10, 13, 17, 0.7);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  font-weight: 500;
+  transition: color 0.25s, border-color 0.25s, background 0.25s;
+}
+.back-link:hover {
+  color: var(--amber);
+  border-color: var(--amber);
+}
+
+/* ─── Hero ─── */
+.hero {
+  position: relative;
+  z-index: 3;
+  padding: 180px 24px 120px;
+  text-align: center;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.hero-title {
+  font-family: 'Bodoni Moda', serif;
+  font-size: clamp(46px, 8.5vw, 100px);
+  font-weight: 900;
+  letter-spacing: -1.5px;
+  color: var(--text);
+  line-height: 1;
+  margin-bottom: 36px;
+  font-style: italic;
+}
+.hero-rule {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  margin: 32px auto 28px;
+}
+.hero-rule .rule-line {
+  height: 1px;
+  width: 120px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+}
+.hero-rule .rule-icon {
+  color: var(--accent);
+  font-size: 9px;
+  letter-spacing: 6px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+.hero-sub {
+  font-family: 'Inter', sans-serif;
+  font-size: clamp(13px, 1.5vw, 16px);
+  color: var(--text-dim);
+  letter-spacing: 6px;
+  text-transform: uppercase;
+  max-width: 700px;
+  margin: 0 auto;
+  font-weight: 300;
+}
+
+/* ─── Content ─── */
+.content {
+  position: relative;
+  z-index: 3;
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 40px 24px 120px;
+}
+.section-heading {
+  font-family: 'Bodoni Moda', serif;
+  font-size: clamp(20px, 2.6vw, 30px);
+  font-weight: 500;
+  letter-spacing: 12px;
+  color: var(--text);
+  text-transform: uppercase;
+  margin-bottom: 70px;
+  text-align: center;
+  position: relative;
+}
+.section-heading::after {
+  content: '';
+  display: block;
+  width: 70px;
+  height: 1px;
+  background: var(--amber);
+  margin: 18px auto 0;
+}
+
+/* ─── Character Cards (dossier style) ─── */
+.char-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 40px;
+}
+
+.char-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  position: relative;
+  cursor: pointer;
+  transition: transform 0.4s, border-color 0.4s, box-shadow 0.4s;
+  overflow: hidden;
+}
+.char-card:hover {
+  transform: translateY(-6px);
+  border-color: var(--amber);
+  box-shadow: 0 24px 60px rgba(0,0,0,0.65), 0 0 40px rgba(255, 149, 85, 0.08);
+}
+.char-card-img-wrap {
+  width: 100%;
+  height: 440px;
+  position: relative;
+  overflow: hidden;
+  background: var(--bg-deep);
+}
+.char-card-img-wrap::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 55%, var(--bg-card) 100%);
+  pointer-events: none;
+}
+.char-card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s ease, filter 0.4s;
+  filter: saturate(0.85) contrast(1.05);
+}
+.char-card:hover .char-card-img {
+  transform: scale(1.04);
+  filter: saturate(1) contrast(1.1);
+}
+.char-card-body {
+  padding: 22px 24px 28px;
+  position: relative;
+  z-index: 2;
+}
+.char-card-name {
+  font-family: 'Bodoni Moda', serif;
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 6px;
+  font-style: italic;
+  letter-spacing: -0.5px;
+  line-height: 1.15;
+}
+.char-card-desc {
+  font-family: 'Inter', sans-serif;
+  font-size: 10px;
+  color: var(--accent);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+  font-weight: 600;
+}
+.char-card-count {
+  font-family: 'Inter', sans-serif;
+  font-size: 10px;
+  color: var(--text-muted);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  font-weight: 500;
+}
+.spicy-tag {
+  color: var(--crimson);
+  margin-left: 6px;
+  font-weight: 600;
+}
+.view-btn {
+  background: transparent;
+  border: 1px solid var(--border-bright);
+  color: var(--text);
+  padding: 11px 22px;
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.25s, color 0.25s, border-color 0.25s;
+  font-weight: 600;
+}
+.view-btn:hover {
+  background: var(--amber);
+  color: var(--bg-deep);
+  border-color: var(--amber);
+}
+
+/* ─── Gallery Overlay ─── */
+.gallery-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(6, 8, 11, 0.97);
+  z-index: 100;
+  display: none;
+  flex-direction: column;
+  overflow-y: auto;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+.gallery-overlay.open { display: flex; }
+.gallery-overlay-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 26px 40px;
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  background: rgba(6, 8, 11, 0.92);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  z-index: 5;
+  gap: 20px;
+}
+.gallery-close-btn {
+  background: transparent;
+  border: 1px solid var(--border-bright);
+  color: var(--text);
+  padding: 10px 18px;
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s, background 0.2s;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+.gallery-close-btn:hover {
+  color: var(--amber);
+  border-color: var(--amber);
+}
+.gallery-overlay-title {
+  font-family: 'Bodoni Moda', serif;
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--text);
+  font-style: italic;
+  flex: 1;
+  text-align: center;
+}
+.gallery-overlay-count {
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  letter-spacing: 3px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  flex-shrink: 0;
+  text-align: right;
+  min-width: 88px;
+}
+.gallery-body {
+  padding: 50px 40px 80px;
+  max-width: 1400px;
+  margin: 0 auto;
+  width: 100%;
+}
+.gallery-section-title {
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  letter-spacing: 4px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  margin-bottom: 28px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.gallery-section-title::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+  margin-bottom: 60px;
+}
+.gallery-item {
+  position: relative;
+  cursor: pointer;
+  background: var(--bg-card);
+  overflow: hidden;
+}
+.gallery-item img, .gallery-item video {
+  width: 100%;
+  height: 340px;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s;
+}
+.gallery-item:hover img, .gallery-item:hover video {
+  transform: scale(1.04);
+}
+.gallery-caption {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(180deg, transparent, rgba(0,0,0,0.88));
+  padding: 36px 16px 14px;
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  letter-spacing: 2.5px;
+  color: var(--text);
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+/* Spicy divider */
+.spicy-divider {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin: 50px 0 30px;
+}
+.spicy-divider .line {
+  flex: 1;
+  height: 1px;
+  background: var(--crimson);
+}
+.section-title {
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+/* ─── Lightbox ─── */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.96);
+  z-index: 200;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 40px;
+}
+.lightbox.open { display: flex; }
+.lightbox img, .lightbox video {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+.lb-btn {
+  position: absolute;
+  background: rgba(18, 22, 28, 0.85);
+  border: 1px solid var(--border-bright);
+  color: var(--text);
+  width: 48px;
+  height: 48px;
+  cursor: pointer;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+.lb-btn:hover {
+  background: var(--amber);
+  color: var(--bg-deep);
+  border-color: var(--amber);
+}
+.lb-close { top: 24px; right: 24px; }
+.lb-prev { left: 24px; top: 50%; transform: translateY(-50%); }
+.lb-next { right: 24px; top: 50%; transform: translateY(-50%); }
+
+/* ─── Age Gate ─── */
+.agegate {
+  position: fixed;
+  inset: 0;
+  background: rgba(6, 8, 11, 0.97);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  z-index: 300;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+.agegate.open { display: flex; }
+.agegate-box {
+  max-width: 460px;
+  width: 100%;
+  background: var(--bg-card);
+  border: 1px solid var(--crimson);
+  padding: 40px 36px;
+  text-align: center;
+}
+.agegate-title {
+  font-family: 'Bodoni Moda', serif;
+  font-size: 24px;
+  font-weight: 700;
+  font-style: italic;
+  color: var(--crimson);
+  letter-spacing: 1px;
+  margin-bottom: 22px;
+}
+.agegate-text {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  color: var(--text-dim);
+  line-height: 1.65;
+  margin-bottom: 28px;
+}
+.agegate-buttons {
+  display: flex;
+  gap: 12px;
+}
+.agegate-btn {
+  flex: 1;
+  padding: 14px 18px;
+  background: transparent;
+  border: 1px solid var(--border-bright);
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+  font-weight: 600;
+}
+.agegate-btn:hover {
+  border-color: var(--text);
+}
+.agegate-btn.confirm {
+  background: var(--crimson);
+  border-color: var(--crimson);
+  color: white;
+}
+.agegate-btn.confirm:hover {
+  background: #d8475b;
+  border-color: #d8475b;
+}
+
+/* Footer */
+.footer {
+  text-align: center;
+  padding: 40px 24px 60px;
+  color: var(--text-muted);
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  position: relative;
+  z-index: 3;
+  font-weight: 500;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .hero { padding: 130px 20px 80px; }
+  .back-link { top: 14px; left: 14px; padding: 8px 14px; font-size: 10px; }
+  .gallery-overlay-header { padding: 18px 20px; }
+  .gallery-overlay-title { font-size: 20px; }
+  .gallery-overlay-count { display: none; }
+  .gallery-body { padding: 30px 20px 80px; }
+  .gallery-item img, .gallery-item video { height: 280px; }
+  .lb-btn { width: 40px; height: 40px; font-size: 16px; }
+  .lb-close { top: 16px; right: 16px; }
+  .lb-prev { left: 12px; }
+  .lb-next { right: 12px; }
+  .lightbox { padding: 40px 16px; }
+  .char-card-img-wrap { height: 380px; }
+}
+
+/* ════════════════════════════════════════════════════════════════
+   ── 2-COLUMN LAYOUT: characters left, soundtrack player right ──
+   ════════════════════════════════════════════════════════════════ */
+.content-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 340px;
+  gap: 40px;
+  align-items: start;
+}
+.content-grid-left { min-width: 0; }
+.content-grid-right {
+  position: sticky;
+  top: 24px;
+  align-self: start;
+  z-index: 5;
+}
+
+.playlist-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-bright);
+  position: relative;
+  overflow: hidden;
+  max-height: calc(100vh - 48px);
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.6);
+}
+
+.playlist-header {
+  padding: 26px 22px 20px;
+  text-align: center;
+  border-bottom: 1px solid var(--border);
+  background: linear-gradient(180deg, rgba(255, 149, 85, 0.06), transparent);
+}
+.playlist-eyebrow {
+  font-family: 'Bodoni Moda', serif;
+  font-style: italic;
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 6px;
+  letter-spacing: -0.3px;
+}
+.playlist-subtitle {
+  font-family: 'Inter', sans-serif;
+  font-size: 10px;
+  color: var(--text-muted);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+.now-playing {
+  padding: 18px 20px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  gap: 14px;
+  align-items: center;
+}
+.np-art {
+  width: 54px;
+  height: 54px;
+  flex-shrink: 0;
+  background: linear-gradient(135deg, rgba(255, 149, 85, 0.35), rgba(75, 169, 201, 0.25));
+  border: 1px solid var(--border-bright);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: box-shadow 0.3s, border-color 0.3s;
+  position: relative;
+}
+.np-art::before {
+  content: '◇';
+  font-size: 24px;
+  color: var(--amber-bright);
+  text-shadow: 0 0 6px rgba(0,0,0,0.6);
+  font-family: 'Inter', sans-serif;
+}
+.np-art.playing {
+  animation: artPulse 2.2s ease-in-out infinite;
+  border-color: var(--amber);
+}
+@keyframes artPulse {
+  0%, 100% { box-shadow: 0 0 12px rgba(255, 149, 85, 0.3); }
+  50%      { box-shadow: 0 0 24px rgba(255, 149, 85, 0.6); }
+}
+.np-info { flex: 1; min-width: 0; }
+.np-label {
+  font-family: 'Inter', sans-serif;
+  font-size: 9px;
+  letter-spacing: 3px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  margin-bottom: 4px;
+  font-weight: 600;
+}
+.np-title {
+  font-family: 'Bodoni Moda', serif;
+  font-style: italic;
+  font-size: 16px;
+  color: var(--text);
+  margin-bottom: 9px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-weight: 600;
+}
+.progress-wrap {
+  height: 4px;
+  background: var(--bg-deep);
+  border: 1px solid var(--border);
+  cursor: pointer;
+  position: relative;
+  margin-bottom: 6px;
+}
+.progress-bar {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--amber), var(--amber-bright));
+  transition: width 0.1s linear;
+}
+.time-display {
+  display: flex;
+  justify-content: space-between;
+  font-family: 'Inter', sans-serif;
+  font-size: 9px;
+  letter-spacing: 1.5px;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.player-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 22px;
+  border-bottom: 1px solid var(--border);
+}
+.player-btn {
+  background: transparent;
+  border: 1px solid var(--border-bright);
+  color: var(--text);
+  width: 38px;
+  height: 38px;
+  font-size: 11px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+  font-family: 'Inter', sans-serif;
+}
+.player-btn:hover {
+  background: rgba(255, 149, 85, 0.08);
+  color: var(--amber);
+  border-color: var(--amber);
+}
+.player-btn-main {
+  width: 50px;
+  height: 50px;
+  background: var(--amber);
+  color: var(--bg-deep);
+  border-color: var(--amber);
+  font-size: 14px;
+}
+.player-btn-main:hover {
+  background: var(--amber-bright);
+  border-color: var(--amber-bright);
+  color: var(--bg-deep);
+}
+
+.track-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 4px 0;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-bright) transparent;
+}
+.track-list::-webkit-scrollbar { width: 6px; }
+.track-list::-webkit-scrollbar-track { background: transparent; }
+.track-list::-webkit-scrollbar-thumb { background: var(--border-bright); }
+.track {
+  padding: 12px 20px;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  color: var(--text-dim);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  border-bottom: 1px solid rgba(35, 42, 53, 0.5);
+  transition: background 0.2s, color 0.2s;
+}
+.track:hover {
+  background: rgba(255, 149, 85, 0.05);
+  color: var(--text);
+}
+.track.active {
+  color: var(--amber);
+  background: rgba(255, 149, 85, 0.08);
+}
+.track-num {
+  font-family: 'Inter', sans-serif;
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: var(--text-muted);
+  width: 22px;
+  flex-shrink: 0;
+  font-weight: 600;
+}
+.track.active .track-num { color: var(--amber); }
+.track-title {
+  flex: 1;
+  font-style: italic;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: 'Bodoni Moda', serif;
+  font-weight: 500;
+  font-size: 15px;
+}
+.track-eq {
+  display: none;
+  align-items: flex-end;
+  gap: 2.5px;
+  height: 13px;
+}
+.track-eq span {
+  width: 2.5px;
+  background: var(--amber);
+  height: 100%;
+  animation: eq 0.9s ease-in-out infinite;
+}
+.track-eq span:nth-child(2) { animation-delay: 0.15s; }
+.track-eq span:nth-child(3) { animation-delay: 0.3s; }
+@keyframes eq {
+  0%, 100% { height: 30%; }
+  50%      { height: 100%; }
+}
+.track.active:not(.paused) .track-eq { display: flex; }
+.track.active:not(.paused) .track-icon { display: none; }
+.track-icon {
+  color: var(--amber);
+  font-size: 10px;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+.track:hover .track-icon,
+.track.active.paused .track-icon { opacity: 1; }
+
+.spotify-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 14px 18px;
+  background: rgba(29, 185, 84, 0.06);
+  border-top: 1px solid var(--border);
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 11px;
+  letter-spacing: 3px;
+  color: #1DB954;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: background 0.3s, color 0.3s, box-shadow 0.3s;
+}
+.spotify-link:hover {
+  background: #1DB954;
+  color: #000;
+  box-shadow: 0 0 24px rgba(29, 185, 84, 0.4) inset;
+}
+.spotify-link .spotify-icon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+@media (max-width: 1024px) {
+  .content-grid {
+    grid-template-columns: 1fr;
+    gap: 50px;
+  }
+  .content-grid-right {
+    position: static;
+    max-width: 520px;
+    margin: 0 auto;
+    width: 100%;
+  }
+  .playlist-card {
+    max-height: none;
+  }
+  .track-list {
+    max-height: 320px;
+  }
+}
+</style>
+</head>
+<body>
+
+<a class="back-link" href="index.html">← Gallery</a>
+<canvas id="rainCanvas"></canvas>
+
+<section class="hero">
+  <h1 class="hero-title">Modern Day OC</h1>
+  <div class="hero-rule">
+    <div class="rule-line"></div>
+    <div class="rule-icon">·  ·  ·</div>
+    <div class="rule-line"></div>
+  </div>
+  <div class="hero-sub">Set in the modern day</div>
+</section>
+
+<main class="content">
+  <h2 class="section-heading">Characters</h2>
+  <div class="content-grid">
+    <div class="content-grid-left">
+      <div class="char-cards" id="charCards"></div>
+    </div>
+    <div class="content-grid-right">
+      <div class="playlist-card">
+        <div class="playlist-header">
+          <div class="playlist-eyebrow">Soundtrack</div>
+          <div class="playlist-subtitle">original music created with suno</div>
+        </div>
+
+        <div class="now-playing">
+          <div class="np-art" id="npArt"></div>
+          <div class="np-info">
+            <div class="np-label">Now Playing</div>
+            <div class="np-title" id="npTitle">—</div>
+            <div class="progress-wrap" id="progressWrap">
+              <div class="progress-bar" id="progressBar"></div>
+            </div>
+            <div class="time-display">
+              <span id="currentTime">0:00</span>
+              <span id="totalTime">0:00</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="player-controls">
+          <button class="player-btn" onclick="prevTrack()" aria-label="Previous">&#9664;&#9664;</button>
+          <button class="player-btn player-btn-main" id="playBtn" onclick="togglePlay()" aria-label="Play/Pause">&#9654;</button>
+          <button class="player-btn" onclick="nextTrack()" aria-label="Next">&#9654;&#9654;</button>
+        </div>
+
+        <div class="track-list" id="trackList"></div>
+
+        <audio id="audio" preload="metadata"></audio>
+
+        <a class="spotify-link"
+           href="https://open.spotify.com/artist/6W67z6neLsZNmETyCGv4Iy?si=_ZIuUs4PQrC24JdzLgCnkQ"
+           target="_blank"
+           rel="noopener noreferrer">
+          <svg class="spotify-icon" viewBox="0 0 168 168" fill="currentColor" aria-hidden="true">
+            <path d="M83.996.277C37.747.277.253 37.77.253 84.019c0 46.251 37.494 83.741 83.743 83.741 46.254 0 83.744-37.49 83.744-83.741 0-46.246-37.49-83.738-83.745-83.738l.001-.004zm38.404 120.78a5.217 5.217 0 0 1-7.18 1.73c-19.662-12.01-44.414-14.73-73.564-8.07a5.222 5.222 0 0 1-6.249-3.93 5.213 5.213 0 0 1 3.926-6.25c31.9-7.291 59.263-4.15 81.337 9.34 2.46 1.51 3.24 4.72 1.73 7.18zm10.25-22.805c-1.89 3.075-5.91 4.045-8.98 2.155-22.51-13.839-56.823-17.846-83.448-9.764-3.453 1.043-7.1-.903-8.148-4.35a6.538 6.538 0 0 1 4.354-8.143c30.413-9.228 68.222-4.758 94.072 11.127 3.07 1.89 4.04 5.91 2.15 8.976v-.001zm.88-23.744c-26.99-16.031-71.52-17.505-97.289-9.684-4.138 1.255-8.514-1.081-9.768-5.219a7.835 7.835 0 0 1 5.221-9.771c29.581-8.98 78.756-7.245 109.83 11.202a7.823 7.823 0 0 1 2.74 10.733c-2.2 3.722-7.02 4.949-10.73 2.739z"/>
+          </svg>
+          <span>Listen on Spotify</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- Gallery Overlay -->
+<div class="gallery-overlay" id="galleryOverlay">
+  <div class="gallery-overlay-header">
+    <button class="gallery-close-btn" onclick="closeGalleryOverlay()">← Back</button>
+    <div class="gallery-overlay-title" id="overlayTitle"></div>
+    <div class="gallery-overlay-count" id="overlayCount"></div>
+  </div>
+  <div class="gallery-body" id="galleryContent"></div>
+</div>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox">
+  <button class="lb-btn lb-close" onclick="closeLightbox()">✕</button>
+  <button class="lb-btn lb-prev" onclick="lbPrev()">‹</button>
+  <button class="lb-btn lb-next" onclick="lbNext()">›</button>
+  <div id="lightboxContent"></div>
+</div>
+
+<!-- Age Gate -->
+<div class="agegate" id="agegate">
+  <div class="agegate-box">
+    <div class="agegate-title">18+ Content</div>
+    <div class="agegate-text">
+      You're about to view spicy generations intended for adults only.
+      Please confirm you are 18 or older to continue.
+    </div>
+    <div class="agegate-buttons">
+      <button class="agegate-btn" onclick="declineAgeGate()">Go Back</button>
+      <button class="agegate-btn confirm" onclick="confirmAgeGate()">I am 18+</button>
+    </div>
+  </div>
+</div>
+
+<div class="footer">· Eurielle's Gallery · Modern Day ·</div>
+
+<script>
+// ────────────────────────────────────────────────────────────
+//  Character Data (mirrors index.html's Modern Day OC group)
+// ────────────────────────────────────────────────────────────
+const GROUP = {
+  title: "Modern Day OC",
+  characters: [
+    {
+      name: "Alec: The Surgeon",
+      cover: "alec.png",
+      desc: "Modern Day · The Surgeon",
+      images: [
+        { src: "alec.png", caption: "Watching" },
+      ],
+      spicy: []
+    },
+    {
+      name: "Kael",
+      cover: "kael.png",
+      images: [
+        { src: "kael.png", caption: "At dusk" },
+      ],
+      spicy: []
+    },
+    {
+      name: "Ethan Finley",
+      cover: "ethan.png",
+      images: [
+        { src: "ethan.png",         caption: "Unhinged" },
+        { src: "ethan-502.png",     caption: "Door 502" },
+        { src: "ethan-rain.png",    caption: "For her" },
+        { src: "ethan-woods.png",   caption: "Burial" },
+        { src: "ethan-shower.jpg",  caption: "Aftermath" },
+      ],
+      spicy: []
+    },
+    {
+      name: "Dax",
+      cover: "dax.png",
+      images: [
+        { src: "dax.png", caption: "The voices" },
+      ],
+      spicy: []
+    },
+    {
+      name: "Torbjørn \"Torb\" Haugland",
+      cover: "torb.png",
+      images: [
+        { src: "torb.png", caption: "Aurora" },
+      ],
+      spicy: []
+    },
+  ]
+};
+
+// ────────────────────────────────────────────────────────────
+//  Render character cards (dossier style)
+// ────────────────────────────────────────────────────────────
+const charCards = document.getElementById('charCards');
+GROUP.characters.forEach((char, i) => {
+  const card = document.createElement('div');
+  card.className = 'char-card';
+  card.onclick = () => openGallery(GROUP.title, char);
+  const spicyTag = char.spicy && char.spicy.length
+    ? `<span class="spicy-tag">· ${char.spicy.length} spicy</span>`
+    : '';
+  card.innerHTML = `
+    <div class="char-card-img-wrap">
+      <img class="char-card-img" src="${char.cover}" alt="${char.name}" loading="lazy">
+    </div>
+    <div class="char-card-body">
+      <div class="char-card-name">${char.name}</div>
+      ${char.desc ? `<div class="char-card-desc">${char.desc}</div>` : ''}
+      <div class="char-card-count">${char.images.length} image${char.images.length !== 1 ? 's' : ''}${spicyTag}</div>
+      <button class="view-btn">View Gallery</button>
+    </div>
+  `;
+  charCards.appendChild(card);
+});
+
+// ────────────────────────────────────────────────────────────
+//  Gallery overlay
+// ────────────────────────────────────────────────────────────
+const galleryOverlay = document.getElementById('galleryOverlay');
+const overlayTitle   = document.getElementById('overlayTitle');
+const overlayCount   = document.getElementById('overlayCount');
+const galleryContent = document.getElementById('galleryContent');
+
+let currentChar = null;
+let currentList = [];
+let lightboxIdx = 0;
+
+function openGallery(groupTitle, char) {
+  currentChar = char;
+  overlayTitle.textContent = char.name;
+  const total = char.images.length + (char.spicy ? char.spicy.length : 0);
+  overlayCount.textContent = total + ' total';
+
+  galleryContent.innerHTML = '';
+
+  if (char.images && char.images.length) {
+    const title = document.createElement('div');
+    title.className = 'gallery-section-title';
+    title.textContent = 'Gallery · ' + char.images.length;
+    galleryContent.appendChild(title);
+
+    const grid = document.createElement('div');
+    grid.className = 'gallery-grid';
+    char.images.forEach((item, i) => {
+      const div = document.createElement('div');
+      div.className = 'gallery-item';
+      div.onclick = () => openLightbox(char.images, i);
+      const isVideo = item.src.match(/\.(mp4|webm|mov)$/i);
+      div.innerHTML = `
+        ${isVideo
+          ? `<video src="${item.src}" muted loop playsinline></video>`
+          : `<img src="${item.src}" alt="${item.caption || ''}" loading="lazy">`}
+        ${item.caption ? `<div class="gallery-caption">${item.caption}</div>` : ''}
+      `;
+      grid.appendChild(div);
+    });
+    galleryContent.appendChild(grid);
+  }
+
+  if (char.spicy && char.spicy.length) {
+    const divider = document.createElement('div');
+    divider.className = 'spicy-divider';
+    divider.innerHTML = `
+      <div class="line"></div>
+      <span class="section-title" style="color: var(--crimson);">Spicy Gens · ${char.spicy.length}</span>
+      <div class="line"></div>
+    `;
+    galleryContent.appendChild(divider);
+
+    if (ageGateConfirmed) renderSpicy(char);
+    else {
+      const lockBtn = document.createElement('button');
+      lockBtn.className = 'view-btn';
+      lockBtn.style.display = 'block';
+      lockBtn.style.margin = '20px auto 30px';
+      lockBtn.textContent = '🔒 Unlock Spicy (18+)';
+      lockBtn.onclick = () => openAgeGate();
+      galleryContent.appendChild(lockBtn);
+    }
+  }
+
+  galleryOverlay.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function renderSpicy(char) {
+  const grid = document.createElement('div');
+  grid.className = 'gallery-grid';
+  char.spicy.forEach((item, i) => {
+    const div = document.createElement('div');
+    div.className = 'gallery-item';
+    div.onclick = () => openLightbox(char.spicy, i);
+    const isVideo = item.src.match(/\.(mp4|webm|mov)$/i);
+    div.innerHTML = `
+      ${isVideo
+        ? `<video src="${item.src}" muted loop playsinline></video>`
+        : `<img src="${item.src}" alt="${item.caption || ''}" loading="lazy">`}
+      ${item.caption ? `<div class="gallery-caption">${item.caption}</div>` : ''}
+    `;
+    grid.appendChild(div);
+  });
+  galleryContent.appendChild(grid);
+}
+
+function closeGalleryOverlay() {
+  galleryOverlay.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// ────────────────────────────────────────────────────────────
+//  Lightbox
+// ────────────────────────────────────────────────────────────
+const lightbox        = document.getElementById('lightbox');
+const lightboxContent = document.getElementById('lightboxContent');
+
+function openLightbox(list, idx) {
+  currentList = list;
+  lightboxIdx = idx;
+  showLb();
+  lightbox.classList.add('open');
+}
+
+function showLb() {
+  const item = currentList[lightboxIdx];
+  const isVideo = item.src.match(/\.(mp4|webm|mov)$/i);
+  lightboxContent.innerHTML = isVideo
+    ? `<video src="${item.src}" controls autoplay loop playsinline></video>`
+    : `<img src="${item.src}" alt="${item.caption || ''}">`;
+}
+
+function closeLightbox() {
+  lightbox.classList.remove('open');
+  lightboxContent.innerHTML = '';
+}
+
+function lbNext() {
+  lightboxIdx = (lightboxIdx + 1) % currentList.length;
+  showLb();
+}
+function lbPrev() {
+  lightboxIdx = (lightboxIdx - 1 + currentList.length) % currentList.length;
+  showLb();
+}
+
+document.addEventListener('keydown', (e) => {
+  if (lightbox.classList.contains('open')) {
+    if (e.key === 'Escape') closeLightbox();
+    else if (e.key === 'ArrowRight') lbNext();
+    else if (e.key === 'ArrowLeft') lbPrev();
+  } else if (galleryOverlay.classList.contains('open') && e.key === 'Escape') {
+    closeGalleryOverlay();
+  }
+});
+
+// ────────────────────────────────────────────────────────────
+//  Age Gate
+// ────────────────────────────────────────────────────────────
+const agegate = document.getElementById('agegate');
+let ageGateConfirmed = sessionStorage.getItem('ageConfirmed') === 'true';
+
+function openAgeGate() { agegate.classList.add('open'); }
+function declineAgeGate() { agegate.classList.remove('open'); }
+function confirmAgeGate() {
+  ageGateConfirmed = true;
+  sessionStorage.setItem('ageConfirmed', 'true');
+  agegate.classList.remove('open');
+  if (currentChar) {
+    galleryContent.innerHTML = '';
+    openGallery(GROUP.title, currentChar);
+  }
+}
+
+// ────────────────────────────────────────────────────────────
+//  Soundtrack
+// ────────────────────────────────────────────────────────────
+const TRACKS = [
+  { title: "A Patient Man (Ethan's Song)",       src: "Patient_Man.mp3" },
+  { title: "Making a Monster (Alec's Song)",     src: "Making_a_monster.mp3" },
+  { title: "Drift Between Us (Torbjørn's Song)", src: "Drift_Between_Us.mp3" },
+];
+
+const audio        = document.getElementById('audio');
+const playBtn      = document.getElementById('playBtn');
+const npTitle      = document.getElementById('npTitle');
+const npArt        = document.getElementById('npArt');
+const progressBar  = document.getElementById('progressBar');
+const progressWrap = document.getElementById('progressWrap');
+const currentTimeEl= document.getElementById('currentTime');
+const totalTimeEl  = document.getElementById('totalTime');
+const trackListEl  = document.getElementById('trackList');
+
+let currentTrack = 0;
+let hasStarted   = false;
+
+function fmt(s) {
+  if (!isFinite(s)) return '0:00';
+  const m = Math.floor(s / 60);
+  const sec = Math.floor(s % 60).toString().padStart(2, '0');
+  return `${m}:${sec}`;
+}
+
+function renderTrackList() {
+  trackListEl.innerHTML = '';
+  TRACKS.forEach((t, i) => {
+    const el = document.createElement('div');
+    const isActive = i === currentTrack;
+    const isPaused = isActive && audio.paused;
+    el.className = 'track' + (isActive ? ' active' : '') + (isPaused ? ' paused' : '');
+    el.onclick = () => loadTrack(i, true);
+    el.innerHTML = `
+      <span class="track-num">${String(i + 1).padStart(2, '0')}</span>
+      <span class="track-title">${t.title}</span>
+      <div class="track-eq"><span></span><span></span><span></span></div>
+      <span class="track-icon">&#9654;</span>
+    `;
+    trackListEl.appendChild(el);
+  });
+}
+
+function loadTrack(i, autoplay) {
+  currentTrack = i;
+  audio.src = TRACKS[i].src;
+  npTitle.textContent = TRACKS[i].title;
+  hasStarted = true;
+  renderTrackList();
+  if (autoplay) audio.play().catch(() => {});
+}
+
+function togglePlay() {
+  if (!hasStarted) { loadTrack(0, true); return; }
+  if (audio.paused) audio.play(); else audio.pause();
+}
+
+function nextTrack() {
+  loadTrack((currentTrack + 1) % TRACKS.length, hasStarted && (!audio.paused || audio.currentTime > 0));
+}
+function prevTrack() {
+  if (audio.currentTime > 3) { audio.currentTime = 0; return; }
+  loadTrack((currentTrack - 1 + TRACKS.length) % TRACKS.length, hasStarted && (!audio.paused || audio.currentTime > 0));
+}
+
+audio.addEventListener('timeupdate', () => {
+  const pct = (audio.currentTime / audio.duration) * 100;
+  progressBar.style.width = (isFinite(pct) ? pct : 0) + '%';
+  currentTimeEl.textContent = fmt(audio.currentTime);
+});
+audio.addEventListener('loadedmetadata', () => {
+  totalTimeEl.textContent = fmt(audio.duration);
+});
+audio.addEventListener('ended', () => {
+  loadTrack((currentTrack + 1) % TRACKS.length, true);
+});
+audio.addEventListener('play', () => {
+  playBtn.innerHTML = '&#10074;&#10074;';
+  npArt.classList.add('playing');
+  renderTrackList();
+});
+audio.addEventListener('pause', () => {
+  playBtn.innerHTML = '&#9654;';
+  npArt.classList.remove('playing');
+  renderTrackList();
+});
+
+progressWrap.addEventListener('click', (e) => {
+  const rect = progressWrap.getBoundingClientRect();
+  const pct = (e.clientX - rect.left) / rect.width;
+  if (audio.duration) audio.currentTime = pct * audio.duration;
+});
+
+npTitle.textContent = TRACKS[0].title;
+renderTrackList();
+
+// ────────────────────────────────────────────────────────────
+//  Rain animation
+// ────────────────────────────────────────────────────────────
+const rainCanvas = document.getElementById('rainCanvas');
+const rainCtx    = rainCanvas.getContext('2d');
+let drops = [];
+
+function resizeRain() {
+  rainCanvas.width  = window.innerWidth;
+  rainCanvas.height = window.innerHeight;
+}
+window.addEventListener('resize', resizeRain);
+resizeRain();
+
+function createDrop() {
+  return {
+    x: Math.random() * rainCanvas.width,
+    y: Math.random() * -rainCanvas.height,
+    length: 10 + Math.random() * 18,
+    speed:  6 + Math.random() * 9,
+    opacity: 0.15 + Math.random() * 0.4,
+  };
+}
+
+const dropCount = Math.min(100, Math.floor(window.innerWidth / 14));
+for (let i = 0; i < dropCount; i++) drops.push(createDrop());
+
+function animateRain() {
+  rainCtx.clearRect(0, 0, rainCanvas.width, rainCanvas.height);
+  rainCtx.lineWidth = 1;
+
+  drops.forEach(d => {
+    rainCtx.strokeStyle = `rgba(170, 195, 220, ${d.opacity})`;
+    rainCtx.beginPath();
+    rainCtx.moveTo(d.x, d.y);
+    rainCtx.lineTo(d.x - 1, d.y + d.length);
+    rainCtx.stroke();
+
+    d.y += d.speed;
+    if (d.y > rainCanvas.height) {
+      Object.assign(d, createDrop());
+      d.y = -d.length;
+    }
+  });
+
+  requestAnimationFrame(animateRain);
+}
+animateRain();
+</script>
+
+</body>
+</html>
