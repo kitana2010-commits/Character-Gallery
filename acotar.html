@@ -1,0 +1,1081 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ACOTAR · Eurielle's Gallery</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --ink: #050010;
+  --bg: #0d0420;
+  --bg-card: #1a0e2e;
+  --bg-card-hover: #221540;
+  --border: #2e1a4f;
+  --border-bright: #4a2e7a;
+  --text: #f0e8ff;
+  --text-dim: #b8a8d4;
+  --text-muted: #6f5e8a;
+  --gold: #d4af37;
+  --gold-bright: #f0d068;
+  --violet: #7c3aed;
+  --violet-bright: #9d5ef9;
+  --star: #ffffff;
+  --crimson: #a02234;
+  --spicy: #c8344b;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 18px;
+  line-height: 1.7;
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Ambient: violet & gold pools, Night Court mountain horizon glow */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 900px 600px at 50% -10%, rgba(124, 58, 237, 0.18), transparent 60%),
+    radial-gradient(ellipse 600px 400px at 10% 100%, rgba(157, 94, 249, 0.08), transparent 60%),
+    radial-gradient(ellipse 600px 400px at 90% 100%, rgba(212, 175, 55, 0.05), transparent 60%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Star canvas */
+#starCanvas {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.95;
+}
+
+/* Back link */
+.back-link {
+  position: fixed;
+  top: 24px;
+  left: 24px;
+  z-index: 50;
+  font-family: 'Cinzel', serif;
+  font-size: 11px;
+  letter-spacing: 4px;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 10px 18px;
+  border: 1px solid var(--border);
+  background: rgba(13, 4, 32, 0.7);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  font-weight: 600;
+  transition: color 0.25s, border-color 0.25s;
+}
+.back-link:hover {
+  color: var(--gold-bright);
+  border-color: var(--gold);
+}
+
+/* ─── Hero ─── */
+.hero {
+  position: relative;
+  z-index: 3;
+  padding: 170px 24px 100px;
+  text-align: center;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.hero-moon {
+  position: absolute;
+  top: 90px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(380px, 75vw);
+  height: auto;
+  opacity: 0.12;
+  pointer-events: none;
+  color: var(--gold);
+  z-index: -1;
+}
+.hero-eyebrow {
+  font-family: 'Cinzel', serif;
+  font-size: 11px;
+  letter-spacing: 8px;
+  color: var(--gold);
+  text-transform: uppercase;
+  margin-bottom: 30px;
+  font-weight: 500;
+  opacity: 0.95;
+}
+.hero-title {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: clamp(56px, 11vw, 130px);
+  font-weight: 900;
+  letter-spacing: 14px;
+  color: var(--text);
+  line-height: 1;
+  margin-bottom: 36px;
+  background: linear-gradient(180deg, var(--star) 0%, var(--gold-bright) 50%, var(--violet-bright) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 0 60px rgba(157, 94, 249, 0.25);
+}
+.hero-rule {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 22px;
+  margin: 32px auto 28px;
+}
+.hero-rule .rule-line {
+  height: 1px;
+  width: 130px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+.hero-rule .star-cluster {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--gold);
+  font-size: 12px;
+  text-shadow: 0 0 12px rgba(240, 208, 104, 0.6);
+}
+.hero-rule .star-cluster .small { font-size: 8px; opacity: 0.7; }
+.hero-rule .star-cluster .mid   { font-size: 14px; }
+.hero-sub {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: clamp(18px, 2.2vw, 26px);
+  color: var(--text-dim);
+  letter-spacing: 3px;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+/* ─── Content ─── */
+.content {
+  position: relative;
+  z-index: 3;
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 40px 24px 120px;
+}
+.section-heading {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: clamp(26px, 3.6vw, 42px);
+  text-align: center;
+  letter-spacing: 6px;
+  color: var(--gold);
+  margin-bottom: 70px;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+.section-heading::after {
+  content: '✧';
+  display: block;
+  font-size: 28px;
+  color: var(--gold-bright);
+  margin-top: 14px;
+  font-weight: 400;
+  line-height: 1;
+  text-shadow: 0 0 16px rgba(240, 208, 104, 0.6);
+}
+
+/* ─── Character Cards ─── */
+.char-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 40px;
+}
+
+.char-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  position: relative;
+  cursor: pointer;
+  transition: transform 0.4s, border-color 0.4s, box-shadow 0.4s;
+  overflow: hidden;
+}
+.char-card::before {
+  content: '';
+  position: absolute;
+  inset: 10px;
+  border: 1px solid var(--gold);
+  opacity: 0;
+  transition: opacity 0.4s;
+  pointer-events: none;
+  z-index: 3;
+}
+/* Star corner decorations */
+.char-card .corner {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  pointer-events: none;
+  z-index: 4;
+  color: var(--gold);
+  opacity: 0.5;
+  transition: opacity 0.4s, color 0.4s;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.char-card .corner.tl { top: 8px; left: 8px; }
+.char-card .corner.tr { top: 8px; right: 8px; }
+.char-card .corner.bl { bottom: 8px; left: 8px; }
+.char-card .corner.br { bottom: 8px; right: 8px; }
+.char-card:hover .corner { opacity: 1; color: var(--gold-bright); text-shadow: 0 0 8px rgba(240, 208, 104, 0.6); }
+
+.char-card:hover {
+  transform: translateY(-8px);
+  border-color: var(--gold);
+  box-shadow: 0 24px 70px rgba(0,0,0,0.7), 0 0 60px rgba(157, 94, 249, 0.18);
+}
+.char-card:hover::before { opacity: 0.5; }
+
+.char-card-img-wrap {
+  width: 100%;
+  height: 440px;
+  position: relative;
+  overflow: hidden;
+  background: var(--ink);
+}
+.char-card-img-wrap::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 55%, var(--bg-card) 100%);
+  pointer-events: none;
+}
+.char-card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s;
+}
+.char-card:hover .char-card-img { transform: scale(1.04); }
+.char-card-body {
+  padding: 22px 24px 28px;
+  position: relative;
+  z-index: 2;
+}
+.char-card-name {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 6px;
+  letter-spacing: 1px;
+  line-height: 1.2;
+}
+.char-card-desc {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 14px;
+  color: var(--text-dim);
+  letter-spacing: 1px;
+  margin-bottom: 14px;
+}
+.char-card-count {
+  font-family: 'Cinzel', serif;
+  font-size: 10px;
+  color: var(--text-muted);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  font-weight: 500;
+}
+.spicy-tag {
+  color: var(--spicy);
+  margin-left: 6px;
+  font-weight: 600;
+}
+.view-btn {
+  background: transparent;
+  border: 1px solid var(--border-bright);
+  color: var(--text);
+  padding: 11px 22px;
+  font-family: 'Cinzel', serif;
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.25s, color 0.25s, border-color 0.25s;
+  font-weight: 600;
+}
+.view-btn:hover {
+  background: var(--gold);
+  color: var(--ink);
+  border-color: var(--gold);
+}
+
+/* ─── Gallery Overlay ─── */
+.gallery-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(5, 0, 16, 0.97);
+  z-index: 100;
+  display: none;
+  flex-direction: column;
+  overflow-y: auto;
+  backdrop-filter: blur(20px);
+}
+.gallery-overlay.open { display: flex; }
+.gallery-overlay-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 26px 40px;
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  background: rgba(5, 0, 16, 0.92);
+  backdrop-filter: blur(14px);
+  z-index: 5;
+  gap: 20px;
+}
+.gallery-close-btn {
+  background: transparent;
+  border: 1px solid var(--border-bright);
+  color: var(--text);
+  padding: 10px 18px;
+  font-family: 'Cinzel', serif;
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+.gallery-close-btn:hover {
+  color: var(--gold-bright);
+  border-color: var(--gold);
+}
+.gallery-overlay-title {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--text);
+  flex: 1;
+  text-align: center;
+}
+.gallery-overlay-count {
+  font-family: 'Cinzel', serif;
+  font-size: 11px;
+  letter-spacing: 3px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  flex-shrink: 0;
+  text-align: right;
+  min-width: 88px;
+}
+.gallery-body {
+  padding: 50px 40px 80px;
+  max-width: 1400px;
+  margin: 0 auto;
+  width: 100%;
+}
+.gallery-section-title {
+  font-family: 'Cinzel', serif;
+  font-size: 11px;
+  letter-spacing: 4px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  margin-bottom: 28px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.gallery-section-title::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+/* ─── Bot Link CTA (links out to DreamjourneyAI) ─── */
+.bot-link-bar {
+  display: flex;
+  justify-content: center;
+  margin: 0 0 50px;
+}
+.bot-link-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 32px;
+  font-family: 'Cinzel', serif;
+  font-size: 11.5px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--text);
+  background: linear-gradient(135deg, rgba(124, 58, 237, 0.12), rgba(212, 175, 55, 0.14));
+  border: 1px solid var(--gold);
+  text-decoration: none;
+  font-weight: 600;
+  position: relative;
+  transition: background 0.35s, border-color 0.35s, transform 0.35s, box-shadow 0.35s, color 0.35s, letter-spacing 0.35s;
+}
+.bot-link-btn:hover {
+  background: linear-gradient(135deg, var(--violet) 0%, var(--gold) 100%);
+  border-color: var(--gold-bright);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(124, 58, 237, 0.28), 0 0 16px rgba(212, 175, 55, 0.18);
+  color: var(--star);
+  letter-spacing: 5px;
+}
+.bot-link-btn .bot-link-star {
+  color: var(--gold-bright);
+  font-size: 13px;
+  transition: transform 0.5s, color 0.35s;
+}
+.bot-link-btn:hover .bot-link-star {
+  color: var(--star);
+  transform: scale(1.15) rotate(72deg);
+}
+.bot-link-btn .bot-link-arrow {
+  font-size: 13px;
+  transition: transform 0.35s;
+}
+.bot-link-btn:hover .bot-link-arrow { transform: translate(3px, -3px); }
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+  margin-bottom: 60px;
+}
+.gallery-item {
+  position: relative;
+  cursor: pointer;
+  background: var(--bg-card);
+  overflow: hidden;
+}
+.gallery-item img, .gallery-item video {
+  width: 100%;
+  height: 340px;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s;
+}
+.gallery-item:hover img, .gallery-item:hover video { transform: scale(1.04); }
+.gallery-caption {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(180deg, transparent, rgba(0,0,0,0.88));
+  padding: 36px 16px 14px;
+  font-family: 'Cinzel', serif;
+  font-size: 11px;
+  letter-spacing: 2.5px;
+  color: var(--text);
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+.spicy-divider {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin: 50px 0 30px;
+}
+.spicy-divider .line { flex: 1; height: 1px; background: var(--crimson); }
+.section-title {
+  font-family: 'Cinzel', serif;
+  font-size: 11px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+/* ─── Lightbox ─── */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.96);
+  z-index: 200;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 40px;
+}
+.lightbox.open { display: flex; }
+.lightbox img, .lightbox video {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+.lb-btn {
+  position: absolute;
+  background: rgba(26, 14, 46, 0.85);
+  border: 1px solid var(--border-bright);
+  color: var(--text);
+  width: 48px;
+  height: 48px;
+  cursor: pointer;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+  backdrop-filter: blur(8px);
+}
+.lb-btn:hover {
+  background: var(--gold);
+  color: var(--ink);
+  border-color: var(--gold);
+}
+.lb-close { top: 24px; right: 24px; }
+.lb-prev { left: 24px; top: 50%; transform: translateY(-50%); }
+.lb-next { right: 24px; top: 50%; transform: translateY(-50%); }
+
+/* ─── Age Gate ─── */
+.agegate {
+  position: fixed;
+  inset: 0;
+  background: rgba(5, 0, 16, 0.97);
+  backdrop-filter: blur(16px);
+  z-index: 300;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+.agegate.open { display: flex; }
+.agegate-box {
+  max-width: 460px;
+  width: 100%;
+  background: var(--bg-card);
+  border: 1px solid var(--crimson);
+  padding: 40px 36px;
+  text-align: center;
+}
+.agegate-title {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--spicy);
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  margin-bottom: 22px;
+}
+.agegate-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 15px;
+  color: var(--text-dim);
+  line-height: 1.65;
+  margin-bottom: 28px;
+}
+.agegate-buttons {
+  display: flex;
+  gap: 12px;
+}
+.agegate-btn {
+  flex: 1;
+  padding: 14px 18px;
+  background: transparent;
+  border: 1px solid var(--border-bright);
+  color: var(--text);
+  font-family: 'Cinzel', serif;
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+  font-weight: 600;
+}
+.agegate-btn:hover { border-color: var(--text); }
+.agegate-btn.confirm {
+  background: var(--crimson);
+  border-color: var(--crimson);
+  color: white;
+}
+.agegate-btn.confirm:hover {
+  background: var(--spicy);
+  border-color: var(--spicy);
+}
+
+.footer {
+  text-align: center;
+  padding: 40px 24px 60px;
+  color: var(--text-muted);
+  font-family: 'Cinzel', serif;
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  position: relative;
+  z-index: 3;
+  font-weight: 500;
+}
+
+@media (max-width: 768px) {
+  .hero { padding: 130px 20px 80px; }
+  .back-link { top: 14px; left: 14px; padding: 8px 14px; font-size: 10px; }
+  .gallery-overlay-header { padding: 18px 20px; }
+  .gallery-overlay-title { font-size: 18px; }
+  .gallery-overlay-count { display: none; }
+  .gallery-body { padding: 30px 20px 80px; }
+  .gallery-item img, .gallery-item video { height: 280px; }
+  .lb-btn { width: 40px; height: 40px; font-size: 16px; }
+  .lb-close { top: 16px; right: 16px; }
+  .lb-prev { left: 12px; }
+  .lb-next { right: 12px; }
+  .lightbox { padding: 40px 16px; }
+  .char-card-img-wrap { height: 380px; }
+}
+</style>
+  <!-- GoatCounter analytics (invisible — private dashboard at eurielle.goatcounter.com) -->
+  <script data-goatcounter="https://eurielle.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</head>
+<body>
+
+<a class="back-link" href="index.html">← Gallery</a>
+<canvas id="starCanvas"></canvas>
+
+<section class="hero">
+  <!-- Moon + stars watermark -->
+  <svg class="hero-moon" viewBox="0 0 380 380" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+    <!-- Crescent moon -->
+    <path d="M 190 60 A 130 130 0 1 0 270 290 A 100 100 0 1 1 190 60 Z" stroke-width="2.5"/>
+    <!-- Surrounding stars -->
+    <g stroke-width="1.5">
+      <path d="M 70 80 L 76 70 L 82 80 L 92 86 L 82 92 L 76 102 L 70 92 L 60 86 Z" fill="currentColor" stroke="none"/>
+      <path d="M 310 130 L 314 124 L 318 130 L 324 134 L 318 138 L 314 144 L 310 138 L 304 134 Z" fill="currentColor" stroke="none"/>
+      <path d="M 320 250 L 325 242 L 330 250 L 338 255 L 330 260 L 325 268 L 320 260 L 312 255 Z" fill="currentColor" stroke="none"/>
+      <path d="M 60 250 L 64 244 L 68 250 L 74 254 L 68 258 L 64 264 L 60 258 L 54 254 Z" fill="currentColor" stroke="none"/>
+      <path d="M 250 30 L 253 25 L 256 30 L 261 33 L 256 36 L 253 41 L 250 36 L 245 33 Z" fill="currentColor" stroke="none"/>
+      <path d="M 130 330 L 134 325 L 138 330 L 143 333 L 138 336 L 134 341 L 130 336 L 125 333 Z" fill="currentColor" stroke="none"/>
+    </g>
+    <!-- Small accent dots -->
+    <circle cx="100" cy="160" r="2" fill="currentColor"/>
+    <circle cx="295" cy="200" r="2" fill="currentColor"/>
+    <circle cx="180" cy="350" r="2" fill="currentColor"/>
+  </svg>
+
+  <div class="hero-eyebrow">A Court of Thorns and Roses</div>
+  <h1 class="hero-title">ACOTAR</h1>
+  <div class="hero-rule">
+    <div class="rule-line"></div>
+    <div class="star-cluster">
+      <span class="small">✦</span>
+      <span class="mid">✧</span>
+      <span class="small">✦</span>
+    </div>
+    <div class="rule-line"></div>
+  </div>
+  <div class="hero-sub">of courts and starlight</div>
+</section>
+
+<main class="content">
+  <h2 class="section-heading">Characters</h2>
+  <div class="char-cards" id="charCards"></div>
+</main>
+
+<div class="gallery-overlay" id="galleryOverlay">
+  <div class="gallery-overlay-header">
+    <button class="gallery-close-btn" onclick="closeGalleryOverlay()">← Back</button>
+    <div class="gallery-overlay-title" id="overlayTitle"></div>
+    <div class="gallery-overlay-count" id="overlayCount"></div>
+  </div>
+  <div class="gallery-body" id="galleryContent"></div>
+</div>
+
+<div class="lightbox" id="lightbox">
+  <button class="lb-btn lb-close" onclick="closeLightbox()">✕</button>
+  <button class="lb-btn lb-prev" onclick="lbPrev()">‹</button>
+  <button class="lb-btn lb-next" onclick="lbNext()">›</button>
+  <div id="lightboxContent"></div>
+</div>
+
+<div class="agegate" id="agegate">
+  <div class="agegate-box">
+    <div class="agegate-title">18+ Only</div>
+    <div class="agegate-text">
+      You are about to view spicy generations intended for adults only.
+      Please confirm you are 18 or older to continue.
+    </div>
+    <div class="agegate-buttons">
+      <button class="agegate-btn" onclick="declineAgeGate()">Go Back</button>
+      <button class="agegate-btn confirm" onclick="confirmAgeGate()">I am 18+</button>
+    </div>
+  </div>
+</div>
+
+<div class="footer">✧ Eurielle's Gallery · ACOTAR ✧</div>
+
+<script>
+// ────────────────────────────────────────────────────────────
+//  Character Data (mirrors index.html's ACOTAR group)
+// ────────────────────────────────────────────────────────────
+const GROUP = {
+  title: "ACOTAR",
+  characters: [
+    {
+      name: "Rhysand",
+      tropes: ["fated mates", "angst / longing", "captor & captive"],
+      bot: "https://www.dreamjourneyai.com/app/creation/2d9fc1fb-a803-4b1f-b716-085674ed7eeb",
+      cover: "rhysand-portrait.png",
+      images: [
+        { src: "rhysand-portrait.png", caption: "Portrait" },
+        { src: "rhysand-throne.png",   caption: "The throne" },
+        { src: "rhysand-wings.png",    caption: "Night Court" },
+        { src: "rhysand-starlight.png",caption: "Starlight" },
+        { src: "rhysand-silk.png",     caption: "Black silk" },
+      ],
+      spicy: []
+    },
+    {
+      name: "Azriel",
+      tropes: ["childhood friends", "angst / longing", "fated mates", "caretaker", "arranged marriage", "unrequited love", "kidnapping / forced proximity", "spicy start"],
+      bot: "https://www.dreamjourneyai.com/app/creation/7be5258a-1a24-4a1b-a7d2-0997b499c83a",
+      cover: "azriel-shadows.png",
+      images: [
+        { src: "azriel-shadows.png",       caption: "Shadowsinger" },
+        { src: "azriel-wings.png",         caption: "Fae prince" },
+        { src: "azriel-moonlight.png",     caption: "Moonlight" },
+        { src: "azriel-ivy.png",           caption: "Black armor" },
+        { src: "group-azriel-sunset.png",  caption: "Azriel & mate" },
+        { src: "group-azriel-embrace.png", caption: "Embrace" },
+      ],
+      spicy: []
+    },
+    {
+      name: "Cassian",
+      tropes: ["bodyguard", "caretaker", "spicy start"],
+      bot: "https://www.dreamjourneyai.com/app/creation/6cff68b2-e8f6-448b-a551-0d28fe0ebde8",
+      cover: "cassian-wings.png",
+      images: [
+        { src: "cassian-wings.png", caption: "The General" },
+      ],
+      spicy: []
+    },
+    {
+      name: "Amren",
+      bot: "https://www.dreamjourneyai.com/app/creation/d4130558-fbcd-4fc6-bfe0-8974634ab6c1",
+      cover: "amren-wine.png",
+      images: [
+        { src: "amren-wine.png", caption: "The Ancient One" },
+      ],
+      spicy: []
+    },
+    {
+      name: "Eris",
+      tropes: ["arranged marriage"],
+      bot: "https://www.dreamjourneyai.com/app/creation/2fada370-78e1-40e8-988e-decf677a5dc3",
+      cover: "eris-fire.png",
+      images: [
+        { src: "eris-fire.png", caption: "Autumn Court" },
+      ],
+      spicy: []
+    },
+    {
+      name: "Tamlin",
+      tropes: ["spicy start", "fated mates"],
+      bot: "https://www.dreamjourneyai.com/app/creation/9eaf8921-eb4e-4d99-bee7-bbce139a1cbf",
+      cover: "tamlin-forest.png",
+      images: [
+        { src: "tamlin-forest.png", caption: "Spring Court" },
+      ],
+      spicy: []
+    },
+    {
+      name: "Lucien",
+      tropes: ["childhood friends"],
+      bot: "https://www.dreamjourneyai.com/app/creation/28935d56-f6e7-4203-8530-d6d30477a5d3",
+      cover: "lucien-portrait.png",
+      images: [
+        { src: "lucien-portrait.png", caption: "Emisary" },
+      ],
+      spicy: []
+    },
+    {
+      name: "Scenario bot",
+      bot: "https://www.dreamjourneyai.com/app/creation/c465b07b-14cc-40ce-af57-9666f921865e",
+      cover: "acotar-scenario.png",
+      imagesLabel: "Group Gens",
+      images: [
+        { src: "group-azriel-sunset.png",  caption: "Azriel & mate" },
+        { src: "group-azriel-embrace.png", caption: "Embrace" },
+        { src: "group-war-council.png",    caption: "War council" },
+        { src: "group-wine-night.png",     caption: "Wine night" },
+        { src: "group-bat-boys.png",       caption: "The bat boys" },
+        { src: "group-bat-boys2.png",      caption: "The bat boys II" },
+      ],
+      spicy: []
+    },
+    {
+      name: "Amarantha",
+      tropes: ["true villain (hardest)"],
+      cover: "amarantha.png",
+      desc: "Queen Under the Mountain",
+      images: [
+        { src: "amarantha.png",       caption: "Beneath the Mountain" },
+          { src: "amarantha-court.png", caption: "Her court" },
+          { src: "amarantha-possession.png", caption: "Her possession" },
+      ],
+      spicy: []
+    },
+    {
+      name: "Amarien",
+      tropes: ["true villain (hardest)"],
+      cover: "amarien.png",
+      desc: "Amarantha · genderbent",
+      images: [
+        { src: "amarien.png", caption: "The Bone Crown" },
+      ],
+      spicy: []
+    },
+  ]
+};
+
+const charCards = document.getElementById('charCards');
+GROUP.characters.forEach((char) => {
+  const card = document.createElement('div');
+  card.className = 'char-card';
+  card.onclick = () => openGallery(GROUP.title, char);
+  const spicyTag = char.spicy && char.spicy.length
+    ? `<span class="spicy-tag">· ${char.spicy.length} spicy</span>`
+    : '';
+  card.innerHTML = `
+    <span class="corner tl">✦</span>
+    <span class="corner tr">✦</span>
+    <span class="corner bl">✦</span>
+    <span class="corner br">✦</span>
+    <div class="char-card-img-wrap">
+      <img class="char-card-img" src="${char.cover}" alt="${char.name}" loading="lazy">
+    </div>
+    <div class="char-card-body">
+      <div class="char-card-name">${char.name}</div>
+      ${char.desc ? `<div class="char-card-desc">${char.desc}</div>` : ''}
+      <div class="char-card-count">${char.images.length} image${char.images.length !== 1 ? 's' : ''}${spicyTag}</div>
+      <button class="view-btn">View Gallery</button>
+    </div>
+  `;
+  charCards.appendChild(card);
+});
+
+const galleryOverlay = document.getElementById('galleryOverlay');
+const overlayTitle   = document.getElementById('overlayTitle');
+const overlayCount   = document.getElementById('overlayCount');
+const galleryContent = document.getElementById('galleryContent');
+let currentChar = null;
+let currentList = [];
+let lightboxIdx = 0;
+
+function openGallery(groupTitle, char) {
+  currentChar = char;
+  overlayTitle.textContent = char.name;
+  const total = char.images.length + (char.spicy ? char.spicy.length : 0);
+  overlayCount.textContent = total + ' total';
+  galleryContent.innerHTML = '';
+
+  // Bot link (only renders if char.bot is set)
+  if (char.bot) {
+    const linkBar = document.createElement('div');
+    linkBar.className = 'bot-link-bar';
+    linkBar.innerHTML = `
+      <a class="bot-link-btn" href="${char.bot}" target="_blank" rel="noopener noreferrer">
+        <span class="bot-link-star">✦</span>
+        <span>Chat on DreamjourneyAI</span>
+        <span class="bot-link-arrow">↗</span>
+      </a>
+    `;
+    galleryContent.appendChild(linkBar);
+  }
+
+  if (char.images && char.images.length) {
+    const title = document.createElement('div');
+    title.className = 'gallery-section-title';
+    title.textContent = (char.imagesLabel || 'Gallery') + ' · ' + char.images.length;
+    galleryContent.appendChild(title);
+
+    const grid = document.createElement('div');
+    grid.className = 'gallery-grid';
+    char.images.forEach((item, i) => {
+      const div = document.createElement('div');
+      div.className = 'gallery-item';
+      div.onclick = () => openLightbox(char.images, i);
+      const isVideo = item.src.match(/\.(mp4|webm|mov)$/i);
+      div.innerHTML = `
+        ${isVideo ? `<video src="${item.src}" muted loop playsinline></video>` : `<img src="${item.src}" alt="${item.caption || ''}" loading="lazy">`}
+        ${item.caption ? `<div class="gallery-caption">${item.caption}</div>` : ''}
+      `;
+      grid.appendChild(div);
+    });
+    galleryContent.appendChild(grid);
+  }
+
+  if (char.spicy && char.spicy.length) {
+    const divider = document.createElement('div');
+    divider.className = 'spicy-divider';
+    divider.innerHTML = `<div class="line"></div><span class="section-title" style="color: var(--spicy);">Spicy Gens · ${char.spicy.length}</span><div class="line"></div>`;
+    galleryContent.appendChild(divider);
+    if (ageGateConfirmed) renderSpicy(char);
+    else {
+      const lockBtn = document.createElement('button');
+      lockBtn.className = 'view-btn';
+      lockBtn.style.display = 'block';
+      lockBtn.style.margin = '20px auto 30px';
+      lockBtn.textContent = '🔒 Unlock Spicy (18+)';
+      lockBtn.onclick = () => openAgeGate();
+      galleryContent.appendChild(lockBtn);
+    }
+  }
+
+  galleryOverlay.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function renderSpicy(char) {
+  const grid = document.createElement('div');
+  grid.className = 'gallery-grid';
+  char.spicy.forEach((item, i) => {
+    const div = document.createElement('div');
+    div.className = 'gallery-item';
+    div.onclick = () => openLightbox(char.spicy, i);
+    const isVideo = item.src.match(/\.(mp4|webm|mov)$/i);
+    div.innerHTML = `
+      ${isVideo ? `<video src="${item.src}" muted loop playsinline></video>` : `<img src="${item.src}" alt="${item.caption || ''}" loading="lazy">`}
+      ${item.caption ? `<div class="gallery-caption">${item.caption}</div>` : ''}
+    `;
+    grid.appendChild(div);
+  });
+  galleryContent.appendChild(grid);
+}
+
+function closeGalleryOverlay() {
+  galleryOverlay.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+const lightbox        = document.getElementById('lightbox');
+const lightboxContent = document.getElementById('lightboxContent');
+
+function openLightbox(list, idx) {
+  currentList = list; lightboxIdx = idx;
+  showLb(); lightbox.classList.add('open');
+}
+function showLb() {
+  const item = currentList[lightboxIdx];
+  const isVideo = item.src.match(/\.(mp4|webm|mov)$/i);
+  lightboxContent.innerHTML = isVideo
+    ? `<video src="${item.src}" controls autoplay loop playsinline></video>`
+    : `<img src="${item.src}" alt="${item.caption || ''}">`;
+}
+function closeLightbox() { lightbox.classList.remove('open'); lightboxContent.innerHTML = ''; }
+function lbNext() { lightboxIdx = (lightboxIdx + 1) % currentList.length; showLb(); }
+function lbPrev() { lightboxIdx = (lightboxIdx - 1 + currentList.length) % currentList.length; showLb(); }
+
+document.addEventListener('keydown', (e) => {
+  if (lightbox.classList.contains('open')) {
+    if (e.key === 'Escape') closeLightbox();
+    else if (e.key === 'ArrowRight') lbNext();
+    else if (e.key === 'ArrowLeft') lbPrev();
+  } else if (galleryOverlay.classList.contains('open') && e.key === 'Escape') {
+    closeGalleryOverlay();
+  }
+});
+
+const agegate = document.getElementById('agegate');
+let ageGateConfirmed = sessionStorage.getItem('ageConfirmed') === 'true';
+function openAgeGate() { agegate.classList.add('open'); }
+function declineAgeGate() { agegate.classList.remove('open'); }
+function confirmAgeGate() {
+  ageGateConfirmed = true;
+  sessionStorage.setItem('ageConfirmed', 'true');
+  agegate.classList.remove('open');
+  if (currentChar) {
+    galleryContent.innerHTML = '';
+    openGallery(GROUP.title, currentChar);
+  }
+}
+
+// ────────────────────────────────────────────────────────────
+//  Twinkling starfield
+// ────────────────────────────────────────────────────────────
+const starCanvas = document.getElementById('starCanvas');
+const starCtx    = starCanvas.getContext('2d');
+let stars = [];
+
+function resizeStars() {
+  starCanvas.width  = window.innerWidth;
+  starCanvas.height = window.innerHeight;
+}
+window.addEventListener('resize', resizeStars);
+resizeStars();
+
+function createStar() {
+  const colorRoll = Math.random();
+  let color;
+  if (colorRoll < 0.6)      color = '255, 255, 255';  // white
+  else if (colorRoll < 0.85) color = '240, 208, 104'; // gold
+  else                       color = '157, 94, 249';  // violet
+  return {
+    x: Math.random() * starCanvas.width,
+    y: Math.random() * starCanvas.height,
+    size: Math.random() < 0.85 ? (0.5 + Math.random() * 1.2) : (1.5 + Math.random() * 1.5),
+    twinkleSpeed: 0.005 + Math.random() * 0.02,
+    twinklePhase: Math.random() * Math.PI * 2,
+    baseOpacity: 0.3 + Math.random() * 0.5,
+    color: color,
+    driftX: -0.05 + Math.random() * 0.1,
+    driftY: -0.02 + Math.random() * 0.04,
+  };
+}
+
+const starCount = Math.min(160, Math.floor(window.innerWidth / 9));
+for (let i = 0; i < starCount; i++) stars.push(createStar());
+
+function animateStars() {
+  starCtx.clearRect(0, 0, starCanvas.width, starCanvas.height);
+
+  stars.forEach(s => {
+    s.twinklePhase += s.twinkleSpeed;
+    const opacity = s.baseOpacity * (0.5 + 0.5 * Math.sin(s.twinklePhase));
+
+    // Main star
+    starCtx.fillStyle = `rgba(${s.color}, ${opacity})`;
+    starCtx.beginPath();
+    starCtx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
+    starCtx.fill();
+
+    // Soft glow halo for larger stars
+    if (s.size > 1.2) {
+      starCtx.fillStyle = `rgba(${s.color}, ${opacity * 0.2})`;
+      starCtx.beginPath();
+      starCtx.arc(s.x, s.y, s.size * 3.5, 0, Math.PI * 2);
+      starCtx.fill();
+    }
+
+    s.x += s.driftX;
+    s.y += s.driftY;
+    if (s.x < -10) s.x = starCanvas.width + 10;
+    if (s.x > starCanvas.width + 10) s.x = -10;
+    if (s.y < -10) s.y = starCanvas.height + 10;
+    if (s.y > starCanvas.height + 10) s.y = -10;
+  });
+
+  requestAnimationFrame(animateStars);
+}
+animateStars();
+</script>
+
+</body>
+</html>
