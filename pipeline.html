@@ -1,0 +1,1081 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Pipeline · Eurielle's Gallery</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Cinzel+Decorative:wght@400;700;900&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Architects+Daughter&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --ink: #050a18;
+  --bg: #0e1424;
+  --bg-card: #161e34;
+  --bg-card-hover: #1f2848;
+  --border: #2a345a;
+  --border-bright: #3d4a78;
+  --text: #ece2cc;
+  --text-dim: #b4a890;
+  --text-muted: #5e5848;
+  --blueprint: #4f8fcc;
+  --blueprint-bright: #7ab0e0;
+  --amber: #d9a86d;
+  --gold: #c8a45a;
+  --gold-bright: #e2c280;
+  --cream: #e8dcc4;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'EB Garamond', serif;
+  font-size: 18px;
+  line-height: 1.7;
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Ambient glow */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 900px 600px at 50% -10%, rgba(79, 143, 204, 0.10), transparent 60%),
+    radial-gradient(ellipse 500px 400px at 90% 90%, rgba(217, 168, 109, 0.06), transparent 60%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Blueprint grid */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(79, 143, 204, 0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(79, 143, 204, 0.07) 1px, transparent 1px),
+    linear-gradient(rgba(79, 143, 204, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(79, 143, 204, 0.03) 1px, transparent 1px);
+  background-size: 80px 80px, 80px 80px, 16px 16px, 16px 16px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Back link */
+.back-link {
+  position: fixed;
+  top: 24px;
+  left: 24px;
+  z-index: 50;
+  font-family: 'Cinzel', serif;
+  font-size: 11px;
+  letter-spacing: 4px;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 10px 18px;
+  border: 1px solid var(--border);
+  background: rgba(14, 20, 36, 0.7);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  font-weight: 600;
+  transition: color 0.25s, border-color 0.25s;
+}
+.back-link:hover {
+  color: var(--blueprint-bright);
+  border-color: var(--blueprint);
+}
+
+/* ─── Hero ─── */
+.hero {
+  position: relative;
+  z-index: 3;
+  padding: 170px 24px 80px;
+  text-align: center;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.hero-emblem {
+  position: absolute;
+  top: 75px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(380px, 78vw);
+  height: auto;
+  opacity: 0.12;
+  pointer-events: none;
+  color: var(--blueprint);
+  z-index: -1;
+}
+.hero-eyebrow {
+  font-family: 'Cinzel', serif;
+  font-size: 12px;
+  letter-spacing: 9px;
+  color: var(--blueprint);
+  text-transform: uppercase;
+  margin-bottom: 26px;
+  font-weight: 500;
+}
+.hero-title {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: clamp(42px, 7.5vw, 88px);
+  font-weight: 700;
+  letter-spacing: 5px;
+  color: var(--text);
+  line-height: 1.05;
+  margin-bottom: 30px;
+  background: linear-gradient(180deg, var(--cream) 0%, var(--blueprint-bright) 60%, var(--blueprint) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 0 60px rgba(79, 143, 204, 0.2);
+}
+.hero-rule {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 22px;
+  margin: 30px auto 26px;
+}
+.hero-rule .rule-line {
+  height: 1px;
+  width: 130px;
+  background: linear-gradient(90deg, transparent, var(--blueprint), transparent);
+}
+.hero-rule .stamp {
+  color: var(--amber);
+  font-family: 'Architects Daughter', cursive;
+  font-size: 14px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  padding: 4px 12px;
+  border: 1.5px dashed var(--amber);
+  transform: rotate(-3deg);
+  text-shadow: 0 0 8px rgba(217, 168, 109, 0.3);
+}
+.hero-sub {
+  font-family: 'EB Garamond', serif;
+  font-style: italic;
+  font-size: clamp(17px, 2vw, 22px);
+  color: var(--text-dim);
+  letter-spacing: 2px;
+  max-width: 640px;
+  margin: 0 auto;
+  line-height: 1.5;
+}
+
+/* Note card — sticky note explanation */
+.note-card {
+  position: relative;
+  z-index: 3;
+  max-width: 540px;
+  margin: 20px auto 60px;
+  padding: 18px 26px;
+  background: rgba(22, 30, 52, 0.7);
+  border: 1px dashed var(--border-bright);
+  font-family: 'Architects Daughter', cursive;
+  font-size: 15px;
+  color: var(--text-dim);
+  text-align: center;
+  line-height: 1.55;
+  letter-spacing: 0.5px;
+}
+.note-card::before {
+  content: '— NOTE —';
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--bg);
+  padding: 0 12px;
+  font-family: 'Cinzel', serif;
+  font-size: 9px;
+  letter-spacing: 4px;
+  color: var(--amber);
+  font-weight: 600;
+}
+
+/* ─── Content ─── */
+.content {
+  position: relative;
+  z-index: 3;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 20px 24px 120px;
+}
+.section-heading {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: clamp(22px, 3vw, 32px);
+  text-align: center;
+  letter-spacing: 6px;
+  color: var(--blueprint-bright);
+  margin-bottom: 16px;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+.section-heading::after {
+  content: '⌖';
+  display: block;
+  font-size: 22px;
+  color: var(--amber);
+  margin-top: 10px;
+  font-weight: 400;
+  line-height: 1;
+  text-shadow: 0 0 12px rgba(217, 168, 109, 0.4);
+}
+.section-sub {
+  text-align: center;
+  font-family: 'EB Garamond', serif;
+  font-style: italic;
+  color: var(--text-muted);
+  font-size: 15px;
+  letter-spacing: 2px;
+  margin-bottom: 60px;
+}
+
+/* ─── Pipeline Cards ─── */
+.pipeline-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 30px;
+}
+
+.pipe-card {
+  position: relative;
+  background:
+    repeating-linear-gradient(135deg, transparent 0 14px, rgba(79, 143, 204, 0.03) 14px 28px),
+    var(--bg-card);
+  border: 1.5px dashed var(--border-bright);
+  padding: 38px 24px 30px;
+  text-align: center;
+  min-height: 260px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.4s, background 0.4s, transform 0.4s;
+}
+.pipe-card:hover {
+  border-color: var(--blueprint);
+  transform: translateY(-3px);
+}
+.pipe-stage {
+  position: absolute;
+  top: -10px;
+  left: 24px;
+  background: var(--bg);
+  padding: 0 10px;
+  font-family: 'Cinzel', serif;
+  font-size: 9px;
+  letter-spacing: 3px;
+  color: var(--amber);
+  text-transform: uppercase;
+  font-weight: 600;
+}
+.pipe-stage.early   { color: var(--text-muted); }
+.pipe-stage.brewing { color: var(--amber); }
+.pipe-stage.ready   { color: var(--blueprint-bright); }
+.pipe-stage.done    { color: var(--gold-bright); }
+
+.pipe-silhouette {
+  width: 100px;
+  height: 100px;
+  margin: 0 auto 18px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.pipe-silhouette svg {
+  width: 100%;
+  height: 100%;
+  color: var(--blueprint);
+  opacity: 0.5;
+}
+.pipe-silhouette::after {
+  content: '?';
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 48px;
+  color: var(--amber);
+  text-shadow: 0 0 12px rgba(217, 168, 109, 0.6);
+  font-weight: 900;
+}
+.pipe-portrait {
+  width: 150px;
+  height: 150px;
+  margin: 0 auto 18px;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1.5px solid var(--blueprint);
+  box-shadow: 0 0 20px rgba(79, 143, 204, 0.22);
+  position: relative;
+}
+.pipe-portrait img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 18%;
+  display: block;
+}
+.pipe-name {
+  font-family: 'Architects Daughter', cursive;
+  font-size: 18px;
+  color: var(--text);
+  letter-spacing: 1px;
+  margin-bottom: 6px;
+}
+.pipe-genre {
+  font-family: 'Cinzel', serif;
+  font-size: 10px;
+  letter-spacing: 3px;
+  color: var(--blueprint);
+  text-transform: uppercase;
+  margin-bottom: 14px;
+  font-weight: 600;
+}
+.pipe-note {
+  font-family: 'EB Garamond', serif;
+  font-style: italic;
+  font-size: 13px;
+  color: var(--text-muted);
+  line-height: 1.4;
+  letter-spacing: 0.5px;
+}
+
+/* corner tick marks for blueprint feel */
+.pipe-card::before,
+.pipe-card::after {
+  content: '';
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border: 1.5px solid var(--blueprint);
+  opacity: 0.4;
+}
+.pipe-card::before {
+  top: 6px;
+  right: 6px;
+  border-left: 0;
+  border-bottom: 0;
+}
+.pipe-card::after {
+  bottom: 6px;
+  left: 6px;
+  border-right: 0;
+  border-top: 0;
+}
+
+.footer-note {
+  position: relative;
+  z-index: 3;
+  text-align: center;
+  padding: 60px 24px 30px;
+  font-family: 'Architects Daughter', cursive;
+  font-size: 15px;
+  color: var(--text-muted);
+  letter-spacing: 1px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+.footer-note .squiggle {
+  display: inline-block;
+  color: var(--amber);
+  margin: 0 8px;
+  transform: translateY(-2px);
+}
+
+.footer {
+  text-align: center;
+  padding: 40px 24px 60px;
+  color: var(--text-muted);
+  font-family: 'Cinzel', serif;
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  position: relative;
+  z-index: 3;
+  font-weight: 500;
+}
+
+@media (max-width: 768px) {
+  .hero { padding: 130px 20px 60px; }
+  .back-link { top: 14px; left: 14px; padding: 8px 14px; font-size: 10px; }
+  .pipe-card { min-height: 220px; padding: 32px 18px 24px; }
+}
+</style>
+  <!-- GoatCounter analytics (invisible — private dashboard at eurielle.goatcounter.com) -->
+  <script data-goatcounter="https://eurielle.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</head>
+<body>
+
+<a class="back-link" href="favorites.html">← Favorites</a>
+
+<section class="hero">
+  <!-- Drafting tools watermark: compass + T-square + ruler -->
+  <svg class="hero-emblem" viewBox="0 0 400 360" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+    <!-- T-square horizontal -->
+    <line x1="60" y1="290" x2="340" y2="290" stroke-width="3"/>
+    <line x1="60" y1="296" x2="340" y2="296" stroke-width="1" opacity="0.6"/>
+    <!-- T-square vertical -->
+    <line x1="200" y1="100" x2="200" y2="290" stroke-width="3"/>
+    <line x1="206" y1="100" x2="206" y2="290" stroke-width="1" opacity="0.6"/>
+    <!-- Ruler tick marks -->
+    <g stroke-width="1.5" opacity="0.7">
+      <line x1="80" y1="285" x2="80" y2="295"/>
+      <line x1="120" y1="285" x2="120" y2="295"/>
+      <line x1="160" y1="280" x2="160" y2="295"/>
+      <line x1="240" y1="280" x2="240" y2="295"/>
+      <line x1="280" y1="285" x2="280" y2="295"/>
+      <line x1="320" y1="285" x2="320" y2="295"/>
+    </g>
+    <!-- Compass: two legs meeting at a point at top, with a circle being drawn -->
+    <g stroke-width="2.5">
+      <!-- Compass joint (top circle) -->
+      <circle cx="160" cy="60" r="6" fill="currentColor" stroke="none"/>
+      <circle cx="160" cy="60" r="10"/>
+      <!-- Left leg -->
+      <line x1="160" y1="66" x2="100" y2="200"/>
+      <!-- Right leg with pencil tip -->
+      <line x1="160" y1="66" x2="240" y2="200"/>
+      <!-- Pencil tip detail -->
+      <line x1="232" y1="195" x2="248" y2="205"/>
+      <line x1="236" y1="190" x2="252" y2="200"/>
+      <!-- Compass-drawn arc -->
+      <path d="M 100 200 A 90 90 0 0 1 240 200" stroke-dasharray="4 4" opacity="0.7"/>
+    </g>
+    <!-- Small drafted dot details -->
+    <g fill="currentColor" stroke="none" opacity="0.6">
+      <circle cx="100" cy="200" r="2.5"/>
+      <circle cx="240" cy="200" r="2.5"/>
+    </g>
+  </svg>
+
+  <div class="hero-eyebrow">In Development</div>
+  <h1 class="hero-title">The Pipeline</h1>
+  <div class="hero-rule">
+    <div class="rule-line"></div>
+    <span class="stamp">Coming Soon(ish)</span>
+    <div class="rule-line"></div>
+  </div>
+  <div class="hero-sub">characters brewing, drafts in progress, faces taking shape</div>
+</section>
+
+<div class="note-card">
+  These are the bots simmering on the back burner.
+  Some are nearly ready, some are barely an idea.
+  Check back later to see who steps off the blueprint.
+</div>
+
+<main class="content">
+  <h2 class="section-heading">In the Works</h2>
+  <p class="section-sub">all dates and details subject to change · obviously</p>
+
+  <div class="pipeline-grid" id="pipelineGrid"></div>
+</main>
+
+<div class="footer-note">
+  <span class="squiggle">∼</span>
+  more drafts on the desk, just need to give them faces
+  <span class="squiggle">∼</span>
+</div>
+
+<div class="footer">⌖ Eurielle's Gallery · The Pipeline ⌖</div>
+
+<script>
+// ────────────────────────────────────────────────────────────
+//  Pipeline data — edit this list to add/update planned bots
+//  stage: "early" | "brewing" | "ready"
+//  name:  use "???" or "TBA" to keep them mysterious
+// ────────────────────────────────────────────────────────────
+const PIPELINE = [
+  { name: "???", genre: "Romance",   stage: "brewing", note: "Modern Day, Kicked Puppy Energy, Nice Guy" },
+  { name: "???", genre: "Fantasy",   stage: "early",   note: "OC Fae" },
+  { name: "???", genre: "Fantasy",   stage: "early",   note: "Demon" },
+  { name: "Conor O'Malley", genre: "Mafia",     stage: "brewing", note: "Modern Day Irish Mafia.", img: "conor-omalley.png" },
+  { name: "???", genre: "Fantasy",   stage: "early",   note: "COLLAB, Fantasy" },
+  { name: "Dax", genre: "Update",    stage: "brewing", note: "Full Rewrite and new scenes", img: "dax-rewrite.png" },
+  { name: "???", genre: "Historical",   stage: "early",   note: "Lost love/angst" },
+  { name: "???", genre: "Historical",   stage: "early",   note: "Time Travel/Iseki" },
+  { name: "Street Rats Scenario Bot", genre: "Modern",    stage: "done",   note: "The whole band · awaiting release", img: "street-rats-scenario.png" },
+
+];
+
+const STAGE_LABEL = {
+  early:   "Concept",
+  brewing: "In Progress",
+  ready:   "Almost Ready",
+  done:    "Finished · Awaiting Release",
+};
+
+const grid = document.getElementById('pipelineGrid');
+PIPELINE.forEach(p => {
+  const card = document.createElement('div');
+  card.className = 'pipe-card';
+  card.innerHTML = `
+    <div class="pipe-stage ${p.stage}">${STAGE_LABEL[p.stage] || p.stage}</div>
+    ${p.img
+      ? `<div class="pipe-portrait"><img src="${p.img}" alt="${p.name}" loading="lazy"></div>`
+      : `<div class="pipe-silhouette">
+      <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="50" cy="34" r="16"/>
+        <path d="M 22 92 Q 22 60 50 60 Q 78 60 78 92"/>
+      </svg>
+    </div>`}
+    <div class="pipe-name">${p.name}</div>
+    ${p.genre ? `<div class="pipe-genre">${p.genre}</div>` : ''}
+    ${p.note  ? `<div class="pipe-note">${p.note}</div>`  : ''}
+  `;
+  grid.appendChild(card);
+});
+</script>
+
+
+<!-- ──────────────────────────────────────────── -->
+<!-- ✦ Request a Scene widget (shared across all pages) -->
+<!-- Submissions post to Eurielle's private Discord channel -->
+<!-- ──────────────────────────────────────────── -->
+<div id="rsRoot">
+  <button class="rs-tab" type="button" aria-label="Request a scene" onclick="rsOpen()">
+    <span class="rs-tab-glyph">❀</span>
+    <span class="rs-tab-text">Request a scene</span>
+  </button>
+
+  <button class="rs-fab" type="button" aria-label="Request a scene" onclick="rsOpen()">
+    <span class="rs-fab-ping" aria-hidden="true"></span>
+    <span class="rs-fab-glyph">❀</span>
+    <span class="rs-fab-text">Request a Scene</span>
+  </button>
+
+  <div class="rs-backdrop" onclick="rsClose()"></div>
+
+  <aside class="rs-panel" role="dialog" aria-labelledby="rsTitle" aria-hidden="true">
+    <header class="rs-panel-head">
+      <h2 id="rsTitle" class="rs-panel-title">✦ Request a Scene ✦</h2>
+      <button class="rs-close" type="button" aria-label="Close" onclick="rsClose()">×</button>
+    </header>
+
+    <form class="rs-form" onsubmit="return rsSubmit(event)">
+      <p class="rs-intro">
+        leave me a little prompt — anonymous if you'd like, or drop your discord handle for a reply.
+      </p>
+      <p class="rs-note">
+        heads up: i won't write heavily nsfw scenes, but i'm happy to set the tone by implying certain situations — all within site rules ♡
+      </p>
+
+      <label class="rs-field">
+        <span class="rs-label">Your name <span class="rs-opt">(optional)</span></span>
+        <input class="rs-input" name="name" type="text" maxlength="80" placeholder="anonymous">
+      </label>
+
+      <label class="rs-field">
+        <span class="rs-label">Discord handle <span class="rs-opt">(optional, for replies)</span></span>
+        <input class="rs-input" name="handle" type="text" maxlength="80" placeholder="@yourhandle">
+      </label>
+
+      <label class="rs-field">
+        <span class="rs-label">Character or world</span>
+        <input class="rs-input" name="subject" type="text" maxlength="120" placeholder="e.g. Azriel, Sin Anders, Prythian Scenario">
+      </label>
+
+      <label class="rs-field">
+        <span class="rs-label">The scene idea</span>
+        <textarea class="rs-input rs-textarea" name="scene" rows="6" maxlength="1500" required
+                  placeholder="describe the vibe, setting, moment, mood…"></textarea>
+        <span class="rs-help">
+          the more detail, the better — character's emotional state, the location, the goals of the rp you're imagining, the mood you're after.
+        </span>
+      </label>
+
+      <button type="submit" class="rs-submit">
+        <span class="rs-submit-text">Send it ♡</span>
+        <span class="rs-submit-loader" aria-hidden="true">⌬</span>
+      </button>
+
+      <p class="rs-status" id="rsStatus" aria-live="polite"></p>
+    </form>
+
+    <div class="rs-success" id="rsSuccess" hidden>
+      <div class="rs-success-glyph">✦</div>
+      <h3 class="rs-success-title">Sent ♡</h3>
+      <p class="rs-success-msg">your scene request landed in Eurielle's discord.</p>
+      <button type="button" class="rs-success-btn" onclick="rsReset()">send another</button>
+    </div>
+  </aside>
+</div>
+
+<style>
+  #rsRoot { font-family: 'Cormorant Garamond', Georgia, serif; }
+
+  /* ── Desktop: enhanced vertical tab ───────────────────── */
+  .rs-tab {
+    position: fixed;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+    z-index: 9990;
+    background: linear-gradient(180deg, rgba(74, 30, 50, 0.96) 0%, rgba(42, 19, 32, 0.96) 100%);
+    border: 1.5px solid rgba(232, 184, 200, 0.65);
+    border-right: none;
+    border-radius: 14px 0 0 14px;
+    color: #ffd8e2;
+    padding: 24px 14px 26px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    cursor: pointer;
+    transition: background 0.3s, border-color 0.3s, color 0.3s, padding 0.3s;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    font-family: inherit;
+    animation:
+      rsTabEntrance 0.9s cubic-bezier(0.34, 1.56, 0.64, 1) 0.5s both,
+      rsTabAura 3.5s ease-in-out 1.4s infinite;
+  }
+  .rs-tab:hover {
+    background: linear-gradient(180deg, rgba(94, 38, 64, 0.98) 0%, rgba(58, 24, 40, 0.98) 100%);
+    border-color: rgba(255, 216, 226, 0.95);
+    color: #ffffff;
+    padding-right: 18px;
+  }
+  .rs-tab-glyph {
+    font-size: 22px;
+    text-shadow: 0 0 14px rgba(255, 184, 200, 0.8);
+    animation: rsGlyphPulse 2.6s ease-in-out infinite;
+  }
+  @keyframes rsGlyphPulse {
+    0%, 100% { opacity: 0.9; transform: scale(1); }
+    50%      { opacity: 1;   transform: scale(1.18); text-shadow: 0 0 22px rgba(255, 184, 200, 1); }
+  }
+  .rs-tab-text {
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    font-family: 'Cinzel', Georgia, serif;
+    font-size: 11px;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    font-weight: 700;
+  }
+  @keyframes rsTabEntrance {
+    0%   { right: -90px; opacity: 0; }
+    60%  { right: 8px;   opacity: 1; }
+    100% { right: 0;     opacity: 1; }
+  }
+  @keyframes rsTabAura {
+    0%, 100% {
+      box-shadow:
+        -10px 0 32px rgba(232, 184, 200, 0.22),
+        0 0 0 0 rgba(232, 184, 200, 0.0);
+    }
+    50% {
+      box-shadow:
+        -16px 0 56px rgba(232, 184, 200, 0.45),
+        -2px 0 0 rgba(255, 216, 226, 0.25);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .rs-tab, .rs-tab-glyph { animation: none; }
+  }
+
+  /* ── Mobile: extended pill FAB ────────────────────────── */
+  .rs-fab {
+    display: none;
+    position: fixed;
+    bottom: 22px;
+    right: 18px;
+    z-index: 9990;
+    background: linear-gradient(135deg, #823250 0%, #4a1f38 100%);
+    border: 1.5px solid rgba(255, 216, 226, 0.7);
+    color: #ffffff;
+    padding: 14px 22px 14px 18px;
+    border-radius: 999px;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    font-family: 'Cinzel', Georgia, serif;
+    box-shadow:
+      0 12px 32px rgba(0, 0, 0, 0.55),
+      0 0 28px rgba(232, 184, 200, 0.35);
+    -webkit-tap-highlight-color: transparent;
+    overflow: visible;
+    isolation: isolate;
+  }
+  .rs-fab:active { transform: scale(0.96); }
+  .rs-fab-glyph {
+    font-size: 22px;
+    color: #ffd8e2;
+    text-shadow: 0 0 12px rgba(255, 184, 200, 0.9);
+    line-height: 1;
+  }
+  .rs-fab-text {
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    font-weight: 700;
+    line-height: 1;
+  }
+  .rs-fab-ping {
+    position: absolute;
+    inset: -2px;
+    border-radius: 999px;
+    border: 2px solid rgba(255, 216, 226, 0.6);
+    animation: rsFabPing 2.2s ease-out infinite;
+    pointer-events: none;
+    z-index: -1;
+  }
+  @keyframes rsFabPing {
+    0%   { transform: scale(1);    opacity: 0.85; }
+    80%  { transform: scale(1.25); opacity: 0;    }
+    100% { transform: scale(1.25); opacity: 0;    }
+  }
+
+  /* Swap point: hide vertical tab, show FAB */
+  @media (max-width: 640px) {
+    .rs-tab { display: none; }
+    .rs-fab { display: inline-flex; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .rs-fab-ping { animation: none; }
+  }
+
+  /* Backdrop */
+  .rs-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    z-index: 9995;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.35s ease, visibility 0.35s;
+  }
+  #rsRoot.is-open .rs-backdrop { opacity: 1; visibility: visible; }
+
+  /* Panel */
+  .rs-panel {
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100vh;
+    width: min(440px, 100%);
+    background: linear-gradient(180deg, rgba(20, 10, 18, 0.98) 0%, rgba(8, 4, 10, 0.98) 100%);
+    border-left: 1px solid rgba(232, 184, 200, 0.3);
+    z-index: 9996;
+    transform: translateX(100%);
+    transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+    overflow-y: auto;
+    box-shadow: -30px 0 80px rgba(0, 0, 0, 0.6);
+    color: #f0e8f0;
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+  }
+  #rsRoot.is-open .rs-panel { transform: translateX(0); }
+
+  .rs-panel-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 24px 30px 16px;
+    border-bottom: 1px solid rgba(232, 184, 200, 0.15);
+    position: sticky;
+    top: 0;
+    background: inherit;
+    z-index: 2;
+  }
+  .rs-panel-title {
+    font-family: 'Cinzel Decorative', 'Cinzel', Georgia, serif;
+    font-size: 17px;
+    letter-spacing: 3px;
+    font-weight: 700;
+    background: linear-gradient(180deg, #f0d4d8 0%, #e8b8c8 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin: 0;
+  }
+  .rs-close {
+    background: transparent;
+    border: 1px solid rgba(232, 184, 200, 0.3);
+    color: #e8b8c8;
+    font-size: 22px;
+    width: 36px;
+    height: 36px;
+    line-height: 1;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: color 0.2s, border-color 0.2s, transform 0.25s;
+    font-family: inherit;
+    padding: 0;
+  }
+  .rs-close:hover {
+    color: #ffd8e2;
+    border-color: rgba(232, 184, 200, 0.7);
+    transform: rotate(90deg);
+  }
+
+  .rs-form    { padding: 22px 30px 30px; }
+  .rs-success { padding: 60px 30px; text-align: center; }
+
+  .rs-intro {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-style: italic;
+    font-size: 15px;
+    line-height: 1.55;
+    color: #b8a0b0;
+    margin: 0 0 14px;
+  }
+  .rs-note {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 13.5px;
+    line-height: 1.55;
+    color: #c89aa8;
+    margin: 0 0 24px;
+    padding: 12px 14px;
+    background: rgba(232, 184, 200, 0.06);
+    border-left: 2px solid rgba(232, 184, 200, 0.45);
+    border-radius: 0 6px 6px 0;
+  }
+
+  .rs-field { display: block; margin-bottom: 18px; }
+  .rs-label {
+    display: block;
+    font-family: 'Cinzel', Georgia, serif;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #c89aa8;
+    margin-bottom: 8px;
+    font-weight: 600;
+  }
+  .rs-opt {
+    color: #6f5e6a;
+    font-weight: 500;
+    text-transform: none;
+    letter-spacing: 1px;
+  }
+  .rs-input {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(232, 184, 200, 0.2);
+    color: #f0e8f0;
+    padding: 12px 14px;
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 15px;
+    border-radius: 6px;
+    transition: border-color 0.25s, background 0.25s;
+    box-sizing: border-box;
+  }
+  .rs-input:focus {
+    outline: none;
+    border-color: rgba(232, 184, 200, 0.6);
+    background: rgba(255, 255, 255, 0.06);
+  }
+  .rs-input::placeholder { color: #6f5e6a; font-style: italic; }
+  .rs-textarea { resize: vertical; min-height: 110px; line-height: 1.5; }
+
+  .rs-help {
+    display: block;
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-style: italic;
+    font-size: 13px;
+    line-height: 1.5;
+    color: #8a7480;
+    margin-top: 8px;
+  }
+
+  .rs-submit {
+    width: 100%;
+    background: linear-gradient(135deg, #6a2840 0%, #3a1828 100%);
+    border: 1px solid rgba(232, 184, 200, 0.5);
+    color: #ffd8e2;
+    padding: 14px 24px;
+    font-family: 'Cinzel', Georgia, serif;
+    font-size: 12px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.3s, border-color 0.3s, transform 0.2s, box-shadow 0.3s;
+    margin-top: 8px;
+    font-weight: 600;
+  }
+  .rs-submit:hover {
+    background: linear-gradient(135deg, #823250 0%, #4a1f38 100%);
+    border-color: rgba(232, 184, 200, 0.9);
+    transform: translateY(-1px);
+    box-shadow: 0 8px 24px rgba(232, 184, 200, 0.22);
+  }
+  .rs-submit:disabled { opacity: 0.6; cursor: wait; transform: none; }
+  .rs-submit-loader {
+    display: none;
+    margin-left: 10px;
+    animation: rsSpin 1s linear infinite;
+  }
+  .rs-submit.is-loading .rs-submit-text   { opacity: 0.7; }
+  .rs-submit.is-loading .rs-submit-loader { display: inline-block; }
+  @keyframes rsSpin { to { transform: rotate(360deg); } }
+
+  .rs-status {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-style: italic;
+    font-size: 14px;
+    color: #c89aa8;
+    margin: 14px 0 0;
+    text-align: center;
+    min-height: 1em;
+  }
+  .rs-status.is-error { color: #d88080; }
+
+  .rs-success-glyph {
+    font-size: 48px;
+    color: #e8b8c8;
+    text-shadow: 0 0 26px rgba(232, 184, 200, 0.55);
+    margin-bottom: 16px;
+  }
+  .rs-success-title {
+    font-family: 'Cinzel Decorative', 'Cinzel', Georgia, serif;
+    font-size: 28px;
+    letter-spacing: 6px;
+    margin: 0 0 12px;
+    background: linear-gradient(180deg, #f0d4d8 0%, #e8b8c8 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .rs-success-msg {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-style: italic;
+    color: #b8a0b0;
+    margin: 0 0 28px;
+    line-height: 1.5;
+  }
+  .rs-success-btn {
+    background: transparent;
+    border: 1px solid rgba(232, 184, 200, 0.4);
+    color: #e8b8c8;
+    padding: 12px 24px;
+    font-family: 'Cinzel', Georgia, serif;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.25s, border-color 0.25s, color 0.25s;
+    font-weight: 600;
+  }
+  .rs-success-btn:hover {
+    border-color: rgba(232, 184, 200, 0.8);
+    color: #ffd8e2;
+    background: rgba(232, 184, 200, 0.08);
+  }
+
+  /* Mobile: panel goes full-width */
+  @media (max-width: 540px) {
+    .rs-panel { width: 100%; }
+    .rs-form  { padding: 18px 22px 26px; }
+  }
+</style>
+
+<script>
+  (function() {
+    const WEBHOOK_URL = "https://discord.com/api/webhooks/1506765243127431218/QwNPd5Q_IXZVf2cupBDRqRsE3rUAiEgL2cVYXqHLK0ECxIlLD2lUrV60QFA1lzWWYw57";
+    const root         = document.getElementById('rsRoot');
+    const form         = root.querySelector('.rs-form');
+    const status       = document.getElementById('rsStatus');
+    const successPanel = document.getElementById('rsSuccess');
+    const submitBtn    = root.querySelector('.rs-submit');
+    const panel        = root.querySelector('.rs-panel');
+
+    window.rsOpen = function() {
+      root.classList.add('is-open');
+      panel.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    };
+    window.rsClose = function() {
+      root.classList.remove('is-open');
+      panel.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    };
+    window.rsReset = function() {
+      form.reset();
+      form.hidden = false;
+      successPanel.hidden = true;
+      status.textContent = '';
+      status.classList.remove('is-error');
+    };
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && root.classList.contains('is-open')) window.rsClose();
+    });
+
+    window.rsSubmit = async function(e) {
+      e.preventDefault();
+      status.textContent = '';
+      status.classList.remove('is-error');
+
+      const data    = new FormData(form);
+      const name    = (data.get('name')    || '').toString().trim() || 'Anonymous';
+      const handle  = (data.get('handle')  || '').toString().trim();
+      const subject = (data.get('subject') || '').toString().trim() || '—';
+      const scene   = (data.get('scene')   || '').toString().trim();
+
+      if (!scene) {
+        status.textContent = 'tell me the scene first ♡';
+        status.classList.add('is-error');
+        return false;
+      }
+
+      const page = (document.title || location.pathname).replace(" · Eurielle's Gallery", '');
+      const embed = {
+        title: '✦ New Scene Request',
+        color: 0xe8b8c8,
+        fields: [
+          { name: 'From',  value: name + (handle ? ' (' + handle + ')' : ''), inline: true },
+          { name: 'Page',  value: page || 'Gallery', inline: true },
+          { name: 'Character / World', value: subject, inline: false },
+          { name: 'Scene', value: scene.length > 1024 ? scene.slice(0, 1020) + '…' : scene, inline: false },
+        ],
+        timestamp: new Date().toISOString(),
+        footer: { text: 'sent from ' + location.host },
+      };
+
+      submitBtn.disabled = true;
+      submitBtn.classList.add('is-loading');
+      try {
+        const res = await fetch(WEBHOOK_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ embeds: [embed] }),
+        });
+        if (!res.ok) throw new Error('Webhook error: ' + res.status);
+        form.hidden = true;
+        successPanel.hidden = false;
+      } catch (err) {
+        status.textContent = 'something went wrong — try again in a moment?';
+        status.classList.add('is-error');
+        console.error(err);
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.classList.remove('is-loading');
+      }
+      return false;
+    };
+  })();
+</script>
+<!-- ✦ end Request a Scene widget ✦ -->
+
+</body>
+</html>

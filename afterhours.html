@@ -3,34 +3,28 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>ACOTAR · Eurielle's Gallery</title>
+<title>Modern Day OC · Eurielle's Gallery</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
 <style>
 :root {
-  --ink: #000000;
-  --bg: #02020a;
-  --bg-card: #0d0a1c;
-  --bg-card-hover: #18132d;
-  --border: #2a1f48;
-  --border-bright: #463470;
-  --text: #f2ecff;
-  --text-dim: #b8a8d4;
-  --text-muted: #6f5e8a;
-  --silver: #c8c4d8;
-  --silver-bright: #e8e4f5;
-  --gold: #c8a468;
-  --gold-bright: #e8c878;
-  --gold-deep: #a8814a;
-  --violet: #7c3aed;
-  --violet-bright: #9d5ef9;
-  --star: #ffffff;
-  --rose: #c89aa8;
-  --rose-bright: #e2b8c8;
-  --crimson: #8b1a2e;
-  --spicy: #a82238;
+  --bg: #0a0d11;
+  --bg-deep: #06080b;
+  --bg-card: #12161c;
+  --bg-card-hover: #1a1f27;
+  --border: #232a35;
+  --border-bright: #3a4555;
+  --text: #e6e8ec;
+  --text-dim: #a0a8b4;
+  --text-muted: #6a727e;
+  --accent: #4ba9c9;
+  --accent-bright: #6fc5e0;
+  --amber: #ff9555;
+  --amber-bright: #ffb085;
+  --crimson: #c8344b;
+  --spicy: #c8344b;
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -38,43 +32,34 @@ html { scroll-behavior: smooth; }
 body {
   background: var(--bg);
   color: var(--text);
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 18px;
-  line-height: 1.7;
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
   min-height: 100vh;
   position: relative;
   overflow-x: hidden;
 }
 
-/* Ambient: pure Velaris night — black sky with the faintest violet atmosphere at the upper horizon */
+/* Ambient streetlight pools */
 body::before {
   content: '';
   position: fixed;
   inset: 0;
   background:
-    radial-gradient(ellipse 1400px 500px at 50% -20%, rgba(124, 58, 237, 0.10), transparent 70%),
-    radial-gradient(ellipse 900px 400px at 50% 105%, rgba(200, 164, 104, 0.04), transparent 70%);
+    radial-gradient(ellipse 700px 500px at 5% 0%, rgba(255, 149, 85, 0.07), transparent 60%),
+    radial-gradient(ellipse 700px 500px at 95% 100%, rgba(75, 169, 201, 0.05), transparent 60%),
+    radial-gradient(ellipse 500px 400px at 50% 50%, rgba(35, 42, 53, 0.3), transparent 70%);
   pointer-events: none;
   z-index: 0;
 }
 
-/* Subtle vignette — black on black, kept very light */
-body::after {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background: radial-gradient(ellipse at center, transparent 60%, rgba(0, 0, 0, 0.6) 100%);
-  pointer-events: none;
-  z-index: 2;
-}
-
-/* Star canvas */
-#starCanvas {
+/* Rain canvas overlay */
+#rainCanvas {
   position: fixed;
   inset: 0;
   pointer-events: none;
   z-index: 1;
-  opacity: 0.95;
+  opacity: 0.45;
 }
 
 /* Back link */
@@ -83,180 +68,73 @@ body::after {
   top: 24px;
   left: 24px;
   z-index: 50;
-  font-family: 'Cinzel', serif;
+  font-family: 'Inter', sans-serif;
   font-size: 11px;
   letter-spacing: 4px;
   color: var(--text-dim);
   text-transform: uppercase;
   text-decoration: none;
-  padding: 10px 18px;
+  padding: 11px 18px;
   border: 1px solid var(--border);
-  background: rgba(13, 4, 32, 0.7);
+  background: rgba(10, 13, 17, 0.7);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-  font-weight: 600;
-  transition: color 0.25s, border-color 0.25s;
+  font-weight: 500;
+  transition: color 0.25s, border-color 0.25s, background 0.25s;
 }
 .back-link:hover {
-  color: var(--gold-bright);
-  border-color: var(--gold);
+  color: var(--amber);
+  border-color: var(--amber);
 }
 
 /* ─── Hero ─── */
 .hero {
   position: relative;
   z-index: 3;
-  padding: 170px 24px 100px;
+  padding: 180px 24px 120px;
   text-align: center;
-  max-width: 1200px;
+  max-width: 1100px;
   margin: 0 auto;
 }
-.hero-ornament {
-  position: absolute;
-  top: 40px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: min(620px, 92vw);
-  height: auto;
-  opacity: 0.18;
-  pointer-events: none;
-  color: var(--gold);
-  z-index: -1;
-  filter: drop-shadow(0 0 24px rgba(200, 164, 104, 0.2));
-}
-.hero-ornament .wing-fill { fill: var(--silver); opacity: 0.45; }
-.hero-ornament .rose-stroke { stroke: var(--gold-bright); }
-.hero-ornament .thorn-fill  { fill: var(--gold); }
-.hero-ornament .leaf-stroke { stroke: var(--silver); opacity: 0.7; }
-.hero-ornament .star-fill   { fill: var(--silver-bright); }
-
-/* Mountain horizon at the foot of the hero — Velaris mist */
-.hero-mountains {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 180px;
-  pointer-events: none;
-  z-index: -1;
-  opacity: 0.4;
-}
-.hero-mountains svg { width: 100%; height: 100%; display: block; }
-.hero-mountains .peak-near { fill: rgba(8, 7, 26, 0.95); }
-.hero-mountains .peak-far  { fill: rgba(46, 29, 77, 0.55); }
-.hero-mountains .lights circle { fill: var(--gold-bright); }
-
-/* Drifting petals */
-.petals {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 2;
-  overflow: hidden;
-}
-.petal {
-  position: absolute;
-  top: -40px;
-  width: 14px;
-  height: 14px;
-  background: radial-gradient(ellipse at 30% 30%, var(--rose-bright), var(--rose) 60%, transparent 75%);
-  border-radius: 80% 20% 80% 20%;
-  opacity: 0;
-  animation: petalFall 22s linear infinite;
-  filter: blur(0.5px);
-}
-.petal:nth-child(1)  { left:  8%;  animation-duration: 28s; animation-delay:  0s;  opacity: 0.55; }
-.petal:nth-child(2)  { left: 22%;  animation-duration: 32s; animation-delay: -6s;  opacity: 0.4;  width: 11px; height: 11px; }
-.petal:nth-child(3)  { left: 38%;  animation-duration: 26s; animation-delay: -14s; opacity: 0.5; }
-.petal:nth-child(4)  { left: 52%;  animation-duration: 34s; animation-delay: -22s; opacity: 0.35; width: 16px; height: 16px; }
-.petal:nth-child(5)  { left: 68%;  animation-duration: 30s; animation-delay: -8s;  opacity: 0.5; }
-.petal:nth-child(6)  { left: 82%;  animation-duration: 36s; animation-delay: -18s; opacity: 0.4;  width: 12px; height: 12px; }
-.petal:nth-child(7)  { left: 92%;  animation-duration: 28s; animation-delay: -3s;  opacity: 0.45; }
-.petal:nth-child(8)  { left: 14%;  animation-duration: 38s; animation-delay: -26s; opacity: 0.35; width: 13px; height: 13px; }
-.petal:nth-child(9)  { left: 46%;  animation-duration: 24s; animation-delay: -11s; opacity: 0.5; }
-.petal:nth-child(10) { left: 76%;  animation-duration: 32s; animation-delay: -19s; opacity: 0.4;  width: 10px; height: 10px; }
-
-@keyframes petalFall {
-  0%   { transform: translate(0, -40px) rotate(0deg);    opacity: 0; }
-  8%   { opacity: var(--petal-opacity, 0.5); }
-  50%  { transform: translate(60px, 50vh) rotate(220deg); }
-  100% { transform: translate(-30px, 105vh) rotate(540deg); opacity: 0; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .petal { animation: none; display: none; }
-}
-
-.hero-eyebrow {
-  font-family: 'Cinzel', serif;
-  font-size: 11px;
-  letter-spacing: 8px;
-  color: var(--gold);
-  text-transform: uppercase;
-  margin-bottom: 30px;
-  font-weight: 500;
-  opacity: 0.95;
-  display: inline-flex;
-  align-items: center;
-  gap: 16px;
-}
-.hero-eyebrow::before,
-.hero-eyebrow::after {
-  content: '';
-  display: inline-block;
-  width: 36px;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, var(--gold), transparent);
-}
 .hero-title {
-  font-family: 'Cinzel Decorative', serif;
-  font-size: clamp(56px, 11vw, 130px);
+  font-family: 'Bodoni Moda', serif;
+  font-size: clamp(46px, 8.5vw, 100px);
   font-weight: 900;
-  letter-spacing: 14px;
+  letter-spacing: -1.5px;
   color: var(--text);
   line-height: 1;
   margin-bottom: 36px;
-  background: linear-gradient(180deg, var(--silver-bright) 0%, var(--silver) 25%, var(--gold-bright) 60%, var(--gold-deep) 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  text-shadow: 0 0 80px rgba(232, 200, 120, 0.25);
-  filter: drop-shadow(0 4px 12px rgba(124, 58, 237, 0.2));
+  font-style: italic;
 }
 .hero-rule {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 22px;
+  gap: 18px;
   margin: 32px auto 28px;
 }
 .hero-rule .rule-line {
   height: 1px;
-  width: 160px;
-  background: linear-gradient(90deg, transparent, var(--gold), var(--silver), var(--gold), transparent);
+  width: 120px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
 }
-.hero-rule .star-cluster {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  color: var(--gold-bright);
-  font-size: 12px;
-  text-shadow: 0 0 14px rgba(232, 200, 120, 0.7);
-}
-.hero-rule .star-cluster .small { font-size: 8px;  opacity: 0.6; color: var(--silver); }
-.hero-rule .star-cluster .mid   { font-size: 16px; }
-.hero-rule .star-cluster .rose-glyph {
-  color: var(--rose-bright);
-  font-size: 14px;
-  text-shadow: 0 0 12px rgba(226, 184, 200, 0.5);
+.hero-rule .rule-icon {
+  color: var(--accent);
+  font-size: 9px;
+  letter-spacing: 6px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  text-transform: uppercase;
 }
 .hero-sub {
-  font-family: 'Cormorant Garamond', serif;
-  font-style: italic;
-  font-size: clamp(18px, 2.2vw, 26px);
+  font-family: 'Inter', sans-serif;
+  font-size: clamp(13px, 1.5vw, 16px);
   color: var(--text-dim);
-  letter-spacing: 3px;
-  max-width: 760px;
+  letter-spacing: 6px;
+  text-transform: uppercase;
+  max-width: 700px;
   margin: 0 auto;
+  font-weight: 300;
 }
 
 /* ─── Content ─── */
@@ -268,33 +146,26 @@ body::after {
   padding: 40px 24px 120px;
 }
 .section-heading {
-  font-family: 'Cinzel Decorative', serif;
-  font-size: clamp(26px, 3.6vw, 42px);
-  text-align: center;
-  letter-spacing: 6px;
-  background: linear-gradient(180deg, var(--silver-bright) 0%, var(--gold-bright) 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  margin-bottom: 70px;
+  font-family: 'Bodoni Moda', serif;
+  font-size: clamp(20px, 2.6vw, 30px);
+  font-weight: 500;
+  letter-spacing: 12px;
+  color: var(--text);
   text-transform: uppercase;
-  font-weight: 700;
+  margin-bottom: 70px;
+  text-align: center;
   position: relative;
 }
 .section-heading::after {
-  content: '✦  ❀  ✦';
+  content: '';
   display: block;
-  font-size: 16px;
-  color: var(--gold-bright);
-  letter-spacing: 14px;
-  margin-top: 16px;
-  font-weight: 400;
-  line-height: 1;
-  text-shadow: 0 0 16px rgba(232, 200, 120, 0.5);
-  -webkit-text-fill-color: var(--gold-bright);
+  width: 70px;
+  height: 1px;
+  background: var(--amber);
+  margin: 18px auto 0;
 }
 
-/* ─── Character Cards ─── */
+/* ─── Character Cards (dossier style) ─── */
 .char-cards {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
@@ -309,54 +180,17 @@ body::after {
   transition: transform 0.4s, border-color 0.4s, box-shadow 0.4s;
   overflow: hidden;
 }
-.char-card::before {
-  content: '';
-  position: absolute;
-  inset: 10px;
-  border: 1px solid var(--silver);
-  opacity: 0;
-  transition: opacity 0.4s;
-  pointer-events: none;
-  z-index: 3;
-}
-/* Star corner decorations */
-.char-card .corner {
-  position: absolute;
-  width: 18px;
-  height: 18px;
-  pointer-events: none;
-  z-index: 4;
-  color: var(--silver);
-  opacity: 0.4;
-  transition: opacity 0.4s, color 0.4s;
-  font-size: 14px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.char-card .corner.tl { top: 8px; left: 8px; }
-.char-card .corner.tr { top: 8px; right: 8px; }
-.char-card .corner.bl { bottom: 8px; left: 8px; }
-.char-card .corner.br { bottom: 8px; right: 8px; }
-.char-card:hover .corner { opacity: 1; color: var(--gold-bright); text-shadow: 0 0 10px rgba(232, 200, 120, 0.7); }
-
 .char-card:hover {
-  transform: translateY(-8px);
-  border-color: var(--silver);
-  box-shadow:
-    0 24px 70px rgba(0,0,0,0.7),
-    0 0 60px rgba(157, 94, 249, 0.18),
-    0 0 0 1px rgba(232, 200, 120, 0.15) inset,
-    0 -40px 60px -20px rgba(200, 154, 168, 0.08) inset;
+  transform: translateY(-6px);
+  border-color: var(--amber);
+  box-shadow: 0 24px 60px rgba(0,0,0,0.65), 0 0 40px rgba(255, 149, 85, 0.08);
 }
-.char-card:hover::before { opacity: 0.6; }
-
 .char-card-img-wrap {
   width: 100%;
   height: 440px;
   position: relative;
   overflow: hidden;
-  background: var(--ink);
+  background: var(--bg-deep);
 }
 .char-card-img-wrap::after {
   content: '';
@@ -369,42 +203,48 @@ body::after {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.6s;
+  transition: transform 0.6s ease, filter 0.4s;
+  filter: saturate(0.85) contrast(1.05);
 }
-.char-card:hover .char-card-img { transform: scale(1.04); }
+.char-card:hover .char-card-img {
+  transform: scale(1.04);
+  filter: saturate(1) contrast(1.1);
+}
 .char-card-body {
   padding: 22px 24px 28px;
   position: relative;
   z-index: 2;
 }
 .char-card-name {
-  font-family: 'Cinzel Decorative', serif;
-  font-size: 24px;
+  font-family: 'Bodoni Moda', serif;
+  font-size: 26px;
   font-weight: 700;
   color: var(--text);
   margin-bottom: 6px;
-  letter-spacing: 1px;
-  line-height: 1.2;
+  font-style: italic;
+  letter-spacing: -0.5px;
+  line-height: 1.15;
 }
 .char-card-desc {
-  font-family: 'Cormorant Garamond', serif;
-  font-style: italic;
-  font-size: 14px;
-  color: var(--text-dim);
-  letter-spacing: 1px;
+  font-family: 'Inter', sans-serif;
+  font-size: 10px;
+  color: var(--accent);
+  letter-spacing: 3px;
+  text-transform: uppercase;
   margin-bottom: 14px;
+  font-weight: 600;
 }
 .char-card-count {
-  font-family: 'Cinzel', serif;
+  font-family: 'Inter', sans-serif;
   font-size: 10px;
   color: var(--text-muted);
-  letter-spacing: 3px;
+  letter-spacing: 2px;
   text-transform: uppercase;
   margin-bottom: 20px;
   font-weight: 500;
 }
 .spicy-tag {
-  color: var(--spicy);
+  color: var(--crimson);
   margin-left: 6px;
   font-weight: 600;
 }
@@ -413,7 +253,7 @@ body::after {
   border: 1px solid var(--border-bright);
   color: var(--text);
   padding: 11px 22px;
-  font-family: 'Cinzel', serif;
+  font-family: 'Inter', sans-serif;
   font-size: 11px;
   letter-spacing: 3px;
   text-transform: uppercase;
@@ -422,21 +262,22 @@ body::after {
   font-weight: 600;
 }
 .view-btn:hover {
-  background: var(--gold);
-  color: var(--ink);
-  border-color: var(--gold);
+  background: var(--amber);
+  color: var(--bg-deep);
+  border-color: var(--amber);
 }
 
 /* ─── Gallery Overlay ─── */
 .gallery-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.97);
+  background: rgba(6, 8, 11, 0.97);
   z-index: 100;
   display: none;
   flex-direction: column;
   overflow-y: auto;
   backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
 }
 .gallery-overlay.open { display: flex; }
 .gallery-overlay-header {
@@ -447,8 +288,9 @@ body::after {
   border-bottom: 1px solid var(--border);
   position: sticky;
   top: 0;
-  background: rgba(0, 0, 0, 0.92);
+  background: rgba(6, 8, 11, 0.92);
   backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
   z-index: 5;
   gap: 20px;
 }
@@ -457,29 +299,30 @@ body::after {
   border: 1px solid var(--border-bright);
   color: var(--text);
   padding: 10px 18px;
-  font-family: 'Cinzel', serif;
+  font-family: 'Inter', sans-serif;
   font-size: 11px;
   letter-spacing: 3px;
   text-transform: uppercase;
   cursor: pointer;
-  transition: color 0.2s, border-color 0.2s;
+  transition: color 0.2s, border-color 0.2s, background 0.2s;
   font-weight: 600;
   flex-shrink: 0;
 }
 .gallery-close-btn:hover {
-  color: var(--gold-bright);
-  border-color: var(--gold);
+  color: var(--amber);
+  border-color: var(--amber);
 }
 .gallery-overlay-title {
-  font-family: 'Cinzel Decorative', serif;
-  font-size: 24px;
+  font-family: 'Bodoni Moda', serif;
+  font-size: 26px;
   font-weight: 700;
   color: var(--text);
+  font-style: italic;
   flex: 1;
   text-align: center;
 }
 .gallery-overlay-count {
-  font-family: 'Cinzel', serif;
+  font-family: 'Inter', sans-serif;
   font-size: 11px;
   letter-spacing: 3px;
   color: var(--text-muted);
@@ -495,7 +338,7 @@ body::after {
   width: 100%;
 }
 .gallery-section-title {
-  font-family: 'Cinzel', serif;
+  font-family: 'Inter', sans-serif;
   font-size: 11px;
   letter-spacing: 4px;
   color: var(--text-muted);
@@ -512,52 +355,6 @@ body::after {
   height: 1px;
   background: var(--border);
 }
-
-/* ─── Bot Link CTA (links out to DreamjourneyAI) ─── */
-.bot-link-bar {
-  display: flex;
-  justify-content: center;
-  margin: 0 0 50px;
-}
-.bot-link-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 14px;
-  padding: 14px 32px;
-  font-family: 'Cinzel', serif;
-  font-size: 11.5px;
-  letter-spacing: 4px;
-  text-transform: uppercase;
-  color: var(--text);
-  background: linear-gradient(135deg, rgba(124, 58, 237, 0.12), rgba(212, 175, 55, 0.14));
-  border: 1px solid var(--gold);
-  text-decoration: none;
-  font-weight: 600;
-  position: relative;
-  transition: background 0.35s, border-color 0.35s, transform 0.35s, box-shadow 0.35s, color 0.35s, letter-spacing 0.35s;
-}
-.bot-link-btn:hover {
-  background: linear-gradient(135deg, var(--violet) 0%, var(--gold) 100%);
-  border-color: var(--gold-bright);
-  transform: translateY(-2px);
-  box-shadow: 0 10px 30px rgba(124, 58, 237, 0.28), 0 0 16px rgba(212, 175, 55, 0.18);
-  color: var(--star);
-  letter-spacing: 5px;
-}
-.bot-link-btn .bot-link-star {
-  color: var(--gold-bright);
-  font-size: 13px;
-  transition: transform 0.5s, color 0.35s;
-}
-.bot-link-btn:hover .bot-link-star {
-  color: var(--star);
-  transform: scale(1.15) rotate(72deg);
-}
-.bot-link-btn .bot-link-arrow {
-  font-size: 13px;
-  transition: transform 0.35s;
-}
-.bot-link-btn:hover .bot-link-arrow { transform: translate(3px, -3px); }
 .gallery-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -577,7 +374,9 @@ body::after {
   display: block;
   transition: transform 0.4s;
 }
-.gallery-item:hover img, .gallery-item:hover video { transform: scale(1.04); }
+.gallery-item:hover img, .gallery-item:hover video {
+  transform: scale(1.04);
+}
 .gallery-caption {
   position: absolute;
   bottom: 0;
@@ -585,7 +384,7 @@ body::after {
   right: 0;
   background: linear-gradient(180deg, transparent, rgba(0,0,0,0.88));
   padding: 36px 16px 14px;
-  font-family: 'Cinzel', serif;
+  font-family: 'Inter', sans-serif;
   font-size: 11px;
   letter-spacing: 2.5px;
   color: var(--text);
@@ -593,15 +392,20 @@ body::after {
   font-weight: 500;
 }
 
+/* Spicy divider */
 .spicy-divider {
   display: flex;
   align-items: center;
   gap: 16px;
   margin: 50px 0 30px;
 }
-.spicy-divider .line { flex: 1; height: 1px; background: var(--crimson); }
+.spicy-divider .line {
+  flex: 1;
+  height: 1px;
+  background: var(--crimson);
+}
 .section-title {
-  font-family: 'Cinzel', serif;
+  font-family: 'Inter', sans-serif;
   font-size: 11px;
   letter-spacing: 4px;
   text-transform: uppercase;
@@ -627,7 +431,7 @@ body::after {
 }
 .lb-btn {
   position: absolute;
-  background: rgba(26, 14, 46, 0.85);
+  background: rgba(18, 22, 28, 0.85);
   border: 1px solid var(--border-bright);
   color: var(--text);
   width: 48px;
@@ -639,11 +443,12 @@ body::after {
   justify-content: center;
   transition: background 0.2s, color 0.2s, border-color 0.2s;
   backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
 .lb-btn:hover {
-  background: var(--gold);
-  color: var(--ink);
-  border-color: var(--gold);
+  background: var(--amber);
+  color: var(--bg-deep);
+  border-color: var(--amber);
 }
 .lb-close { top: 24px; right: 24px; }
 .lb-prev { left: 24px; top: 50%; transform: translateY(-50%); }
@@ -653,8 +458,9 @@ body::after {
 .agegate {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.97);
+  background: rgba(6, 8, 11, 0.97);
   backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   z-index: 300;
   display: none;
   align-items: center;
@@ -671,18 +477,17 @@ body::after {
   text-align: center;
 }
 .agegate-title {
-  font-family: 'Cinzel Decorative', serif;
-  font-size: 22px;
+  font-family: 'Bodoni Moda', serif;
+  font-size: 24px;
   font-weight: 700;
-  color: var(--spicy);
-  letter-spacing: 4px;
-  text-transform: uppercase;
+  font-style: italic;
+  color: var(--crimson);
+  letter-spacing: 1px;
   margin-bottom: 22px;
 }
 .agegate-text {
-  font-family: 'Cormorant Garamond', serif;
-  font-style: italic;
-  font-size: 15px;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
   color: var(--text-dim);
   line-height: 1.65;
   margin-bottom: 28px;
@@ -697,7 +502,7 @@ body::after {
   background: transparent;
   border: 1px solid var(--border-bright);
   color: var(--text);
-  font-family: 'Cinzel', serif;
+  font-family: 'Inter', sans-serif;
   font-size: 11px;
   letter-spacing: 3px;
   text-transform: uppercase;
@@ -705,22 +510,25 @@ body::after {
   transition: background 0.2s, border-color 0.2s;
   font-weight: 600;
 }
-.agegate-btn:hover { border-color: var(--text); }
+.agegate-btn:hover {
+  border-color: var(--text);
+}
 .agegate-btn.confirm {
   background: var(--crimson);
   border-color: var(--crimson);
   color: white;
 }
 .agegate-btn.confirm:hover {
-  background: var(--spicy);
-  border-color: var(--spicy);
+  background: #d8475b;
+  border-color: #d8475b;
 }
 
+/* Footer */
 .footer {
   text-align: center;
   padding: 40px 24px 60px;
   color: var(--text-muted);
-  font-family: 'Cinzel', serif;
+  font-family: 'Inter', sans-serif;
   font-size: 11px;
   letter-spacing: 3px;
   text-transform: uppercase;
@@ -729,11 +537,12 @@ body::after {
   font-weight: 500;
 }
 
+/* Responsive */
 @media (max-width: 768px) {
   .hero { padding: 130px 20px 80px; }
   .back-link { top: 14px; left: 14px; padding: 8px 14px; font-size: 10px; }
   .gallery-overlay-header { padding: 18px 20px; }
-  .gallery-overlay-title { font-size: 18px; }
+  .gallery-overlay-title { font-size: 20px; }
   .gallery-overlay-count { display: none; }
   .gallery-body { padding: 30px 20px 80px; }
   .gallery-item img, .gallery-item video { height: 280px; }
@@ -744,6 +553,304 @@ body::after {
   .lightbox { padding: 40px 16px; }
   .char-card-img-wrap { height: 380px; }
 }
+
+/* ════════════════════════════════════════════════════════════════
+   ── 2-COLUMN LAYOUT: characters left, soundtrack player right ──
+   ════════════════════════════════════════════════════════════════ */
+.content-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 340px;
+  gap: 40px;
+  align-items: start;
+}
+.content-grid-left { min-width: 0; }
+.content-grid-right {
+  position: sticky;
+  top: 24px;
+  align-self: start;
+  z-index: 5;
+}
+
+.playlist-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-bright);
+  position: relative;
+  overflow: hidden;
+  max-height: calc(100vh - 48px);
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.6);
+}
+
+.playlist-header {
+  padding: 26px 22px 20px;
+  text-align: center;
+  border-bottom: 1px solid var(--border);
+  background: linear-gradient(180deg, rgba(255, 149, 85, 0.06), transparent);
+}
+.playlist-eyebrow {
+  font-family: 'Bodoni Moda', serif;
+  font-style: italic;
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 6px;
+  letter-spacing: -0.3px;
+}
+.playlist-subtitle {
+  font-family: 'Inter', sans-serif;
+  font-size: 10px;
+  color: var(--text-muted);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+.now-playing {
+  padding: 18px 20px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  gap: 14px;
+  align-items: center;
+}
+.np-art {
+  width: 54px;
+  height: 54px;
+  flex-shrink: 0;
+  background: linear-gradient(135deg, rgba(255, 149, 85, 0.35), rgba(75, 169, 201, 0.25));
+  border: 1px solid var(--border-bright);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: box-shadow 0.3s, border-color 0.3s;
+  position: relative;
+}
+.np-art::before {
+  content: '◇';
+  font-size: 24px;
+  color: var(--amber-bright);
+  text-shadow: 0 0 6px rgba(0,0,0,0.6);
+  font-family: 'Inter', sans-serif;
+}
+.np-art.playing {
+  animation: artPulse 2.2s ease-in-out infinite;
+  border-color: var(--amber);
+}
+@keyframes artPulse {
+  0%, 100% { box-shadow: 0 0 12px rgba(255, 149, 85, 0.3); }
+  50%      { box-shadow: 0 0 24px rgba(255, 149, 85, 0.6); }
+}
+.np-info { flex: 1; min-width: 0; }
+.np-label {
+  font-family: 'Inter', sans-serif;
+  font-size: 9px;
+  letter-spacing: 3px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  margin-bottom: 4px;
+  font-weight: 600;
+}
+.np-title {
+  font-family: 'Bodoni Moda', serif;
+  font-style: italic;
+  font-size: 16px;
+  color: var(--text);
+  margin-bottom: 9px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-weight: 600;
+}
+.progress-wrap {
+  height: 4px;
+  background: var(--bg-deep);
+  border: 1px solid var(--border);
+  cursor: pointer;
+  position: relative;
+  margin-bottom: 6px;
+}
+.progress-bar {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--amber), var(--amber-bright));
+  transition: width 0.1s linear;
+}
+.time-display {
+  display: flex;
+  justify-content: space-between;
+  font-family: 'Inter', sans-serif;
+  font-size: 9px;
+  letter-spacing: 1.5px;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.player-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 22px;
+  border-bottom: 1px solid var(--border);
+}
+.player-btn {
+  background: transparent;
+  border: 1px solid var(--border-bright);
+  color: var(--text);
+  width: 38px;
+  height: 38px;
+  font-size: 11px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+  font-family: 'Inter', sans-serif;
+}
+.player-btn:hover {
+  background: rgba(255, 149, 85, 0.08);
+  color: var(--amber);
+  border-color: var(--amber);
+}
+.player-btn-main {
+  width: 50px;
+  height: 50px;
+  background: var(--amber);
+  color: var(--bg-deep);
+  border-color: var(--amber);
+  font-size: 14px;
+}
+.player-btn-main:hover {
+  background: var(--amber-bright);
+  border-color: var(--amber-bright);
+  color: var(--bg-deep);
+}
+
+.track-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 4px 0;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-bright) transparent;
+}
+.track-list::-webkit-scrollbar { width: 6px; }
+.track-list::-webkit-scrollbar-track { background: transparent; }
+.track-list::-webkit-scrollbar-thumb { background: var(--border-bright); }
+.track {
+  padding: 12px 20px;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  color: var(--text-dim);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  border-bottom: 1px solid rgba(35, 42, 53, 0.5);
+  transition: background 0.2s, color 0.2s;
+}
+.track:hover {
+  background: rgba(255, 149, 85, 0.05);
+  color: var(--text);
+}
+.track.active {
+  color: var(--amber);
+  background: rgba(255, 149, 85, 0.08);
+}
+.track-num {
+  font-family: 'Inter', sans-serif;
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: var(--text-muted);
+  width: 22px;
+  flex-shrink: 0;
+  font-weight: 600;
+}
+.track.active .track-num { color: var(--amber); }
+.track-title {
+  flex: 1;
+  font-style: italic;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: 'Bodoni Moda', serif;
+  font-weight: 500;
+  font-size: 15px;
+}
+.track-eq {
+  display: none;
+  align-items: flex-end;
+  gap: 2.5px;
+  height: 13px;
+}
+.track-eq span {
+  width: 2.5px;
+  background: var(--amber);
+  height: 100%;
+  animation: eq 0.9s ease-in-out infinite;
+}
+.track-eq span:nth-child(2) { animation-delay: 0.15s; }
+.track-eq span:nth-child(3) { animation-delay: 0.3s; }
+@keyframes eq {
+  0%, 100% { height: 30%; }
+  50%      { height: 100%; }
+}
+.track.active:not(.paused) .track-eq { display: flex; }
+.track.active:not(.paused) .track-icon { display: none; }
+.track-icon {
+  color: var(--amber);
+  font-size: 10px;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+.track:hover .track-icon,
+.track.active.paused .track-icon { opacity: 1; }
+
+.spotify-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 14px 18px;
+  background: rgba(29, 185, 84, 0.06);
+  border-top: 1px solid var(--border);
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 11px;
+  letter-spacing: 3px;
+  color: #1DB954;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: background 0.3s, color 0.3s, box-shadow 0.3s;
+}
+.spotify-link:hover {
+  background: #1DB954;
+  color: #000;
+  box-shadow: 0 0 24px rgba(29, 185, 84, 0.4) inset;
+}
+.spotify-link .spotify-icon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+@media (max-width: 1024px) {
+  .content-grid {
+    grid-template-columns: 1fr;
+    gap: 50px;
+  }
+  .content-grid-right {
+    position: static;
+    max-width: 520px;
+    margin: 0 auto;
+    width: 100%;
+  }
+  .playlist-card {
+    max-height: none;
+  }
+  .track-list {
+    max-height: 320px;
+  }
+}
 </style>
   <!-- GoatCounter analytics (invisible — private dashboard at eurielle.goatcounter.com) -->
   <script data-goatcounter="https://eurielle.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
@@ -751,166 +858,71 @@ body::after {
 <body>
 
 <a class="back-link" href="index.html">← Gallery</a>
-<canvas id="starCanvas"></canvas>
-
-<div class="petals" aria-hidden="true">
-  <span class="petal"></span><span class="petal"></span><span class="petal"></span>
-  <span class="petal"></span><span class="petal"></span><span class="petal"></span>
-  <span class="petal"></span><span class="petal"></span><span class="petal"></span>
-  <span class="petal"></span>
-</div>
+<canvas id="rainCanvas"></canvas>
 
 <section class="hero">
-  <!-- Thorned rose + Illyrian wings + scattered stars -->
-  <svg class="hero-ornament" viewBox="0 0 480 460" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
-    <!-- Illyrian wings, fanning out behind, with leathery membranes -->
-    <g class="wings">
-      <!-- Left wing -->
-      <path class="wing-fill" stroke="none" d="M 240 215
-               C 180 200 130 170 90 130
-               C 70 110 55 90 50 70
-               C 70 110 100 140 130 165
-               C 100 158 75 152 55 150
-               C 90 168 130 180 165 188
-               C 130 192 100 200 80 215
-               C 120 213 160 215 195 222
-               C 165 230 140 245 125 265
-               C 165 252 200 245 225 247
-               Z" />
-      <!-- Wing finger-bones (left) -->
-      <g stroke="currentColor" stroke-opacity="0.5" stroke-width="1.2" fill="none">
-        <path d="M 240 215 C 200 200 160 175 130 165" />
-        <path d="M 240 215 C 195 205 155 195 130 188" />
-        <path d="M 240 215 C 190 213 145 215 110 218" />
-      </g>
-      <!-- Right wing (mirror) -->
-      <path class="wing-fill" stroke="none" d="M 240 215
-               C 300 200 350 170 390 130
-               C 410 110 425 90 430 70
-               C 410 110 380 140 350 165
-               C 380 158 405 152 425 150
-               C 390 168 350 180 315 188
-               C 350 192 380 200 400 215
-               C 360 213 320 215 285 222
-               C 315 230 340 245 355 265
-               C 315 252 280 245 255 247
-               Z" />
-      <!-- Wing finger-bones (right) -->
-      <g stroke="currentColor" stroke-opacity="0.5" stroke-width="1.2" fill="none">
-        <path d="M 240 215 C 280 200 320 175 350 165" />
-        <path d="M 240 215 C 285 205 325 195 350 188" />
-        <path d="M 240 215 C 290 213 335 215 370 218" />
-      </g>
-    </g>
-
-    <!-- Central thorned rose -->
-    <g class="rose" stroke="currentColor" fill="none" stroke-width="2">
-      <!-- Outer petals -->
-      <path class="rose-stroke" d="M 240 95 C 195 95 162 118 158 162 C 158 188 172 208 200 220 C 220 226 232 226 240 222" />
-      <path class="rose-stroke" d="M 240 95 C 285 95 318 118 322 162 C 322 188 308 208 280 220 C 260 226 248 226 240 222" />
-      <!-- Mid layer petals -->
-      <path class="rose-stroke" d="M 240 122 C 212 122 192 142 192 172 C 192 195 212 212 240 212" />
-      <path class="rose-stroke" d="M 240 122 C 268 122 288 142 288 172 C 288 195 268 212 240 212" />
-      <!-- Inner spiral -->
-      <path class="rose-stroke" d="M 240 148 C 222 148 210 162 210 178 C 210 195 226 206 244 202 C 258 198 262 184 256 172 C 252 165 244 162 238 165" />
-      <!-- Center curl -->
-      <path class="rose-stroke" d="M 240 168 C 232 168 226 175 228 184 C 230 191 240 194 246 188 C 250 183 248 177 244 175" />
-
-      <!-- Vines descending -->
-      <path class="rose-stroke" d="M 240 222 Q 224 260 198 280 Q 170 298 158 332 Q 152 350 158 366" />
-      <path class="rose-stroke" d="M 240 222 Q 256 260 282 280 Q 310 298 322 332 Q 328 350 322 366" />
-
-      <!-- Thorns on vines -->
-      <g class="thorn-fill" stroke="none">
-        <path d="M 230 244 L 218 240 L 228 252 Z" />
-        <path d="M 218 268 L 204 264 L 215 277 Z" />
-        <path d="M 196 286 L 182 284 L 193 296 Z" />
-        <path d="M 178 308 L 164 308 L 175 320 Z" />
-        <path d="M 164 334 L 150 336 L 161 346 Z" />
-        <path d="M 250 244 L 262 240 L 252 252 Z" />
-        <path d="M 262 268 L 276 264 L 265 277 Z" />
-        <path d="M 284 286 L 298 284 L 287 296 Z" />
-        <path d="M 302 308 L 316 308 L 305 320 Z" />
-        <path d="M 316 334 L 330 336 L 319 346 Z" />
-      </g>
-
-      <!-- Leaves -->
-      <g class="leaf-stroke" fill="none">
-        <path d="M 200 268 Q 184 262 174 274 Q 184 286 200 282 Q 208 276 200 268 Z" />
-        <path d="M 280 268 Q 296 262 306 274 Q 296 286 280 282 Q 272 276 280 268 Z" />
-        <path d="M 175 320 Q 158 316 150 330 Q 162 342 178 336 Q 184 328 175 320 Z" />
-        <path d="M 305 320 Q 322 316 330 330 Q 318 342 302 336 Q 296 328 305 320 Z" />
-      </g>
-
-      <!-- A small rosebud on each side -->
-      <g class="rose-stroke">
-        <path d="M 165 305 C 158 302 152 308 154 316 C 158 322 168 320 170 312 C 170 308 168 305 165 305 Z" />
-        <path d="M 315 305 C 322 302 328 308 326 316 C 322 322 312 320 310 312 C 310 308 312 305 315 305 Z" />
-      </g>
-    </g>
-
-    <!-- Scattered stars -->
-    <g class="stars">
-      <path class="star-fill" stroke="none" d="M 70 80 L 75 70 L 80 80 L 90 85 L 80 90 L 75 100 L 70 90 L 60 85 Z" />
-      <path class="star-fill" stroke="none" d="M 410 80 L 415 70 L 420 80 L 430 85 L 420 90 L 415 100 L 410 90 L 400 85 Z" />
-      <path class="star-fill" stroke="none" d="M 40 230 L 44 222 L 48 230 L 56 234 L 48 238 L 44 246 L 40 238 L 32 234 Z" />
-      <path class="star-fill" stroke="none" d="M 440 230 L 444 222 L 448 230 L 456 234 L 448 238 L 444 246 L 440 238 L 432 234 Z" />
-      <path class="star-fill" stroke="none" d="M 240 30 L 244 22 L 248 30 L 256 34 L 248 38 L 244 46 L 240 38 L 232 34 Z" />
-      <path class="star-fill" stroke="none" d="M 95 380 L 98 374 L 101 380 L 107 383 L 101 386 L 98 392 L 95 386 L 89 383 Z" />
-      <path class="star-fill" stroke="none" d="M 385 380 L 388 374 L 391 380 L 397 383 L 391 386 L 388 392 L 385 386 L 379 383 Z" />
-      <!-- Tiny dots scattered -->
-      <circle class="star-fill" cx="120" cy="160" r="1.5" />
-      <circle class="star-fill" cx="360" cy="160" r="1.5" />
-      <circle class="star-fill" cx="200" cy="60" r="1.2" />
-      <circle class="star-fill" cx="280" cy="60" r="1.2" />
-      <circle class="star-fill" cx="60" cy="330" r="1.5" />
-      <circle class="star-fill" cx="420" cy="330" r="1.5" />
-    </g>
-  </svg>
-
-  <div class="hero-eyebrow">A Court of Thorns and Roses</div>
-  <h1 class="hero-title">ACOTAR</h1>
+  <h1 class="hero-title">Modern Day OC</h1>
   <div class="hero-rule">
     <div class="rule-line"></div>
-    <div class="star-cluster">
-      <span class="small">✦</span>
-      <span class="mid">✧</span>
-      <span class="rose-glyph">❀</span>
-      <span class="mid">✧</span>
-      <span class="small">✦</span>
-    </div>
+    <div class="rule-icon">·  ·  ·</div>
     <div class="rule-line"></div>
   </div>
-  <div class="hero-sub">to the stars who listen — and the dreams that are answered</div>
-
-  <!-- Mountain horizon — Velaris mist -->
-  <div class="hero-mountains" aria-hidden="true">
-    <svg viewBox="0 0 1200 180" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-      <!-- Far range (lighter, hazier) -->
-      <path class="peak-far" d="M 0 180 L 0 110 L 90 70 L 170 95 L 250 55 L 340 90 L 430 65 L 520 95 L 610 60 L 720 90 L 820 70 L 920 100 L 1020 75 L 1100 95 L 1200 80 L 1200 180 Z" />
-      <!-- Near range (darker) -->
-      <path class="peak-near" d="M 0 180 L 0 140 L 80 110 L 160 130 L 240 100 L 330 130 L 420 105 L 510 135 L 600 110 L 700 135 L 800 115 L 900 138 L 1000 120 L 1080 140 L 1200 125 L 1200 180 Z" />
-      <!-- Tiny Velaris city lights -->
-      <g class="lights" opacity="0.85">
-        <circle cx="245" cy="108" r="0.8" />
-        <circle cx="265" cy="115" r="0.7" />
-        <circle cx="420" cy="113" r="0.8" />
-        <circle cx="438" cy="118" r="0.7" />
-        <circle cx="608" cy="118" r="0.8" />
-        <circle cx="625" cy="123" r="0.7" />
-        <circle cx="798" cy="123" r="0.8" />
-        <circle cx="815" cy="127" r="0.7" />
-        <circle cx="1018" cy="128" r="0.8" />
-      </g>
-    </svg>
-  </div>
+  <div class="hero-sub">Set in the modern day</div>
 </section>
 
 <main class="content">
   <h2 class="section-heading">Characters</h2>
-  <div class="char-cards" id="charCards"></div>
+  <div class="content-grid">
+    <div class="content-grid-left">
+      <div class="char-cards" id="charCards"></div>
+    </div>
+    <div class="content-grid-right">
+      <div class="playlist-card">
+        <div class="playlist-header">
+          <div class="playlist-eyebrow">Soundtrack</div>
+          <div class="playlist-subtitle">original music created with suno</div>
+        </div>
+
+        <div class="now-playing">
+          <div class="np-art" id="npArt"></div>
+          <div class="np-info">
+            <div class="np-label">Now Playing</div>
+            <div class="np-title" id="npTitle">—</div>
+            <div class="progress-wrap" id="progressWrap">
+              <div class="progress-bar" id="progressBar"></div>
+            </div>
+            <div class="time-display">
+              <span id="currentTime">0:00</span>
+              <span id="totalTime">0:00</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="player-controls">
+          <button class="player-btn" onclick="prevTrack()" aria-label="Previous">&#9664;&#9664;</button>
+          <button class="player-btn player-btn-main" id="playBtn" onclick="togglePlay()" aria-label="Play/Pause">&#9654;</button>
+          <button class="player-btn" onclick="nextTrack()" aria-label="Next">&#9654;&#9654;</button>
+        </div>
+
+        <div class="track-list" id="trackList"></div>
+
+        <audio id="audio" preload="metadata"></audio>
+
+        <a class="spotify-link"
+           href="https://open.spotify.com/artist/6W67z6neLsZNmETyCGv4Iy?si=_ZIuUs4PQrC24JdzLgCnkQ"
+           target="_blank"
+           rel="noopener noreferrer">
+          <svg class="spotify-icon" viewBox="0 0 168 168" fill="currentColor" aria-hidden="true">
+            <path d="M83.996.277C37.747.277.253 37.77.253 84.019c0 46.251 37.494 83.741 83.743 83.741 46.254 0 83.744-37.49 83.744-83.741 0-46.246-37.49-83.738-83.745-83.738l.001-.004zm38.404 120.78a5.217 5.217 0 0 1-7.18 1.73c-19.662-12.01-44.414-14.73-73.564-8.07a5.222 5.222 0 0 1-6.249-3.93 5.213 5.213 0 0 1 3.926-6.25c31.9-7.291 59.263-4.15 81.337 9.34 2.46 1.51 3.24 4.72 1.73 7.18zm10.25-22.805c-1.89 3.075-5.91 4.045-8.98 2.155-22.51-13.839-56.823-17.846-83.448-9.764-3.453 1.043-7.1-.903-8.148-4.35a6.538 6.538 0 0 1 4.354-8.143c30.413-9.228 68.222-4.758 94.072 11.127 3.07 1.89 4.04 5.91 2.15 8.976v-.001zm.88-23.744c-26.99-16.031-71.52-17.505-97.289-9.684-4.138 1.255-8.514-1.081-9.768-5.219a7.835 7.835 0 0 1 5.221-9.771c29.581-8.98 78.756-7.245 109.83 11.202a7.823 7.823 0 0 1 2.74 10.733c-2.2 3.722-7.02 4.949-10.73 2.739z"/>
+          </svg>
+          <span>Listen on Spotify</span>
+        </a>
+      </div>
+    </div>
+  </div>
 </main>
 
+<!-- Gallery Overlay -->
 <div class="gallery-overlay" id="galleryOverlay">
   <div class="gallery-overlay-header">
     <button class="gallery-close-btn" onclick="closeGalleryOverlay()">← Back</button>
@@ -920,6 +932,7 @@ body::after {
   <div class="gallery-body" id="galleryContent"></div>
 </div>
 
+<!-- Lightbox -->
 <div class="lightbox" id="lightbox">
   <button class="lb-btn lb-close" onclick="closeLightbox()">✕</button>
   <button class="lb-btn lb-prev" onclick="lbPrev()">‹</button>
@@ -927,11 +940,12 @@ body::after {
   <div id="lightboxContent"></div>
 </div>
 
+<!-- Age Gate -->
 <div class="agegate" id="agegate">
   <div class="agegate-box">
-    <div class="agegate-title">18+ Only</div>
+    <div class="agegate-title">18+ Content</div>
     <div class="agegate-text">
-      You are about to view spicy generations intended for adults only.
+      You're about to view spicy generations intended for adults only.
       Please confirm you are 18 or older to continue.
     </div>
     <div class="agegate-buttons">
@@ -941,136 +955,70 @@ body::after {
   </div>
 </div>
 
-<div class="footer">✧ Eurielle's Gallery · ACOTAR ✧</div>
+<div class="footer">· Eurielle's Gallery · Modern Day ·</div>
 
 <script>
 // ────────────────────────────────────────────────────────────
-//  Character Data (mirrors index.html's ACOTAR group)
+//  Character Data (mirrors index.html's Modern Day OC group)
 // ────────────────────────────────────────────────────────────
 const GROUP = {
-  title: "ACOTAR",
+  title: "Modern Day OC",
   characters: [
     {
-      name: "Rhysand",
-      tropes: ["fated mates", "angst / longing", "captor & captive"],
-      bot: "https://www.dreamjourneyai.com/app/creation/2d9fc1fb-a803-4b1f-b716-085674ed7eeb",
-      cover: "rhysand-portrait.png",
+      name: "Alec: The Surgeon",
+      cover: "alec.png",
+      desc: "Modern Day · The Surgeon",
       images: [
-        { src: "rhysand-portrait.png", caption: "Portrait" },
-        { src: "rhysand-throne.png",   caption: "The throne" },
-        { src: "rhysand-wings.png",    caption: "Night Court" },
-        { src: "rhysand-starlight.png",caption: "Starlight" },
-        { src: "rhysand-silk.png",     caption: "Black silk" },
+        { src: "alec.png", caption: "Watching" },
       ],
       spicy: []
     },
     {
-      name: "Azriel",
-      tropes: ["childhood friends", "angst / longing", "fated mates", "caretaker", "arranged marriage", "unrequited love", "kidnapping / forced proximity", "spicy start"],
-      bot: "https://www.dreamjourneyai.com/app/creation/7be5258a-1a24-4a1b-a7d2-0997b499c83a",
-      cover: "azriel-shadows.png",
+      name: "Kael",
+      cover: "kael.png",
       images: [
-        { src: "azriel-shadows.png",       caption: "Shadowsinger" },
-        { src: "azriel-wings.png",         caption: "Fae prince" },
-        { src: "azriel-moonlight.png",     caption: "Moonlight" },
-        { src: "azriel-ivy.png",           caption: "Black armor" },
-        { src: "azriel-springs.png",       caption: "Hot springs" },
-        { src: "group-azriel-sunset.png",  caption: "Azriel & mate" },
-        { src: "group-azriel-embrace.png", caption: "Embrace" },
+        { src: "kael.png", caption: "At dusk" },
       ],
       spicy: []
     },
     {
-      name: "Cassian",
-      tropes: ["bodyguard", "caretaker", "spicy start"],
-      bot: "https://www.dreamjourneyai.com/app/creation/6cff68b2-e8f6-448b-a551-0d28fe0ebde8",
-      cover: "cassian-wings.png",
+      name: "Ethan Finley",
+      tropes: ["unrequited love", "soft for one person only", "stalking"],
+      cover: "ethan.png",
       images: [
-        { src: "cassian-wings.png", caption: "The General" },
+        { src: "ethan.png",         caption: "Unhinged" },
+        { src: "ethan-502.png",     caption: "Door 502" },
+        { src: "ethan-rain.png",    caption: "For her" },
+        { src: "ethan-woods.png",   caption: "Burial" },
+        { src: "ethan-shower.jpg",  caption: "Aftermath" },
       ],
       spicy: []
     },
     {
-      name: "Amren",
-      bot: "https://www.dreamjourneyai.com/app/creation/d4130558-fbcd-4fc6-bfe0-8974634ab6c1",
-      cover: "amren-wine.png",
-      images: [
-        { src: "amren-wine.png", caption: "The Ancient One" },
-      ],
-      spicy: []
-    },
-    {
-      name: "Eris",
-      tropes: ["arranged marriage"],
-      bot: "https://www.dreamjourneyai.com/app/creation/2fada370-78e1-40e8-988e-decf677a5dc3",
-      cover: "eris-fire.png",
-      images: [
-        { src: "eris-fire.png", caption: "Autumn Court" },
-      ],
-      spicy: []
-    },
-    {
-      name: "Tamlin",
-      tropes: ["spicy start", "fated mates"],
-      bot: "https://www.dreamjourneyai.com/app/creation/9eaf8921-eb4e-4d99-bee7-bbce139a1cbf",
-      cover: "tamlin-forest.png",
-      images: [
-        { src: "tamlin-forest.png", caption: "Spring Court" },
-      ],
-      spicy: []
-    },
-    {
-      name: "Lucien",
-      tropes: ["childhood friends"],
-      bot: "https://www.dreamjourneyai.com/app/creation/28935d56-f6e7-4203-8530-d6d30477a5d3",
-      cover: "lucien-portrait.png",
-      images: [
-        { src: "lucien-portrait.png", caption: "Emisary" },
-      ],
-      spicy: []
-    },
-    {
-      name: "Scenario bot",
-      bot: "https://www.dreamjourneyai.com/app/creation/c465b07b-14cc-40ce-af57-9666f921865e",
-      cover: "acotar-scenario.png",
-      imagesLabel: "Group Gens",
-      images: [
-        { src: "group-azriel-sunset.png",  caption: "Azriel & mate" },
-        { src: "group-azriel-embrace.png", caption: "Embrace" },
-        { src: "group-war-council.png",    caption: "War council" },
-        { src: "group-wine-night.png",     caption: "Wine night" },
-        { src: "group-bat-boys.png",       caption: "The bat boys" },
-        { src: "group-bat-boys2.png",      caption: "The bat boys II" },
-      ],
-      spicy: []
-    },
-    {
-      name: "Amarantha",
+      name: "Dax",
       tropes: ["true villain (hardest)"],
-      cover: "amarantha.png",
-      desc: "Queen Under the Mountain",
+      cover: "dax.png",
       images: [
-        { src: "amarantha.png",       caption: "Beneath the Mountain" },
-          { src: "amarantha-court.png", caption: "Her court" },
-          { src: "amarantha-possession.png", caption: "Her possession" },
+        { src: "dax.png", caption: "The voices" },
       ],
       spicy: []
     },
     {
-      name: "Amarien",
-      tropes: ["true villain (hardest)"],
-      cover: "amarien.png",
-      desc: "Amarantha · genderbent",
+      name: "Torbjørn \"Torb\" Haugland",
+      cover: "torb.png",
       images: [
-        { src: "amarien.png", caption: "The Bone Crown" },
+        { src: "torb.png", caption: "Aurora" },
       ],
       spicy: []
     },
   ]
 };
 
+// ────────────────────────────────────────────────────────────
+//  Render character cards (dossier style)
+// ────────────────────────────────────────────────────────────
 const charCards = document.getElementById('charCards');
-GROUP.characters.forEach((char) => {
+GROUP.characters.forEach((char, i) => {
   const card = document.createElement('div');
   card.className = 'char-card';
   card.onclick = () => openGallery(GROUP.title, char);
@@ -1078,10 +1026,6 @@ GROUP.characters.forEach((char) => {
     ? `<span class="spicy-tag">· ${char.spicy.length} spicy</span>`
     : '';
   card.innerHTML = `
-    <span class="corner tl">✦</span>
-    <span class="corner tr">✦</span>
-    <span class="corner bl">✦</span>
-    <span class="corner br">✦</span>
     <div class="char-card-img-wrap">
       <img class="char-card-img" src="${char.cover}" alt="${char.name}" loading="lazy">
     </div>
@@ -1095,10 +1039,14 @@ GROUP.characters.forEach((char) => {
   charCards.appendChild(card);
 });
 
+// ────────────────────────────────────────────────────────────
+//  Gallery overlay
+// ────────────────────────────────────────────────────────────
 const galleryOverlay = document.getElementById('galleryOverlay');
 const overlayTitle   = document.getElementById('overlayTitle');
 const overlayCount   = document.getElementById('overlayCount');
 const galleryContent = document.getElementById('galleryContent');
+
 let currentChar = null;
 let currentList = [];
 let lightboxIdx = 0;
@@ -1108,26 +1056,13 @@ function openGallery(groupTitle, char) {
   overlayTitle.textContent = char.name;
   const total = char.images.length + (char.spicy ? char.spicy.length : 0);
   overlayCount.textContent = total + ' total';
-  galleryContent.innerHTML = '';
 
-  // Bot link (only renders if char.bot is set)
-  if (char.bot) {
-    const linkBar = document.createElement('div');
-    linkBar.className = 'bot-link-bar';
-    linkBar.innerHTML = `
-      <a class="bot-link-btn" href="${char.bot}" target="_blank" rel="noopener noreferrer">
-        <span class="bot-link-star">✦</span>
-        <span>Chat on DreamjourneyAI</span>
-        <span class="bot-link-arrow">↗</span>
-      </a>
-    `;
-    galleryContent.appendChild(linkBar);
-  }
+  galleryContent.innerHTML = '';
 
   if (char.images && char.images.length) {
     const title = document.createElement('div');
     title.className = 'gallery-section-title';
-    title.textContent = (char.imagesLabel || 'Gallery') + ' · ' + char.images.length;
+    title.textContent = 'Gallery · ' + char.images.length;
     galleryContent.appendChild(title);
 
     const grid = document.createElement('div');
@@ -1138,7 +1073,9 @@ function openGallery(groupTitle, char) {
       div.onclick = () => openLightbox(char.images, i);
       const isVideo = item.src.match(/\.(mp4|webm|mov)$/i);
       div.innerHTML = `
-        ${isVideo ? `<video src="${item.src}" muted loop playsinline></video>` : `<img src="${item.src}" alt="${item.caption || ''}" loading="lazy">`}
+        ${isVideo
+          ? `<video src="${item.src}" muted loop playsinline></video>`
+          : `<img src="${item.src}" alt="${item.caption || ''}" loading="lazy">`}
         ${item.caption ? `<div class="gallery-caption">${item.caption}</div>` : ''}
       `;
       grid.appendChild(div);
@@ -1149,8 +1086,13 @@ function openGallery(groupTitle, char) {
   if (char.spicy && char.spicy.length) {
     const divider = document.createElement('div');
     divider.className = 'spicy-divider';
-    divider.innerHTML = `<div class="line"></div><span class="section-title" style="color: var(--spicy);">Spicy Gens · ${char.spicy.length}</span><div class="line"></div>`;
+    divider.innerHTML = `
+      <div class="line"></div>
+      <span class="section-title" style="color: var(--crimson);">Spicy Gens · ${char.spicy.length}</span>
+      <div class="line"></div>
+    `;
     galleryContent.appendChild(divider);
+
     if (ageGateConfirmed) renderSpicy(char);
     else {
       const lockBtn = document.createElement('button');
@@ -1176,7 +1118,9 @@ function renderSpicy(char) {
     div.onclick = () => openLightbox(char.spicy, i);
     const isVideo = item.src.match(/\.(mp4|webm|mov)$/i);
     div.innerHTML = `
-      ${isVideo ? `<video src="${item.src}" muted loop playsinline></video>` : `<img src="${item.src}" alt="${item.caption || ''}" loading="lazy">`}
+      ${isVideo
+        ? `<video src="${item.src}" muted loop playsinline></video>`
+        : `<img src="${item.src}" alt="${item.caption || ''}" loading="lazy">`}
       ${item.caption ? `<div class="gallery-caption">${item.caption}</div>` : ''}
     `;
     grid.appendChild(div);
@@ -1189,13 +1133,19 @@ function closeGalleryOverlay() {
   document.body.style.overflow = '';
 }
 
+// ────────────────────────────────────────────────────────────
+//  Lightbox
+// ────────────────────────────────────────────────────────────
 const lightbox        = document.getElementById('lightbox');
 const lightboxContent = document.getElementById('lightboxContent');
 
 function openLightbox(list, idx) {
-  currentList = list; lightboxIdx = idx;
-  showLb(); lightbox.classList.add('open');
+  currentList = list;
+  lightboxIdx = idx;
+  showLb();
+  lightbox.classList.add('open');
 }
+
 function showLb() {
   const item = currentList[lightboxIdx];
   const isVideo = item.src.match(/\.(mp4|webm|mov)$/i);
@@ -1203,9 +1153,20 @@ function showLb() {
     ? `<video src="${item.src}" controls autoplay loop playsinline></video>`
     : `<img src="${item.src}" alt="${item.caption || ''}">`;
 }
-function closeLightbox() { lightbox.classList.remove('open'); lightboxContent.innerHTML = ''; }
-function lbNext() { lightboxIdx = (lightboxIdx + 1) % currentList.length; showLb(); }
-function lbPrev() { lightboxIdx = (lightboxIdx - 1 + currentList.length) % currentList.length; showLb(); }
+
+function closeLightbox() {
+  lightbox.classList.remove('open');
+  lightboxContent.innerHTML = '';
+}
+
+function lbNext() {
+  lightboxIdx = (lightboxIdx + 1) % currentList.length;
+  showLb();
+}
+function lbPrev() {
+  lightboxIdx = (lightboxIdx - 1 + currentList.length) % currentList.length;
+  showLb();
+}
 
 document.addEventListener('keydown', (e) => {
   if (lightbox.classList.contains('open')) {
@@ -1217,8 +1178,12 @@ document.addEventListener('keydown', (e) => {
   }
 });
 
+// ────────────────────────────────────────────────────────────
+//  Age Gate
+// ────────────────────────────────────────────────────────────
 const agegate = document.getElementById('agegate');
 let ageGateConfirmed = sessionStorage.getItem('ageConfirmed') === 'true';
+
 function openAgeGate() { agegate.classList.add('open'); }
 function declineAgeGate() { agegate.classList.remove('open'); }
 function confirmAgeGate() {
@@ -1232,75 +1197,153 @@ function confirmAgeGate() {
 }
 
 // ────────────────────────────────────────────────────────────
-//  Twinkling starfield
+//  Soundtrack
 // ────────────────────────────────────────────────────────────
-const starCanvas = document.getElementById('starCanvas');
-const starCtx    = starCanvas.getContext('2d');
-let stars = [];
+const TRACKS = [
+  { title: "A Patient Man (Ethan's Song)",       src: "Patient_Man.mp3" },
+  { title: "Making a Monster (Alec's Song)",     src: "Making_a_monster.mp3" },
+  { title: "Drift Between Us (Torbjørn's Song)", src: "Drift_Between_Us.mp3" },
+];
 
-function resizeStars() {
-  starCanvas.width  = window.innerWidth;
-  starCanvas.height = window.innerHeight;
+const audio        = document.getElementById('audio');
+const playBtn      = document.getElementById('playBtn');
+const npTitle      = document.getElementById('npTitle');
+const npArt        = document.getElementById('npArt');
+const progressBar  = document.getElementById('progressBar');
+const progressWrap = document.getElementById('progressWrap');
+const currentTimeEl= document.getElementById('currentTime');
+const totalTimeEl  = document.getElementById('totalTime');
+const trackListEl  = document.getElementById('trackList');
+
+let currentTrack = 0;
+let hasStarted   = false;
+
+function fmt(s) {
+  if (!isFinite(s)) return '0:00';
+  const m = Math.floor(s / 60);
+  const sec = Math.floor(s % 60).toString().padStart(2, '0');
+  return `${m}:${sec}`;
 }
-window.addEventListener('resize', resizeStars);
-resizeStars();
 
-function createStar() {
-  const colorRoll = Math.random();
-  let color;
-  if (colorRoll < 0.7)       color = '255, 255, 255';  // white (more dominant)
-  else if (colorRoll < 0.88) color = '232, 200, 120';  // soft starlight gold
-  else if (colorRoll < 0.96) color = '200, 196, 216';  // silver-blue
-  else                       color = '157, 94, 249';   // rare violet
+function renderTrackList() {
+  trackListEl.innerHTML = '';
+  TRACKS.forEach((t, i) => {
+    const el = document.createElement('div');
+    const isActive = i === currentTrack;
+    const isPaused = isActive && audio.paused;
+    el.className = 'track' + (isActive ? ' active' : '') + (isPaused ? ' paused' : '');
+    el.onclick = () => loadTrack(i, true);
+    el.innerHTML = `
+      <span class="track-num">${String(i + 1).padStart(2, '0')}</span>
+      <span class="track-title">${t.title}</span>
+      <div class="track-eq"><span></span><span></span><span></span></div>
+      <span class="track-icon">&#9654;</span>
+    `;
+    trackListEl.appendChild(el);
+  });
+}
+
+function loadTrack(i, autoplay) {
+  currentTrack = i;
+  audio.src = TRACKS[i].src;
+  npTitle.textContent = TRACKS[i].title;
+  hasStarted = true;
+  renderTrackList();
+  if (autoplay) audio.play().catch(() => {});
+}
+
+function togglePlay() {
+  if (!hasStarted) { loadTrack(0, true); return; }
+  if (audio.paused) audio.play(); else audio.pause();
+}
+
+function nextTrack() {
+  loadTrack((currentTrack + 1) % TRACKS.length, hasStarted && (!audio.paused || audio.currentTime > 0));
+}
+function prevTrack() {
+  if (audio.currentTime > 3) { audio.currentTime = 0; return; }
+  loadTrack((currentTrack - 1 + TRACKS.length) % TRACKS.length, hasStarted && (!audio.paused || audio.currentTime > 0));
+}
+
+audio.addEventListener('timeupdate', () => {
+  const pct = (audio.currentTime / audio.duration) * 100;
+  progressBar.style.width = (isFinite(pct) ? pct : 0) + '%';
+  currentTimeEl.textContent = fmt(audio.currentTime);
+});
+audio.addEventListener('loadedmetadata', () => {
+  totalTimeEl.textContent = fmt(audio.duration);
+});
+audio.addEventListener('ended', () => {
+  loadTrack((currentTrack + 1) % TRACKS.length, true);
+});
+audio.addEventListener('play', () => {
+  playBtn.innerHTML = '&#10074;&#10074;';
+  npArt.classList.add('playing');
+  renderTrackList();
+});
+audio.addEventListener('pause', () => {
+  playBtn.innerHTML = '&#9654;';
+  npArt.classList.remove('playing');
+  renderTrackList();
+});
+
+progressWrap.addEventListener('click', (e) => {
+  const rect = progressWrap.getBoundingClientRect();
+  const pct = (e.clientX - rect.left) / rect.width;
+  if (audio.duration) audio.currentTime = pct * audio.duration;
+});
+
+npTitle.textContent = TRACKS[0].title;
+renderTrackList();
+
+// ────────────────────────────────────────────────────────────
+//  Rain animation
+// ────────────────────────────────────────────────────────────
+const rainCanvas = document.getElementById('rainCanvas');
+const rainCtx    = rainCanvas.getContext('2d');
+let drops = [];
+
+function resizeRain() {
+  rainCanvas.width  = window.innerWidth;
+  rainCanvas.height = window.innerHeight;
+}
+window.addEventListener('resize', resizeRain);
+resizeRain();
+
+function createDrop() {
   return {
-    x: Math.random() * starCanvas.width,
-    y: Math.random() * starCanvas.height,
-    size: Math.random() < 0.75 ? (0.4 + Math.random() * 1.0) : (1.4 + Math.random() * 1.8),
-    twinkleSpeed: 0.004 + Math.random() * 0.025,
-    twinklePhase: Math.random() * Math.PI * 2,
-    baseOpacity: 0.45 + Math.random() * 0.55,
-    color: color,
-    driftX: -0.04 + Math.random() * 0.08,
-    driftY: -0.015 + Math.random() * 0.03,
+    x: Math.random() * rainCanvas.width,
+    y: Math.random() * -rainCanvas.height,
+    length: 10 + Math.random() * 18,
+    speed:  6 + Math.random() * 9,
+    opacity: 0.15 + Math.random() * 0.4,
   };
 }
 
-// Dense Velaris sky — roughly one star per 4500 viewport pixels²
-const starCount = Math.min(360, Math.floor((window.innerWidth * window.innerHeight) / 4500));
-for (let i = 0; i < starCount; i++) stars.push(createStar());
+const dropCount = Math.min(100, Math.floor(window.innerWidth / 14));
+for (let i = 0; i < dropCount; i++) drops.push(createDrop());
 
-function animateStars() {
-  starCtx.clearRect(0, 0, starCanvas.width, starCanvas.height);
+function animateRain() {
+  rainCtx.clearRect(0, 0, rainCanvas.width, rainCanvas.height);
+  rainCtx.lineWidth = 1;
 
-  stars.forEach(s => {
-    s.twinklePhase += s.twinkleSpeed;
-    const opacity = s.baseOpacity * (0.4 + 0.6 * Math.sin(s.twinklePhase));
+  drops.forEach(d => {
+    rainCtx.strokeStyle = `rgba(170, 195, 220, ${d.opacity})`;
+    rainCtx.beginPath();
+    rainCtx.moveTo(d.x, d.y);
+    rainCtx.lineTo(d.x - 1, d.y + d.length);
+    rainCtx.stroke();
 
-    // Main star
-    starCtx.fillStyle = `rgba(${s.color}, ${opacity})`;
-    starCtx.beginPath();
-    starCtx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
-    starCtx.fill();
-
-    // Soft glow halo for larger stars
-    if (s.size > 1.2) {
-      starCtx.fillStyle = `rgba(${s.color}, ${opacity * 0.25})`;
-      starCtx.beginPath();
-      starCtx.arc(s.x, s.y, s.size * 4.5, 0, Math.PI * 2);
-      starCtx.fill();
+    d.y += d.speed;
+    if (d.y > rainCanvas.height) {
+      Object.assign(d, createDrop());
+      d.y = -d.length;
     }
-
-    s.x += s.driftX;
-    s.y += s.driftY;
-    if (s.x < -10) s.x = starCanvas.width + 10;
-    if (s.x > starCanvas.width + 10) s.x = -10;
-    if (s.y < -10) s.y = starCanvas.height + 10;
-    if (s.y > starCanvas.height + 10) s.y = -10;
   });
 
-  requestAnimationFrame(animateStars);
+  requestAnimationFrame(animateRain);
 }
-animateStars();
+animateRain();
 </script>
 
 
