@@ -2004,68 +2004,206 @@ const GROUP = {
   images: [{ src: "austen.png", caption: "Portrait" }],
   spicy: []
 },
-    {
-      name: "Verus Marcellus",
-      atmosphere: "petals",
-      tropes: ["caretaker", "sunshine \u00d7 grumpy"],
-      bot: "https://www.dreamjourneyai.com/app/creation/2a319719-610f-4229-a4d2-91016e108f82",
-      cover: "verus.png",
-      desc: "Ancient Rome \u00b7 The Champion",
-      images: [ { src: "verus.png", caption: "The arena" } ],
-      spicy: []
-    },
-    {
-      name: "Dareth Vellium",
-      atmosphere: "snow",
-      backdrop: "dareth-bg.png",
-      bot: "https://www.dreamjourneyai.com/app/creation/c5bb8adf-93cc-4be2-b61a-49b003939eef",
-      cover: "dareth.png",
-      desc: "The Winter Court \u00b7 Twilight Lord",
-      images: [ { src: "dareth.png", caption: "The court" } ],
-      spicy: []
-    },
-    {
-      name: "Tyran Deathsong",
-      atmosphere: "snow",
-      tropes: ["arranged marriage", "enemies to lovers", "caretaker"],
-      bot: "https://www.dreamjourneyai.com/app/creation/048fc78e-d8fd-4e5e-a497-8efc9954840b",
-      cover: "tyran.png",
-      desc: "Norse wilds \u00b7 The Warrior",
-      images: [ { src: "tyran.png", caption: "The wilds" } ],
-      spicy: []
-    },
-    {
-      name: "Theon",
-      atmosphere: "stars",
-      tropes: ["sunshine \u00d7 grumpy", "caretaker", "arranged marriage"],
-      bot: "https://www.dreamjourneyai.com/app/creation/3d317e34-a75c-46c5-92d0-e0289f5d6366",
-      cover: "theon.png",
-      desc: "Of distant stars \u00b7 The Warrior",
-      images: [
-        { src: "theon.png",            caption: "Among the stars" },
-        { src: "theon-warrior.png",    caption: "The warrior" },
-        { src: "theon-found.png",      caption: "Found" },
-        { src: "theon-twin-moons.png", caption: "Twin moons" },
-        { src: "theon-crown.png",      caption: "Flower crown" },
-        { src: "theon-ear.png",        caption: "Behind his ear" },
-        { src: "theon-boop.png",       caption: "Boop" },
-        { src: "theon-stickynotes.png",caption: "Home sweet home" },
-        { src: "theon-gaze.png",       caption: "The gaze" },
-        { src: "theon-embrace.png",    caption: "Tender" },
-        { src: "theon-sanctuary.png",  caption: "The sanctuary" },
-        { src: "theon-earth.png",      caption: "On Earth" },
-      ],
-      spicy: []
-    },
-    {
-      name: "Keijo",
-      atmosphere: "cinders",
-      bot: "https://www.dreamjourneyai.com/app/creation/069aaf46-6d6f-49a0-b4a1-4ef90a64f19a",
-      cover: "keijo.png",
-      desc: "The Scarred King",
-      images: [ { src: "keijo.png", caption: "The crown" } ],
-      spicy: []
-    },
+{
+  name: "Verus Marcellus",
+  atmosphere: "petals",
+  tropes: ["caretaker", "sunshine × grumpy"],
+  bot: "https://www.dreamjourneyai.com/app/creation/2a319719-610f-4229-a4d2-91016e108f82",
+  cover: "verus.png",
+  desc: "Ancient Rome · The Champion",
+  bio: {
+    perfectFor: [
+      "Gladiator Romance",
+      "Fallen Commander",
+      "Caretaker",
+      "Sunshine X Grumpy",
+      "Slow Burn",
+      "Wrongfully Accused",
+      "Enemies to Lovers",
+      "Ancient Rome Drama"
+    ],
+    shortDescription: "Verus Marcellus was once a decorated Roman commander — now he is a gladiator in chains, feared in the arena, hated in the barracks, and ruined by a single lie. Bitter, proud, and untrusting, he has survived disgrace by turning his fury into something quiet, surgical, and dangerous.",
+    spoilers: "Verus was destroyed by a lie. After he rejected Livia Calpurnia’s advances, she accused him of forcing himself on her. Her father, the Praefectus Urbanus of Rome, used his influence to have Verus stripped of rank, paraded through the Forum in chains, and sentenced to the arena. Some knew the accusation was false. Most chose not to care.",
+    scenes: [
+      {
+        name: "Default — The Champion in Chains",
+        desc: "Verus Marcellus was once a decorated Roman commander — now he is a gladiator in chains, feared in the arena, hated in the barracks, and ruined by a single lie. Your role is open."
+      },
+      {
+        name: "The Bath House",
+        desc: "Verus is in the caldarium after his latest win, bruised, bitter, and in no mood for company. Your role is open."
+      },
+      {
+        name: "Injured in the Arena",
+        desc: "You are a healer ordered to save Verus’s life, with one brutal promise hanging over you: if he dies, you die with him."
+      }
+    ]
+  },
+  images: [{ src: "verus.png", caption: "The arena" }],
+  spicy: []
+},
+{
+  name: "Dareth Vellium",
+  atmosphere: "snow",
+  backdrop: "dareth-bg.png",
+  bot: "https://www.dreamjourneyai.com/app/creation/c5bb8adf-93cc-4be2-b61a-49b003939eef",
+  cover: "dareth.png",
+  desc: "The Winter Court · Twilight Lord",
+  bio: {
+    perfectFor: [
+      "Cold Fae Lord",
+      "Winter Court Romance",
+      "Slow Burn",
+      "Emotionally Guarded",
+      "Duty Before Desire",
+      "Courtly Tension",
+      "Marriage Politics",
+      "Melting the Ice Prince"
+    ],
+    shortDescription: "Dareth Vellium is the composed heir of the Winter Court: guarded, dutiful, and entirely uninterested in becoming anyone’s romantic conquest. Cold but not cruel, distant but not unfeeling, he has built his life around restraint, legacy, and the belief that desire is a weakness he cannot afford.",
+    spoilers: "Dareth’s distance is not born from arrogance, but from a lifetime of being taught that emotion invites weakness and vulnerability invites ruin. Beneath his control is a man quietly burdened by a title he never asked for, a future he cannot escape, and a longing for connection he refuses to name. Those who earn his trust will find that his affection, once given, is deliberate, loyal, and far more consuming than his silence suggests.",
+    scenes: [
+      {
+        name: "Default — Winter Court Ball",
+        desc: "Dareth Vellium and his best friend, Caelin, attend a formal Winter Court ball. Your role is fully open — noble, rival, guest, servant, suitor, political pawn, or someone who never meant to catch the heir’s attention."
+      },
+      {
+        name: "Want More Scenes?",
+        desc: "Request one! ♡"
+      }
+    ]
+  },
+  images: [{ src: "dareth.png", caption: "The court" }],
+  spicy: []
+},
+{
+  name: "Tyran Deathsong",
+  atmosphere: "snow",
+  tropes: ["arranged marriage", "enemies to lovers", "caretaker"],
+  bot: "https://www.dreamjourneyai.com/app/creation/048fc78e-d8fd-4e5e-a497-8efc9954840b",
+  cover: "tyran.png",
+  desc: "Norse wilds · The Warrior",
+  bio: {
+    perfectFor: [
+      "Enemies to Lovers",
+      "Romeo and Juliet Romance",
+      "Arranged Marriage",
+      "Rival Clans",
+      "Wounded Warrior",
+      "Forbidden Love",
+      "Slow Burn",
+      "Protective Warrior",
+      "Hatred to Trust"
+    ],
+    shortDescription: "Tyran Deathsong is a legendary warrior of the Volsung clan, feared across Skelvard for his silent brutality and unmatched skill with a blade. Stoic, blunt, and fiercely loyal to his people, he has spent his life hating the Falkir — until courage, mercy, or an unwanted bond begins to challenge everything he believes.",
+    spoilers: "Tyran’s hatred for the Falkir is rooted in the raid that destroyed his childhood. Falkir warriors killed his parents and left him orphaned, after which he was taken in and trained by Asric, the Volsung leader. His title, Deathsong, comes from the haunting whistle of his blade — the last sound many of his enemies hear before they die.",
+    scenes: [
+      {
+        name: "Default — Mercy for an Enemy",
+        desc: "You come across a legend from a rival clan lying gravely wounded in the snow. Tyran Deathsong is your sworn enemy, feared by your people and hated by many. Will you leave him to die, or risk everything to save him?"
+      },
+      {
+        name: "Arranged Marriage",
+        desc: "In a desperate bid for peace between rival clans, you are married to Tyran Deathsong. He does not trust you, does not want you, and does not believe peace can be bought with vows — but the marriage has already been sealed."
+      }
+    ]
+  },
+  images: [{ src: "tyran.png", caption: "The wilds" }],
+  spicy: []
+},
+{
+  name: "Theon",
+  atmosphere: "stars",
+  tropes: ["sunshine × grumpy", "caretaker", "arranged marriage"],
+  bot: "https://www.dreamjourneyai.com/app/creation/3d317e34-a75c-46c5-92d0-e0289f5d6366",
+  cover: "theon.png",
+  desc: "Of distant stars · The Warrior",
+  bio: {
+    perfectFor: [
+      "Alien Warrior",
+      "Grumpy X Sunshine",
+      "Reluctant Caretaker",
+      "Forced Proximity",
+      "Protective War Hero",
+      "Sci-Fi Romance",
+      "Accidental Companion",
+      "Arranged Marriage"
+    ],
+    shortDescription: "Theon is a decorated alien war hero forced into retirement after becoming too volatile for the army that made him a legend. Bitter, blunt, and dangerously protective, he expected an emotional therapy pet — not a stranded human delivered to his door by smugglers.",
+    spoilers: "Theon suffers intense PTSD from the war with Vharadus, though he hides it beneath sarcasm, control, and resentment. Sudden loud noises, flashing lights, crowded spaces, tight rooms, or the smell of burning metal can trigger violent combat reflexes before he fully realizes what is happening. When triggered, he may lash out, pin someone down, draw a blade, or destroy whatever is nearest until the threat passes.",
+    scenes: [
+      {
+        name: "Default — The Wrong Delivery",
+        desc: "A volatile alien war hero was assigned a therapy animal, but the smugglers delivered you instead. Theon is irritated, unimpressed, and now unwillingly responsible for keeping an unknown human alive."
+      },
+      {
+        name: "Christmas",
+        desc: "You decide to teach Theon the meaning of Christmas — or at least try to. He does not understand the decorations, the traditions, or why anyone would willingly bring a tree indoors."
+      },
+      {
+        name: "A Lifetime Sentence",
+        desc: "Theon is given a choice: marry you and claim responsibility for your protection, or allow Dr. Saet to dissect you for science. He is furious that those are his only options."
+      }
+    ]
+  },
+  images: [
+    { src: "theon.png", caption: "Among the stars" },
+    { src: "theon-warrior.png", caption: "The warrior" },
+    { src: "theon-found.png", caption: "Found" },
+    { src: "theon-twin-moons.png", caption: "Twin moons" },
+    { src: "theon-crown.png", caption: "Flower crown" },
+    { src: "theon-ear.png", caption: "Behind his ear" },
+    { src: "theon-boop.png", caption: "Boop" },
+    { src: "theon-stickynotes.png", caption: "Home sweet home" },
+    { src: "theon-gaze.png", caption: "The gaze" },
+    { src: "theon-embrace.png", caption: "Tender" },
+    { src: "theon-sanctuary.png", caption: "The sanctuary" },
+    { src: "theon-earth.png", caption: "On Earth" }
+  ],
+  spicy: []
+},
+{
+  name: "Keijo",
+  atmosphere: "cinders",
+  bot: "https://www.dreamjourneyai.com/app/creation/069aaf46-6d6f-49a0-b4a1-4ef90a64f19a",
+  cover: "keijo.png",
+  desc: "The Scarred King",
+  bio: {
+    perfectFor: [
+      "Scarred King",
+      "Beauty and the Beast",
+      "Fae Court Intrigue",
+      "Personal Guard Romance",
+      "Enemies to Lovers",
+      "Morally Gray Ruler",
+      "Protective Monster",
+      "Court Politics",
+      "Devotion Behind Cruelty"
+    ],
+    shortDescription: "Keijo is the scarred King of the Star Court, feared as the Monster of Midnarel by a realm that worships beauty and recoils from him. Ruthless, sharp-tongued, and impossible to intimidate, he has learned to turn fear into power — and to become every bit the monster his court expects.",
+    spoilers: "Keijo was only nine when an enemy court attacked his carriage with Star Flame, a magical fire that should have killed him. When healers failed to restore his face, his father executed them and banished Keijo to a locked tower, where he grew up isolated, unwanted, and seen as something shameful. Only his younger sister, Salia, ever tried to reach him. His cruelty is not mindless — it is armor built from abandonment, survival, and years of being treated as a monster.",
+    scenes: [
+      {
+        name: "Default — The King’s Guard",
+        desc: "From exile to throne, the scarred prince has become the Monster of Midnarel. You have been assigned as Keijo’s personal guard, forced into close proximity with a king most of the court fears too much to look at directly."
+      },
+      {
+        name: "Royal Judgment",
+        desc: "You have been dragged into Keijo’s throne room to face judgment. Whether you are guilty, framed, defiant, or desperate is up to you — but the scarred king is watching closely."
+      },
+      {
+        name: "Bitter Memories",
+        desc: "Keijo is alone in his chambers, bitterly reflective and in no mood for company, when he is disturbed. Your role is open."
+      },
+      {
+        name: "Star Court Ball",
+        desc: "Keijo makes his first public appearance as king before a court that fears him, pities him, and whispers behind jeweled fans. Your role is open — guard, noble, servant, rival, guest, or someone bold enough to approach him."
+      }
+    ]
+  },
+  images: [{ src: "keijo.png", caption: "The crown" }],
+  spicy: []
+},
     {
       name: "The Wolf of Varein",
       atmosphere: "motes",
