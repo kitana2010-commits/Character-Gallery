@@ -1,0 +1,1406 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Pipeline · Eurielle's Gallery</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Italiana&display=swap" rel="stylesheet">
+
+<style>
+/* ═══════════════════════════════════════════════════════════════
+   THE PIPELINE — an editorial index
+   ═══════════════════════════════════════════════════════════════ */
+
+:root {
+  --ink:           #0a0610;
+  --bg:            #120a18;
+  --bg-2:          #18101e;
+  --bg-card:       rgba(28, 18, 34, 0.55);
+  --bg-card-hover: rgba(40, 26, 48, 0.7);
+
+  --rule:          rgba(212, 144, 168, 0.16);
+  --rule-bright:   rgba(212, 144, 168, 0.42);
+  --rule-soft:     rgba(212, 144, 168, 0.08);
+
+  --cream:         #f0e4d4;
+  --cream-2:       #d8c8b8;
+  --cream-dim:     #b6a498;
+  --cream-mute:    #7e6e78;
+  --cream-faint:   #56484e;
+
+  --rose:          #d490a8;
+  --rose-bright:   #f4b0c8;
+  --rose-deep:     #a06880;
+  --rose-glow:     rgba(244, 176, 200, 0.25);
+
+  --gold:          #c89752;
+  --gold-bright:   #e8c068;
+
+  /* stage accents — all in the rose family except 'sealed' */
+  --stage-early:   #8c7884;
+  --stage-plan:    #b094a4;
+  --stage-prog:    #d490a8;
+  --stage-ready:   #f0a8c4;
+  --stage-done:    #c89752;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--cream);
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.6;
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Soft single-source glow — no flickering, no motes */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 900px 600px at 50% -8%,  rgba(212, 144, 168, 0.10), transparent 60%),
+    radial-gradient(ellipse 700px 500px at 100% 100%, rgba(212, 144, 168, 0.06), transparent 60%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ─── Back link — minimal, top-left ─── */
+.back-link {
+  position: fixed;
+  top: 26px;
+  left: 28px;
+  z-index: 50;
+  font-family: 'Cinzel', serif;
+  font-size: 10px;
+  letter-spacing: 4px;
+  color: var(--cream-dim);
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 8px 0 9px;
+  border-bottom: 1px solid var(--rule);
+  font-weight: 500;
+  transition: color 0.3s, border-color 0.3s;
+}
+.back-link::before {
+  content: '←';
+  display: inline-block;
+  margin-right: 10px;
+  transition: transform 0.3s;
+}
+.back-link:hover {
+  color: var(--rose-bright);
+  border-color: var(--rose-bright);
+}
+.back-link:hover::before {
+  transform: translateX(-3px);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   HERO — compact (~300px)
+   ═══════════════════════════════════════════════════════════════ */
+.hero {
+  position: relative;
+  z-index: 2;
+  padding: 92px 24px 48px;
+  text-align: center;
+  max-width: 920px;
+  margin: 0 auto;
+}
+
+.hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  font-family: 'Cinzel', serif;
+  font-size: 10px;
+  letter-spacing: 7px;
+  color: var(--rose);
+  text-transform: uppercase;
+  margin-bottom: 22px;
+  font-weight: 500;
+  opacity: 0;
+  animation: fade-up 0.8s ease-out 0.1s forwards;
+}
+.hero-eyebrow::before,
+.hero-eyebrow::after {
+  content: '';
+  width: 18px;
+  height: 1px;
+  background: var(--rose);
+  opacity: 0.6;
+}
+
+.hero-title {
+  font-family: 'Italiana', serif;
+  font-size: clamp(46px, 6.8vw, 78px);
+  font-weight: 400;
+  letter-spacing: 4px;
+  line-height: 1;
+  color: var(--cream);
+  margin-bottom: 22px;
+  text-shadow: 0 0 40px rgba(212, 144, 168, 0.12);
+  opacity: 0;
+  animation: fade-up 0.9s ease-out 0.25s forwards;
+}
+
+.hero-rule {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  margin: 0 auto 24px;
+  max-width: 320px;
+  opacity: 0;
+  animation: fade-up 0.9s ease-out 0.45s forwards;
+}
+.hero-rule .line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--rule-bright), transparent);
+}
+.hero-rule .ornament {
+  font-family: 'Italiana', serif;
+  font-style: normal;
+  color: var(--rose);
+  font-size: 14px;
+  text-shadow: 0 0 12px var(--rose-glow);
+}
+
+.hero-sub {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: clamp(16px, 1.7vw, 19px);
+  color: var(--cream-dim);
+  letter-spacing: 0.6px;
+  max-width: 560px;
+  margin: 0 auto;
+  line-height: 1.55;
+  opacity: 0;
+  animation: fade-up 0.9s ease-out 0.6s forwards;
+}
+.hero-sub .heart {
+  color: var(--rose);
+  font-style: normal;
+  margin: 0 2px;
+}
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   INDEX SECTION
+   ═══════════════════════════════════════════════════════════════ */
+.content {
+  position: relative;
+  z-index: 2;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 28px 100px;
+}
+
+.index-caption {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  margin: 0 auto 36px;
+  max-width: 720px;
+  font-family: 'Cinzel', serif;
+  font-size: 10px;
+  letter-spacing: 4px;
+  color: var(--cream-mute);
+  text-transform: uppercase;
+  font-weight: 500;
+  opacity: 0;
+  animation: fade-up 0.9s ease-out 0.75s forwards;
+}
+.index-caption .line {
+  flex: 1;
+  height: 1px;
+  background: var(--rule);
+  max-width: 120px;
+}
+.index-caption .count {
+  color: var(--rose);
+  font-weight: 600;
+}
+.index-caption .dot {
+  color: var(--cream-faint);
+  margin: 0 4px;
+}
+
+/* ─── The grid ─── */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+  gap: 22px;
+}
+
+/* ─── Card ─── */
+.card {
+  position: relative;
+  padding: 28px 24px 22px;
+  background: var(--bg-card);
+  border: 1px solid var(--rule);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  transition: background 0.4s, border-color 0.4s, transform 0.4s;
+  opacity: 0;
+  transform: translateY(12px);
+  animation: fade-up 0.7s cubic-bezier(0.2, 0.7, 0.3, 1) forwards;
+  overflow: hidden;
+}
+.card:hover {
+  background: var(--bg-card-hover);
+  border-color: var(--rule-bright);
+  transform: translateY(-3px);
+}
+
+/* The big editorial number watermark */
+.card-watermark {
+  position: absolute;
+  top: 4px;
+  left: 12px;
+  font-family: 'Italiana', serif;
+  font-size: 88px;
+  line-height: 1;
+  color: var(--rose);
+  opacity: 0.08;
+  pointer-events: none;
+  user-select: none;
+  font-weight: 400;
+  letter-spacing: -2px;
+  transition: opacity 0.4s, transform 0.5s;
+}
+.card:hover .card-watermark {
+  opacity: 0.16;
+  transform: translateY(-2px);
+}
+
+/* Top meta row: number caption + stage */
+.card-meta {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 22px;
+  font-family: 'Cinzel', serif;
+  font-size: 9px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+.card-no {
+  color: var(--cream-mute);
+}
+.card-no .of {
+  color: var(--cream-faint);
+  margin-left: 4px;
+  letter-spacing: 2px;
+}
+
+.card-stage {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--cream-dim);
+}
+.card-stage::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  box-shadow: 0 0 8px currentColor;
+}
+.card-stage.early    { color: var(--stage-early); }
+.card-stage.planning { color: var(--stage-plan);  }
+.card-stage.brewing  { color: var(--stage-prog);  }
+.card-stage.ready    { color: var(--stage-ready); }
+.card-stage.done     { color: var(--stage-done);  }
+
+/* Portrait — passport-photo proportions */
+.card-portrait {
+  position: relative;
+  z-index: 2;
+  width: 96px;
+  height: 120px;
+  margin-bottom: 18px;
+  border: 1px solid var(--rule-bright);
+  overflow: hidden;
+  background: var(--ink);
+  box-shadow:
+    inset 0 0 18px rgba(0, 0, 0, 0.4),
+    0 6px 20px rgba(0, 0, 0, 0.35);
+  transition: transform 0.5s cubic-bezier(0.2, 0.7, 0.3, 1);
+}
+.card-portrait img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 22%;
+  display: block;
+  transition: transform 0.6s ease;
+}
+.card:hover .card-portrait {
+  transform: translateY(-2px);
+}
+.card:hover .card-portrait img {
+  transform: scale(1.06);
+}
+
+/* Mystery portrait — typographic placeholder, refined */
+.card-portrait.is-mystery {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background:
+    radial-gradient(ellipse at center, rgba(212, 144, 168, 0.10), transparent 70%),
+    var(--ink);
+}
+.card-portrait.is-mystery::after {
+  content: '?';
+  font-family: 'Italiana', serif;
+  font-size: 52px;
+  color: var(--rose);
+  opacity: 0.55;
+  font-weight: 400;
+  text-shadow: 0 0 16px var(--rose-glow);
+  line-height: 1;
+  transform: translateY(-2px);
+}
+
+/* Name */
+.card-name {
+  position: relative;
+  z-index: 2;
+  font-family: 'Italiana', serif;
+  font-size: 21px;
+  letter-spacing: 2.5px;
+  color: var(--cream);
+  margin-bottom: 6px;
+  line-height: 1.15;
+  text-transform: uppercase;
+}
+.card-name.mystery {
+  letter-spacing: 6px;
+  color: var(--cream-2);
+  opacity: 0.85;
+}
+
+.card-genre {
+  position: relative;
+  z-index: 2;
+  font-family: 'Cinzel', serif;
+  font-size: 9px;
+  letter-spacing: 3.5px;
+  color: var(--rose);
+  text-transform: uppercase;
+  font-weight: 600;
+  margin-bottom: 14px;
+}
+
+.card-note {
+  position: relative;
+  z-index: 2;
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 15.5px;
+  color: var(--cream-dim);
+  line-height: 1.45;
+  letter-spacing: 0.3px;
+  max-width: 240px;
+  margin-bottom: 20px;
+}
+
+/* Vote — subtle typographic element with thin underline */
+.card-vote {
+  position: relative;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  margin-top: auto;
+  padding: 6px 2px 7px;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  font-family: 'Cinzel', serif;
+  font-size: 9px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--cream-mute);
+  font-weight: 600;
+  transition: color 0.3s, letter-spacing 0.3s;
+}
+.card-vote::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 8%;
+  right: 8%;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.3;
+  transition: opacity 0.3s, left 0.3s, right 0.3s;
+}
+.card-vote .heart {
+  font-size: 13px;
+  line-height: 1;
+  transform: translateY(-1px);
+  transition: transform 0.3s;
+}
+.card-vote:hover:not(:disabled) {
+  color: var(--rose-bright);
+  letter-spacing: 4.5px;
+}
+.card-vote:hover:not(:disabled)::after {
+  opacity: 0.7;
+  left: 0;
+  right: 0;
+}
+.card-vote:hover:not(:disabled) .heart {
+  transform: translateY(-1px) scale(1.15);
+}
+
+.card-vote.voted {
+  color: var(--rose-bright);
+  cursor: default;
+}
+.card-vote.voted::after {
+  opacity: 1;
+  left: 0;
+  right: 0;
+}
+.card-vote.voted .heart {
+  color: var(--rose-bright);
+}
+
+.card-vote:disabled:not(.voted) {
+  cursor: not-allowed;
+  opacity: 0.35;
+}
+.card-vote.loading {
+  opacity: 0.55;
+  cursor: wait;
+}
+
+/* Voted card — gentle treatment */
+.card.is-voted {
+  border-color: var(--rule-bright);
+  box-shadow:
+    inset 0 0 0 1px var(--rule-soft),
+    0 0 28px rgba(212, 144, 168, 0.10);
+}
+.card.is-voted .card-watermark {
+  color: var(--rose-bright);
+  opacity: 0.15;
+}
+
+/* ─── Toast ─── */
+.vote-toast {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: linear-gradient(180deg, rgba(28, 16, 32, 0.97), rgba(18, 10, 24, 0.97));
+  color: var(--rose-bright);
+  border: 1px solid var(--rose-deep);
+  padding: 14px 30px;
+  font-family: 'Cinzel', serif;
+  font-size: 10px;
+  letter-spacing: 4px;
+  text-transform: lowercase;
+  opacity: 0;
+  transition: opacity 0.4s, transform 0.4s;
+  z-index: 9999;
+  pointer-events: none;
+  max-width: 90vw;
+  text-align: center;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.5);
+}
+.vote-toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+.vote-toast.error { color: #f0a8a8; border-color: #b06060; }
+
+/* ─── Footer ─── */
+.footer-mark {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  padding: 40px 24px 50px;
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 15px;
+  color: var(--cream-mute);
+  letter-spacing: 0.5px;
+  max-width: 520px;
+  margin: 0 auto;
+}
+.footer-mark::before,
+.footer-mark::after {
+  content: '';
+  display: block;
+  width: 50px;
+  height: 1px;
+  background: var(--rule-bright);
+  margin: 0 auto 18px;
+}
+.footer-mark::after {
+  margin: 18px auto 0;
+}
+
+.footer {
+  text-align: center;
+  padding: 0 24px 60px;
+  color: var(--cream-faint);
+  font-family: 'Cinzel', serif;
+  font-size: 10px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  position: relative;
+  z-index: 2;
+  font-weight: 500;
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 640px) {
+  .back-link { top: 16px; left: 16px; font-size: 9px; }
+  .hero { padding: 72px 20px 38px; }
+  .hero-eyebrow { letter-spacing: 5px; }
+  .content { padding: 0 18px 80px; }
+  .index-caption { letter-spacing: 3px; gap: 12px; }
+  .index-caption .line { max-width: 50px; }
+  .grid { grid-template-columns: 1fr; gap: 16px; }
+  .card { padding: 24px 22px 20px; }
+  .card-watermark { font-size: 72px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-eyebrow, .hero-title, .hero-rule, .hero-sub,
+  .index-caption, .card {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+</style>
+
+<!-- GoatCounter analytics (invisible — private dashboard at eurielle.goatcounter.com) -->
+<script data-goatcounter="https://eurielle.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</head>
+<body>
+
+<a class="back-link" href="index.html">Gallery</a>
+
+<section class="hero">
+  <div class="hero-eyebrow">in development · 2025 — 2026</div>
+  <h1 class="hero-title">The Pipeline</h1>
+  <div class="hero-rule">
+    <span class="line"></span>
+    <span class="ornament">❀</span>
+    <span class="line"></span>
+  </div>
+  <p class="hero-sub">a working index of characters &amp; worlds in progress &mdash;<br>
+  cast a <span class="heart">♡</span> on the one you&rsquo;d like next.</p>
+</section>
+
+<main class="content">
+
+  <div class="index-caption">
+    <span class="line"></span>
+    <span><span class="count" id="indexCount">10</span> in the works</span>
+    <span class="dot">·</span>
+    <span>one vote per visitor</span>
+    <span class="line"></span>
+  </div>
+
+  <div class="grid" id="pipelineGrid"></div>
+</main>
+
+<div class="footer-mark">
+  more drafts on the workbench, just need to give them faces.
+</div>
+
+<div class="footer">Eurielle&rsquo;s Gallery · The Pipeline</div>
+
+
+<script>
+// ════════════════════════════════════════════════════════════════
+//  Pipeline data — edit this list to add/update planned bots
+//  stage: "early" | "planning" | "brewing" | "ready" | "done"
+//  name:  use "???" or "TBA" to keep them mysterious
+// ════════════════════════════════════════════════════════════════
+const PIPELINE = [
+  { name: "???", genre: "Romance",     stage: "brewing",  note: "Modern Day, Kicked Puppy Energy, Nice Guy" },
+  { name: "???", genre: "Fantasy",     stage: "early",    note: "OC Fae", img: "fae-bound.png" },
+  { name: "Gladiator Scenario (Varro)", genre: "Fantasy", stage: "planning", note: "Roman arena · the games", img: "varro-gladiator.png" },
+  { name: "Mafia Universe Scenario",   genre: "Mafia",    stage: "planning", note: "All the families · ensemble" },
+  { name: "Jacob Martoni",  genre: "Update", stage: "brewing", note: "Full Rewrite and new scenes", img: "jacob.png" },
+  { name: "Hallalhaz: House of Death", genre: "Update", stage: "brewing", note: "Full Rewrite and new scenes", img: "hallalhaz-house-of-death.png" },
+  { name: "???", genre: "Historical",  stage: "early",    note: "Lost love / angst" },
+  { name: "???", genre: "Historical",  stage: "early",    note: "Time Travel / Iseki" },
+  { name: "Street Rats Scenario Bot", genre: "Modern", stage: "done", note: "The whole band · awaiting release", img: "street-rats-scenario.png" },
+];
+
+const STAGE_LABEL = {
+  early:    "Concept",
+  planning: "Planning",
+  brewing:  "In Progress",
+  ready:    "Almost Ready",
+  done:     "Awaiting Release",
+};
+
+const grid = document.getElementById('pipelineGrid');
+document.getElementById('indexCount').textContent = String(PIPELINE.length).padStart(2, '0');
+
+PIPELINE.forEach((p, i) => {
+  const card = document.createElement('article');
+  card.className = 'card';
+  card.dataset.idx = i;
+  card.style.animationDelay = (0.06 * i + 0.85) + 's';
+
+  const num = String(i + 1).padStart(2, '0');
+  const total = String(PIPELINE.length).padStart(2, '0');
+  const isMystery = p.name === '???' || p.name === 'TBA';
+
+  // Watermark number
+  const watermark = document.createElement('div');
+  watermark.className = 'card-watermark';
+  watermark.textContent = num;
+  watermark.setAttribute('aria-hidden', 'true');
+  card.appendChild(watermark);
+
+  // Top meta row
+  const meta = document.createElement('div');
+  meta.className = 'card-meta';
+  meta.innerHTML = `
+    <span class="card-no">No. ${num}<span class="of">/ ${total}</span></span>
+    <span class="card-stage ${p.stage}">${STAGE_LABEL[p.stage] || p.stage}</span>
+  `;
+  card.appendChild(meta);
+
+  // Portrait
+  const portrait = document.createElement('div');
+  portrait.className = 'card-portrait' + (p.img ? '' : ' is-mystery');
+  if (p.img) {
+    const img = document.createElement('img');
+    img.src = p.img;
+    img.alt = p.name;
+    img.loading = 'lazy';
+    portrait.appendChild(img);
+  }
+  card.appendChild(portrait);
+
+  // Name
+  const name = document.createElement('h3');
+  name.className = 'card-name' + (isMystery ? ' mystery' : '');
+  name.textContent = isMystery ? 'Untitled' : p.name;
+  card.appendChild(name);
+
+  // Genre
+  if (p.genre) {
+    const g = document.createElement('div');
+    g.className = 'card-genre';
+    g.textContent = p.genre;
+    card.appendChild(g);
+  }
+
+  // Note
+  if (p.note) {
+    const n = document.createElement('p');
+    n.className = 'card-note';
+    n.textContent = p.note;
+    card.appendChild(n);
+  }
+
+  // Vote button
+  const vote = document.createElement('button');
+  vote.className = 'card-vote';
+  vote.dataset.idx = i;
+  vote.type = 'button';
+  vote.setAttribute('aria-label', 'Vote for ' + (isMystery ? (p.note || 'this entry') : p.name));
+  vote.innerHTML = '<span class="heart">♡</span><span class="label">vote</span>';
+  card.appendChild(vote);
+
+  grid.appendChild(card);
+});
+
+
+// ════════════════════════════════════════════════════════════════
+//  VOTING SYSTEM
+//  Sends vote to a private Discord webhook, then locks the UI.
+//  One vote per browser via localStorage. To allow re-voting,
+//  the visitor would have to clear site data (basic anti-cheat).
+// ════════════════════════════════════════════════════════════════
+
+const WEBHOOK_URL = 'https://discord.com/api/webhooks/1507129765859954799/mOsZ2ZVSH1nXFEYYKDRNYH_piUQNguPr8nNpkbxnsc92ompGWWTbsKhqgS7WGArML9M2';
+const VOTE_KEY  = 'eurielle-pipeline-vote-3';
+const VOTER_KEY = 'eurielle-pipeline-voter';
+
+function getVoterId() {
+  let id = localStorage.getItem(VOTER_KEY);
+  if (!id) {
+    id = Math.random().toString(36).substring(2, 10);
+    localStorage.setItem(VOTER_KEY, id);
+  }
+  return id;
+}
+
+function getVotedIdx() {
+  const v = localStorage.getItem(VOTE_KEY);
+  return v === null ? null : parseInt(v, 10);
+}
+
+async function castVote(idx, btnEl) {
+  if (getVotedIdx() !== null) return;
+  const entry = PIPELINE[idx];
+  if (!entry) return;
+
+  btnEl.classList.add('loading');
+  btnEl.disabled = true;
+
+  const voterId = getVoterId();
+  const stageLabel = STAGE_LABEL[entry.stage] || entry.stage;
+  const displayName = (entry.name === '???' || entry.name === 'TBA')
+    ? `${entry.note || 'Unnamed'} (${entry.genre || 'Unknown'})`
+    : entry.name;
+
+  const payload = {
+    embeds: [{
+      title: '🗳 Pipeline Vote',
+      description: `**${displayName}**`,
+      color: 0xE27FA8,
+      fields: [
+        { name: 'Genre', value: entry.genre || '—',  inline: true },
+        { name: 'Stage', value: stageLabel,          inline: true },
+        { name: 'Note',  value: entry.note  || '—',  inline: true },
+        { name: 'Voter', value: '`' + voterId + '`', inline: true },
+      ],
+      timestamp: new Date().toISOString()
+    }]
+  };
+
+  try {
+    const res = await fetch(WEBHOOK_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+
+    localStorage.setItem(VOTE_KEY, String(idx));
+    updateAllVoteUI();
+    showToast('thank you ♥ vote recorded');
+  } catch (err) {
+    btnEl.classList.remove('loading');
+    btnEl.disabled = false;
+    showToast('vote failed — please try again', true);
+    console.error('Vote webhook error:', err);
+  }
+}
+
+function updateAllVoteUI() {
+  const votedIdx = getVotedIdx();
+  document.querySelectorAll('.card-vote').forEach(btn => {
+    const idx = parseInt(btn.dataset.idx, 10);
+    const card = btn.closest('.card');
+    btn.classList.remove('loading');
+
+    const heart = btn.querySelector('.heart');
+    const label = btn.querySelector('.label');
+
+    if (votedIdx !== null) {
+      btn.disabled = true;
+      if (idx === votedIdx) {
+        btn.classList.add('voted');
+        if (heart) heart.textContent = '♥';
+        if (label) label.textContent = 'your pick';
+        card.classList.add('is-voted');
+      } else {
+        btn.classList.remove('voted');
+        if (heart) heart.textContent = '♡';
+        if (label) label.textContent = 'voted';
+        card.classList.remove('is-voted');
+      }
+    } else {
+      btn.disabled = false;
+      btn.classList.remove('voted');
+      if (heart) heart.textContent = '♡';
+      if (label) label.textContent = 'vote';
+      card.classList.remove('is-voted');
+    }
+  });
+}
+
+function showToast(msg, isError) {
+  document.querySelectorAll('.vote-toast').forEach(t => t.remove());
+  const t = document.createElement('div');
+  t.className = 'vote-toast' + (isError ? ' error' : '');
+  t.textContent = msg;
+  document.body.appendChild(t);
+  requestAnimationFrame(() => t.classList.add('show'));
+  setTimeout(() => {
+    t.classList.remove('show');
+    setTimeout(() => t.remove(), 500);
+  }, 3500);
+}
+
+document.querySelectorAll('.card-vote').forEach(btn => {
+  btn.addEventListener('click', () => {
+    if (getVotedIdx() !== null) return;
+    const idx = parseInt(btn.dataset.idx, 10);
+    castVote(idx, btn);
+  });
+});
+
+updateAllVoteUI();
+</script>
+
+
+<!-- ──────────────────────────────────────────── -->
+<!-- ✦ Request a Scene widget (shared across all pages) -->
+<!-- Submissions post to Eurielle's private Discord channel -->
+<!-- ──────────────────────────────────────────── -->
+<div id="rsRoot">
+  <button class="rs-tab" type="button" aria-label="Request a scene" onclick="rsOpen()">
+    <span class="rs-tab-glyph">❀</span>
+    <span class="rs-tab-text">Request a scene</span>
+  </button>
+
+  <button class="rs-fab" type="button" aria-label="Request a scene" onclick="rsOpen()">
+    <span class="rs-fab-ping" aria-hidden="true"></span>
+    <span class="rs-fab-glyph">❀</span>
+  </button>
+
+  <div class="rs-backdrop" onclick="rsClose()"></div>
+
+  <aside class="rs-panel" role="dialog" aria-labelledby="rsTitle" aria-hidden="true">
+    <header class="rs-panel-head">
+      <h2 id="rsTitle" class="rs-panel-title">✦ Request a Scene ✦</h2>
+      <button class="rs-close" type="button" aria-label="Close" onclick="rsClose()">×</button>
+    </header>
+
+    <form class="rs-form" onsubmit="return rsSubmit(event)">
+      <p class="rs-intro">
+        leave me a little prompt — anonymous if you'd like, or drop your discord handle for a reply.
+      </p>
+      <p class="rs-note">
+        heads up: i won't write heavily nsfw scenes, but i'm happy to set the tone by implying certain situations — all within site rules ♡
+      </p>
+
+      <label class="rs-field">
+        <span class="rs-label">Your name <span class="rs-opt">(optional)</span></span>
+        <input class="rs-input" name="name" type="text" maxlength="80" placeholder="anonymous">
+      </label>
+
+      <label class="rs-field">
+        <span class="rs-label">Discord handle <span class="rs-opt">(optional, for replies)</span></span>
+        <input class="rs-input" name="handle" type="text" maxlength="80" placeholder="@yourhandle">
+      </label>
+
+      <label class="rs-field">
+        <span class="rs-label">Character or world</span>
+        <input class="rs-input" name="subject" type="text" maxlength="120" placeholder="e.g. Azriel, Sin Anders, Prythian Scenario">
+      </label>
+
+      <label class="rs-field">
+        <span class="rs-label">The scene idea</span>
+        <textarea class="rs-input rs-textarea" name="scene" rows="6" maxlength="1500" required
+                  placeholder="describe the vibe, setting, moment, mood…"></textarea>
+        <span class="rs-help">
+          the more detail, the better — character's emotional state, the location, the goals of the rp you're imagining, the mood you're after.
+        </span>
+      </label>
+
+      <button type="submit" class="rs-submit">
+        <span class="rs-submit-text">Send it ♡</span>
+        <span class="rs-submit-loader" aria-hidden="true">⌬</span>
+      </button>
+
+      <p class="rs-status" id="rsStatus" aria-live="polite"></p>
+    </form>
+
+    <div class="rs-success" id="rsSuccess" hidden>
+      <div class="rs-success-glyph">✦</div>
+      <h3 class="rs-success-title">Sent ♡</h3>
+      <p class="rs-success-msg">your scene request landed in Eurielle's discord.</p>
+      <button type="button" class="rs-success-btn" onclick="rsReset()">send another</button>
+    </div>
+  </aside>
+</div>
+
+<style>
+  #rsRoot { font-family: 'Cormorant Garamond', Georgia, serif; }
+
+  /* ── Desktop: enhanced vertical tab ───────────────────── */
+  .rs-tab {
+    position: fixed;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+    z-index: 9990;
+    background: linear-gradient(180deg, rgba(74, 30, 50, 0.96) 0%, rgba(42, 19, 32, 0.96) 100%);
+    border: 1.5px solid rgba(232, 184, 200, 0.65);
+    border-right: none;
+    border-radius: 14px 0 0 14px;
+    color: #ffd8e2;
+    padding: 24px 14px 26px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    cursor: pointer;
+    transition: background 0.3s, border-color 0.3s, color 0.3s, padding 0.3s;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    font-family: inherit;
+    animation:
+      rsTabEntrance 0.9s cubic-bezier(0.34, 1.56, 0.64, 1) 0.5s both,
+      rsTabAura 3.5s ease-in-out 1.4s infinite;
+  }
+  .rs-tab:hover {
+    background: linear-gradient(180deg, rgba(94, 38, 64, 0.98) 0%, rgba(58, 24, 40, 0.98) 100%);
+    border-color: rgba(255, 216, 226, 0.95);
+    color: #ffffff;
+    padding-right: 18px;
+  }
+  .rs-tab-glyph {
+    font-size: 22px;
+    text-shadow: 0 0 14px rgba(255, 184, 200, 0.8);
+    animation: rsGlyphPulse 2.6s ease-in-out infinite;
+  }
+  @keyframes rsGlyphPulse {
+    0%, 100% { opacity: 0.9; transform: scale(1); }
+    50%      { opacity: 1;   transform: scale(1.18); text-shadow: 0 0 22px rgba(255, 184, 200, 1); }
+  }
+  .rs-tab-text {
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    font-family: 'Cinzel', Georgia, serif;
+    font-size: 11px;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    font-weight: 700;
+  }
+  @keyframes rsTabEntrance {
+    0%   { right: -90px; opacity: 0; }
+    60%  { right: 8px;   opacity: 1; }
+    100% { right: 0;     opacity: 1; }
+  }
+  @keyframes rsTabAura {
+    0%, 100% {
+      box-shadow:
+        -10px 0 32px rgba(232, 184, 200, 0.22),
+        0 0 0 0 rgba(232, 184, 200, 0.0);
+    }
+    50% {
+      box-shadow:
+        -16px 0 56px rgba(232, 184, 200, 0.45),
+        -2px 0 0 rgba(255, 216, 226, 0.25);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .rs-tab, .rs-tab-glyph { animation: none; }
+  }
+
+  /* ── Mobile: circular FAB ─────────────────────────────── */
+  .rs-fab {
+    display: none;
+    position: fixed;
+    bottom: 20px;
+    right: 16px;
+    z-index: 9990;
+    width: 54px;
+    height: 54px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #823250 0%, #4a1f38 100%);
+    border: 1.5px solid rgba(255, 216, 226, 0.65);
+    color: #ffffff;
+    padding: 0;
+    cursor: pointer;
+    box-shadow:
+      0 10px 24px rgba(0, 0, 0, 0.5),
+      0 0 18px rgba(232, 184, 200, 0.3);
+    -webkit-tap-highlight-color: transparent;
+    isolation: isolate;
+    transition: transform 0.15s;
+  }
+  .rs-fab:active { transform: scale(0.94); }
+  .rs-fab-glyph {
+    font-size: 22px;
+    color: #ffd8e2;
+    text-shadow: 0 0 10px rgba(255, 184, 200, 0.85);
+    line-height: 1;
+  }
+  .rs-fab-ping {
+    position: absolute;
+    inset: -1px;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 216, 226, 0.55);
+    animation: rsFabPing 2.4s ease-out infinite;
+    pointer-events: none;
+    z-index: -1;
+  }
+  @keyframes rsFabPing {
+    0%   { transform: scale(1);   opacity: 0.8; }
+    80%  { transform: scale(1.5); opacity: 0;   }
+    100% { transform: scale(1.5); opacity: 0;   }
+  }
+
+  /* Swap point: hide vertical tab, show FAB */
+  @media (max-width: 640px) {
+    .rs-tab { display: none; }
+    .rs-fab { display: inline-flex; align-items: center; justify-content: center; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .rs-fab-ping { animation: none; }
+  }
+
+  /* Backdrop */
+  .rs-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    z-index: 9995;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.35s ease, visibility 0.35s;
+  }
+  #rsRoot.is-open .rs-backdrop { opacity: 1; visibility: visible; }
+
+  /* Panel */
+  .rs-panel {
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100vh;
+    width: min(440px, 100%);
+    background: linear-gradient(180deg, rgba(20, 10, 18, 0.98) 0%, rgba(8, 4, 10, 0.98) 100%);
+    border-left: 1px solid rgba(232, 184, 200, 0.3);
+    z-index: 9996;
+    transform: translateX(100%);
+    transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+    overflow-y: auto;
+    box-shadow: -30px 0 80px rgba(0, 0, 0, 0.6);
+    color: #f0e8f0;
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+  }
+  #rsRoot.is-open .rs-panel { transform: translateX(0); }
+
+  .rs-panel-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 24px 30px 16px;
+    border-bottom: 1px solid rgba(232, 184, 200, 0.15);
+    position: sticky;
+    top: 0;
+    background: inherit;
+    z-index: 2;
+  }
+  .rs-panel-title {
+    font-family: 'Cinzel Decorative', 'Cinzel', Georgia, serif;
+    font-size: 17px;
+    letter-spacing: 3px;
+    font-weight: 700;
+    background: linear-gradient(180deg, #f0d4d8 0%, #e8b8c8 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin: 0;
+  }
+  .rs-close {
+    background: transparent;
+    border: 1px solid rgba(232, 184, 200, 0.3);
+    color: #e8b8c8;
+    font-size: 22px;
+    width: 36px;
+    height: 36px;
+    line-height: 1;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: color 0.2s, border-color 0.2s, transform 0.25s;
+    font-family: inherit;
+    padding: 0;
+  }
+  .rs-close:hover {
+    color: #ffd8e2;
+    border-color: rgba(232, 184, 200, 0.7);
+    transform: rotate(90deg);
+  }
+
+  .rs-form    { padding: 22px 30px 30px; }
+  .rs-success { padding: 60px 30px; text-align: center; }
+
+  .rs-intro {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-style: italic;
+    font-size: 16.5px;
+    line-height: 1.55;
+    color: #b8a0b0;
+    margin: 0 0 14px;
+  }
+  .rs-note {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 15px;
+    line-height: 1.55;
+    color: #c89aa8;
+    margin: 0 0 24px;
+    padding: 12px 14px;
+    background: rgba(232, 184, 200, 0.06);
+    border-left: 2px solid rgba(232, 184, 200, 0.45);
+    border-radius: 0 6px 6px 0;
+  }
+
+  .rs-field { display: block; margin-bottom: 18px; }
+  .rs-label {
+    display: block;
+    font-family: 'Cinzel', Georgia, serif;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #c89aa8;
+    margin-bottom: 8px;
+    font-weight: 600;
+  }
+  .rs-opt {
+    color: #6f5e6a;
+    font-weight: 500;
+    text-transform: none;
+    letter-spacing: 1px;
+  }
+  .rs-input {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(232, 184, 200, 0.2);
+    color: #f0e8f0;
+    padding: 12px 14px;
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 16px;
+    border-radius: 6px;
+    transition: border-color 0.25s, background 0.25s;
+    box-sizing: border-box;
+  }
+  .rs-input:focus {
+    outline: none;
+    border-color: rgba(232, 184, 200, 0.6);
+    background: rgba(255, 255, 255, 0.06);
+  }
+  .rs-input::placeholder { color: #6f5e6a; font-style: italic; }
+  .rs-textarea { resize: vertical; min-height: 110px; line-height: 1.5; }
+
+  .rs-help {
+    display: block;
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-style: italic;
+    font-size: 14.5px;
+    line-height: 1.5;
+    color: #8a7480;
+    margin-top: 8px;
+  }
+
+  .rs-submit {
+    width: 100%;
+    background: linear-gradient(135deg, #6a2840 0%, #3a1828 100%);
+    border: 1px solid rgba(232, 184, 200, 0.5);
+    color: #ffd8e2;
+    padding: 14px 24px;
+    font-family: 'Cinzel', Georgia, serif;
+    font-size: 12px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.3s, border-color 0.3s, transform 0.2s, box-shadow 0.3s;
+    margin-top: 8px;
+    font-weight: 600;
+  }
+  .rs-submit:hover {
+    background: linear-gradient(135deg, #823250 0%, #4a1f38 100%);
+    border-color: rgba(232, 184, 200, 0.9);
+    transform: translateY(-1px);
+    box-shadow: 0 8px 24px rgba(232, 184, 200, 0.22);
+  }
+  .rs-submit:disabled { opacity: 0.6; cursor: wait; transform: none; }
+  .rs-submit-loader {
+    display: none;
+    margin-left: 10px;
+    animation: rsSpin 1s linear infinite;
+  }
+  .rs-submit.is-loading .rs-submit-text   { opacity: 0.7; }
+  .rs-submit.is-loading .rs-submit-loader { display: inline-block; }
+  @keyframes rsSpin { to { transform: rotate(360deg); } }
+
+  .rs-status {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-style: italic;
+    font-size: 14px;
+    color: #c89aa8;
+    margin: 14px 0 0;
+    text-align: center;
+    min-height: 1em;
+  }
+  .rs-status.is-error { color: #d88080; }
+
+  .rs-success-glyph {
+    font-size: 48px;
+    color: #e8b8c8;
+    text-shadow: 0 0 26px rgba(232, 184, 200, 0.55);
+    margin-bottom: 16px;
+  }
+  .rs-success-title {
+    font-family: 'Cinzel Decorative', 'Cinzel', Georgia, serif;
+    font-size: 28px;
+    letter-spacing: 6px;
+    margin: 0 0 12px;
+    background: linear-gradient(180deg, #f0d4d8 0%, #e8b8c8 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .rs-success-msg {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-style: italic;
+    color: #b8a0b0;
+    margin: 0 0 28px;
+    line-height: 1.5;
+  }
+  .rs-success-btn {
+    background: transparent;
+    border: 1px solid rgba(232, 184, 200, 0.4);
+    color: #e8b8c8;
+    padding: 12px 24px;
+    font-family: 'Cinzel', Georgia, serif;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.25s, border-color 0.25s, color 0.25s;
+    font-weight: 600;
+  }
+  .rs-success-btn:hover {
+    border-color: rgba(232, 184, 200, 0.8);
+    color: #ffd8e2;
+    background: rgba(232, 184, 200, 0.08);
+  }
+
+  /* Mobile: panel goes full-width */
+  @media (max-width: 540px) {
+    .rs-panel { width: 100%; }
+    .rs-form  { padding: 18px 22px 26px; }
+  }
+</style>
+
+<script>
+  (function() {
+    const WEBHOOK_URL = "https://discord.com/api/webhooks/1506765243127431218/QwNPd5Q_IXZVf2cupBDRqRsE3rUAiEgL2cVYXqHLK0ECxIlLD2lUrV60QFA1lzWWYw57";
+    const root         = document.getElementById('rsRoot');
+    const form         = root.querySelector('.rs-form');
+    const status       = document.getElementById('rsStatus');
+    const successPanel = document.getElementById('rsSuccess');
+    const submitBtn    = root.querySelector('.rs-submit');
+    const panel        = root.querySelector('.rs-panel');
+
+    window.rsOpen = function() {
+      root.classList.add('is-open');
+      panel.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    };
+    window.rsClose = function() {
+      root.classList.remove('is-open');
+      panel.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    };
+    window.rsReset = function() {
+      form.reset();
+      form.hidden = false;
+      successPanel.hidden = true;
+      status.textContent = '';
+      status.classList.remove('is-error');
+    };
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && root.classList.contains('is-open')) window.rsClose();
+    });
+
+    window.rsSubmit = async function(e) {
+      e.preventDefault();
+      status.textContent = '';
+      status.classList.remove('is-error');
+
+      const data    = new FormData(form);
+      const name    = (data.get('name')    || '').toString().trim() || 'Anonymous';
+      const handle  = (data.get('handle')  || '').toString().trim();
+      const subject = (data.get('subject') || '').toString().trim() || '—';
+      const scene   = (data.get('scene')   || '').toString().trim();
+
+      if (!scene) {
+        status.textContent = 'tell me the scene first ♡';
+        status.classList.add('is-error');
+        return false;
+      }
+
+      const page = (document.title || location.pathname).replace(" · Eurielle's Gallery", '');
+      const embed = {
+        title: '✦ New Scene Request',
+        color: 0xe8b8c8,
+        fields: [
+          { name: 'From',  value: name + (handle ? ' (' + handle + ')' : ''), inline: true },
+          { name: 'Page',  value: page || 'Gallery', inline: true },
+          { name: 'Character / World', value: subject, inline: false },
+          { name: 'Scene', value: scene.length > 1024 ? scene.slice(0, 1020) + '…' : scene, inline: false },
+        ],
+        timestamp: new Date().toISOString(),
+        footer: { text: 'sent from ' + location.host },
+      };
+
+      submitBtn.disabled = true;
+      submitBtn.classList.add('is-loading');
+      try {
+        const res = await fetch(WEBHOOK_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ embeds: [embed] }),
+        });
+        if (!res.ok) throw new Error('Webhook error: ' + res.status);
+        form.hidden = true;
+        successPanel.hidden = false;
+      } catch (err) {
+        status.textContent = 'something went wrong — try again in a moment?';
+        status.classList.add('is-error');
+        console.error(err);
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.classList.remove('is-loading');
+      }
+      return false;
+    };
+  })();
+</script>
+<!-- ✦ end Request a Scene widget ✦ -->
+
+</body>
+</html>
