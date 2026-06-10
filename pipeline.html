@@ -1,0 +1,1986 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Pipeline · Eurielle's Gallery</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Italiana&display=swap" rel="stylesheet">
+
+<style>
+/* ═══════════════════════════════════════════════════════════════
+   THE PIPELINE — a minor arcana of works in progress
+   Each unfinished character is a card not yet turned.
+   Stages read as phases of the moon. A vote leaves a wax seal.
+   ═══════════════════════════════════════════════════════════════ */
+
+:root {
+  --void:        #0a0510;
+  --bg:          #100a18;
+  --bg-2:        #150d1f;
+
+  --card-1:      #1c1226;
+  --card-2:      #130b1c;
+  --card-edge:   rgba(212, 144, 168, 0.30);
+  --card-edge-2: rgba(212, 144, 168, 0.14);
+
+  --rule:        rgba(212, 144, 168, 0.16);
+  --rule-bright: rgba(212, 144, 168, 0.45);
+  --rule-soft:   rgba(212, 144, 168, 0.08);
+
+  --cream:       #f0e4d4;
+  --cream-2:     #d8c8b8;
+  --cream-dim:   #b6a498;
+  --cream-mute:  #84727e;
+  --cream-faint: #564850;
+
+  --rose:        #d490a8;
+  --rose-bright: #f4b0c8;
+  --rose-deep:   #9c5f7c;
+  --rose-glow:   rgba(244, 176, 200, 0.25);
+
+  --gold:        #c89b58;
+  --gold-bright: #ecc985;
+  --gold-dim:    rgba(200, 155, 88, 0.55);
+  --gold-faint:  rgba(200, 155, 88, 0.22);
+
+  --wax-1:       #8e2c48;
+  --wax-2:       #58182e;
+
+  /* moon-phase stage colors */
+  --stage-early: #8c7884;
+  --stage-plan:  #b094a4;
+  --stage-prog:  #d490a8;
+  --stage-ready: #f0a8c4;
+  --stage-done:  #d4ad62;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--cream);
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 18px;
+  line-height: 1.6;
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Night sky: nebula glow + vignette ── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 1000px 640px at 50% -10%, rgba(212, 144, 168, 0.13), transparent 62%),
+    radial-gradient(ellipse 760px 560px at 96% 100%,  rgba(150, 100, 180, 0.08), transparent 60%),
+    radial-gradient(ellipse 600px 460px at 2% 78%,    rgba(200, 155, 88, 0.05),  transparent 60%);
+  pointer-events: none;
+  z-index: 0;
+}
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(ellipse 120% 90% at 50% 40%, transparent 55%, rgba(6, 3, 10, 0.55) 100%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* JS-scattered stars */
+.star {
+  position: fixed;
+  border-radius: 50%;
+  background: #f6dce8;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.22;
+  animation: twinkle var(--d, 5s) ease-in-out var(--delay, 0s) infinite;
+}
+@keyframes twinkle {
+  0%, 100% { opacity: 0.10; transform: scale(0.8); }
+  50%      { opacity: 0.55; transform: scale(1.1); }
+}
+
+/* ── Back link ── */
+.back-link {
+  position: fixed;
+  top: 26px;
+  left: 28px;
+  z-index: 50;
+  font-family: 'Cinzel', serif;
+  font-size: 10px;
+  letter-spacing: 4px;
+  color: var(--cream-dim);
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 8px 0 9px;
+  border-bottom: 1px solid var(--rule);
+  font-weight: 500;
+  transition: color 0.3s, border-color 0.3s;
+}
+.back-link::before {
+  content: '←';
+  display: inline-block;
+  margin-right: 10px;
+  transition: transform 0.3s;
+}
+.back-link:hover { color: var(--rose-bright); border-color: var(--rose-bright); }
+.back-link:hover::before { transform: translateX(-3px); }
+.back-link:focus-visible { outline: 2px solid var(--gold); outline-offset: 4px; }
+
+/* ═══════════════════════════════════════════════════════════════
+   HERO — engraved frontispiece
+   ═══════════════════════════════════════════════════════════════ */
+.hero {
+  position: relative;
+  z-index: 2;
+  padding: 88px 24px 30px;
+  text-align: center;
+  max-width: 920px;
+  margin: 0 auto;
+}
+
+.hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  font-family: 'Cinzel', serif;
+  font-size: 10px;
+  letter-spacing: 7px;
+  color: var(--rose);
+  text-transform: uppercase;
+  margin-bottom: 26px;
+  font-weight: 500;
+  opacity: 0;
+  animation: fade-up 0.8s ease-out 0.1s forwards;
+}
+.hero-eyebrow::before,
+.hero-eyebrow::after {
+  content: '✶';
+  font-size: 9px;
+  color: var(--gold-dim);
+}
+/* letter-spacing adds a phantom space after the last letter —
+   pull the right star back so the text sits truly centered */
+.hero-eyebrow::after { margin-left: -7px; }
+
+/* the celestial emblem — slow-turning engraved rose */
+.hero-emblem {
+  display: block; /* SVG is inline by default — without this it shares a line with the eyebrow and shoves it off-center */
+  width: 92px;
+  height: 92px;
+  margin: 0 auto 24px;
+  opacity: 0;
+  animation: fade-up 1s ease-out 0.2s forwards;
+}
+.hero-emblem .ring-spin {
+  transform-origin: 50% 50%;
+  animation: emblem-turn 80s linear infinite;
+}
+.hero-emblem .ring-spin-r {
+  transform-origin: 50% 50%;
+  animation: emblem-turn 110s linear infinite reverse;
+}
+@keyframes emblem-turn { to { transform: rotate(360deg); } }
+
+.hero-title {
+  font-family: 'Italiana', serif;
+  font-size: clamp(48px, 7vw, 82px);
+  font-weight: 400;
+  letter-spacing: 6px;
+  line-height: 1;
+  color: var(--cream);
+  margin-bottom: 18px;
+  text-shadow: 0 0 48px rgba(212, 144, 168, 0.18);
+  margin-left: 3px; /* optical centering: offsets the 6px trailing letter-space */
+  opacity: 0;
+  animation: fade-up 0.9s ease-out 0.3s forwards;
+}
+
+.hero-rule {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin: 0 auto 20px;
+  max-width: 360px;
+  opacity: 0;
+  animation: fade-up 0.9s ease-out 0.45s forwards;
+}
+.hero-rule .line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold-dim), transparent);
+}
+.hero-rule .ornament {
+  font-family: 'Italiana', serif;
+  color: var(--gold);
+  font-size: 13px;
+  letter-spacing: 6px;
+  text-shadow: 0 0 12px rgba(236, 201, 133, 0.3);
+}
+
+.hero-sub {
+  font-style: italic;
+  font-size: clamp(16px, 1.7vw, 19.5px);
+  color: var(--cream-dim);
+  letter-spacing: 0.6px;
+  max-width: 580px;
+  margin: 0 auto;
+  line-height: 1.55;
+  opacity: 0;
+  animation: fade-up 0.9s ease-out 0.6s forwards;
+}
+.hero-sub .heart { color: var(--rose); font-style: normal; margin: 0 2px; }
+.hero-sub .gold  { color: var(--gold-bright); font-style: italic; }
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Moon-phase legend ── */
+.legend {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 8px 26px;
+  max-width: 860px;
+  margin: 34px auto 0;
+  padding: 14px 26px;
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+  opacity: 0;
+  animation: fade-up 0.9s ease-out 0.75s forwards;
+}
+.legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Cinzel', serif;
+  font-size: 9px;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--cream-mute);
+}
+.legend-item svg { display: block; }
+.legend-item.early span { color: var(--stage-early); }
+.legend-item.plan  span { color: var(--stage-plan); }
+.legend-item.prog  span { color: var(--stage-prog); }
+.legend-item.ready span { color: var(--stage-ready); }
+.legend-item.done  span { color: var(--stage-done); }
+.legend-arrow { color: var(--cream-faint); font-size: 11px; }
+
+/* ═══════════════════════════════════════════════════════════════
+   THE TABLE — index caption + deck grid
+   ═══════════════════════════════════════════════════════════════ */
+.content {
+  position: relative;
+  z-index: 2;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 38px 28px 90px;
+}
+
+.index-caption {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  margin: 0 auto 40px;
+  max-width: 720px;
+  font-family: 'Cinzel', serif;
+  font-size: 10px;
+  letter-spacing: 4px;
+  color: var(--cream-mute);
+  text-transform: uppercase;
+  font-weight: 500;
+  opacity: 0;
+  animation: fade-up 0.9s ease-out 0.85s forwards;
+}
+.index-caption .line { flex: 1; height: 1px; background: var(--rule); max-width: 120px; }
+.index-caption .count { color: var(--gold-bright); font-weight: 600; letter-spacing: 3px; }
+.index-caption .dot { color: var(--cream-faint); margin: 0 4px; }
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(258px, 1fr));
+  gap: 30px 26px;
+  perspective: 1400px;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   THE CARD — tarot stock
+   ═══════════════════════════════════════════════════════════════ */
+.tcard {
+  position: relative;
+  perspective: 1200px; /* gives the vote-flip its 3D depth */
+  opacity: 0;
+  animation: deal 0.85s cubic-bezier(0.2, 0.75, 0.25, 1) forwards;
+}
+.tcard:nth-child(odd)  { --deal-r: -3.5deg; }
+.tcard:nth-child(even) { --deal-r:  3.5deg; }
+@keyframes deal {
+  0%   { opacity: 0; transform: translateY(56px) rotate(var(--deal-r, -3deg)) scale(0.94); }
+  100% { opacity: 1; transform: translateY(0) rotate(0deg) scale(1); }
+}
+
+/* ── the flipper: front face (the card) + reverse face (your sealed pick) ── */
+.tcard-flipper {
+  position: relative;
+  height: 100%;
+  transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
+  transition: transform 0.95s cubic-bezier(0.35, 0.7, 0.25, 1);
+}
+.tcard.is-flipped .tcard-flipper { transform: rotateY(180deg); }
+.tcard-flipper.no-anim { transition: none !important; }
+.tcard.is-voted { cursor: pointer; } /* tap to peek either side */
+
+.tcard-back {
+  position: absolute;
+  inset: 0;
+  transform: rotateY(180deg);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 13px;
+  text-align: center;
+  padding: 26px 20px 40px;
+  border-radius: 10px;
+  border: 1px solid var(--rule-bright);
+  background:
+    radial-gradient(ellipse at 50% 40%, rgba(212, 144, 168, 0.15), transparent 72%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='26' height='26'%3E%3Cpath d='M13 5l1.7 6.3L21 13l-6.3 1.7L13 21l-1.7-6.3L5 13l6.3-1.7z' fill='%23d490a8' fill-opacity='0.10'/%3E%3C/svg%3E"),
+    linear-gradient(168deg, var(--card-1) 0%, var(--card-2) 100%);
+  box-shadow:
+    0 14px 40px rgba(0, 0, 0, 0.5),
+    0 0 34px rgba(212, 144, 168, 0.16),
+    inset 0 0 30px rgba(0, 0, 0, 0.35);
+  overflow: hidden;
+}
+.tcard-back::before {
+  content: '';
+  position: absolute;
+  inset: 8px;
+  border: 1px solid var(--gold-faint);
+  border-radius: 6px;
+  pointer-events: none;
+}
+.tback-numeral {
+  font-family: 'Italiana', serif;
+  font-size: 21px;
+  letter-spacing: 4px;
+  color: var(--gold-bright);
+  text-shadow: 0 0 14px rgba(236, 201, 133, 0.3);
+}
+.tback-seal {
+  position: relative;
+  width: 76px;
+  height: 76px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background:
+    radial-gradient(circle at 34% 30%, rgba(255, 200, 215, 0.35), transparent 42%),
+    radial-gradient(circle at 50% 50%, var(--wax-1) 0%, var(--wax-2) 78%);
+  border: 1px solid rgba(255, 190, 210, 0.35);
+  box-shadow:
+    inset 0 2px 7px rgba(255, 200, 220, 0.25),
+    inset 0 -4px 10px rgba(0, 0, 0, 0.5),
+    0 8px 20px rgba(0, 0, 0, 0.5),
+    0 0 28px rgba(244, 176, 200, 0.3);
+  transform: rotate(-12deg);
+}
+.tback-seal::before {
+  content: '';
+  position: absolute;
+  inset: 6px;
+  border-radius: 50%;
+  border: 1px dashed rgba(255, 200, 220, 0.4);
+}
+.tback-seal span {
+  font-size: 27px;
+  color: #ffd8e4;
+  text-shadow: 0 0 12px rgba(255, 180, 205, 0.8);
+  line-height: 1;
+}
+.tback-label {
+  font-family: 'Cinzel', serif;
+  font-size: 10px;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--rose-bright);
+}
+.tback-name {
+  font-family: 'Italiana', serif;
+  font-size: 17px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--cream);
+  line-height: 1.3;
+  max-width: 92%;
+  font-weight: 400;
+}
+.tback-hint {
+  position: absolute;
+  bottom: 15px;
+  left: 0;
+  right: 0;
+  font-style: italic;
+  font-size: 13.5px;
+  letter-spacing: 0.4px;
+  color: var(--cream-mute);
+}
+
+.tcard-inner {
+  position: relative;
+  height: 100%;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 24px 22px 20px;
+  background:
+    radial-gradient(ellipse 90% 60% at 50% 0%, rgba(212, 144, 168, 0.07), transparent 70%),
+    linear-gradient(168deg, var(--card-1) 0%, var(--card-2) 100%);
+  border: 1px solid var(--card-edge);
+  border-radius: 10px;
+  box-shadow:
+    0 10px 34px rgba(0, 0, 0, 0.45),
+    inset 0 0 30px rgba(0, 0, 0, 0.30);
+  transform-style: preserve-3d;
+  transition: border-color 0.4s, box-shadow 0.4s;
+  overflow: hidden;
+  will-change: transform;
+}
+/* inner engraved frame */
+.tcard-inner::before {
+  content: '';
+  position: absolute;
+  inset: 8px;
+  border: 1px solid var(--card-edge-2);
+  border-radius: 6px;
+  pointer-events: none;
+  transition: border-color 0.4s;
+}
+.tcard:hover .tcard-inner {
+  border-color: var(--rule-bright);
+  box-shadow:
+    0 22px 50px rgba(0, 0, 0, 0.55),
+    0 0 36px rgba(212, 144, 168, 0.10),
+    inset 0 0 30px rgba(0, 0, 0, 0.30);
+}
+.tcard:hover .tcard-inner::before { border-color: var(--gold-faint); }
+
+/* candle-sheen that follows the cursor */
+.tcard-sheen {
+  position: absolute;
+  inset: 0;
+  border-radius: 10px;
+  background: radial-gradient(circle 240px at var(--mx, 50%) var(--my, 50%),
+              rgba(255, 224, 238, 0.10), transparent 70%);
+  opacity: 0;
+  transition: opacity 0.4s;
+  pointer-events: none;
+  z-index: 5;
+}
+.tcard:hover .tcard-sheen { opacity: 1; }
+
+/* corner flourishes */
+.tcard-corner {
+  position: absolute;
+  width: 26px;
+  height: 26px;
+  color: var(--gold-dim);
+  opacity: 0.55;
+  transition: opacity 0.4s, color 0.4s;
+  pointer-events: none;
+  z-index: 3;
+}
+.tcard-corner.tl { top: 12px;    left: 12px; }
+.tcard-corner.tr { top: 12px;    right: 12px;  transform: scaleX(-1); }
+.tcard-corner.bl { bottom: 12px; left: 12px;   transform: scaleY(-1); }
+.tcard-corner.br { bottom: 12px; right: 12px;  transform: scale(-1); }
+.tcard:hover .tcard-corner { opacity: 1; color: var(--gold); }
+
+/* numeral crest */
+.tcard-numeral {
+  position: relative;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+  font-family: 'Italiana', serif;
+  font-size: 22px;
+  letter-spacing: 4px;
+  color: var(--gold-dim);
+  transition: color 0.4s, text-shadow 0.4s;
+}
+.tcard-numeral::before,
+.tcard-numeral::after {
+  content: '';
+  width: 22px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold-faint));
+}
+.tcard-numeral::after { background: linear-gradient(90deg, var(--gold-faint), transparent); }
+.tcard:hover .tcard-numeral {
+  color: var(--gold-bright);
+  text-shadow: 0 0 14px rgba(236, 201, 133, 0.35);
+}
+
+/* arched portrait window */
+.tcard-window {
+  position: relative;
+  z-index: 2;
+  width: 118px;
+  height: 148px;
+  margin-bottom: 16px;
+  border: 1px solid var(--gold-faint);
+  border-radius: 59px 59px 7px 7px;
+  overflow: hidden;
+  background: var(--void);
+  box-shadow:
+    inset 0 0 22px rgba(0, 0, 0, 0.5),
+    0 8px 22px rgba(0, 0, 0, 0.4);
+  transition: border-color 0.45s, transform 0.5s cubic-bezier(0.2, 0.7, 0.3, 1), box-shadow 0.45s;
+}
+.tcard-window img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 22%;
+  display: block;
+  transition: transform 0.6s ease;
+}
+.tcard:hover .tcard-window {
+  border-color: var(--gold-dim);
+  transform: translateY(-3px) translateZ(24px);
+  box-shadow:
+    inset 0 0 22px rgba(0, 0, 0, 0.5),
+    0 14px 28px rgba(0, 0, 0, 0.5),
+    0 0 24px rgba(236, 201, 133, 0.10);
+}
+.tcard:hover .tcard-window img { transform: scale(1.07); }
+
+/* face-down card back, for the ??? entries */
+.tcard-window.is-facedown {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background:
+    radial-gradient(ellipse at 50% 38%, rgba(212, 144, 168, 0.14), transparent 72%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='26' height='26'%3E%3Cpath d='M13 5l1.7 6.3L21 13l-6.3 1.7L13 21l-1.7-6.3L5 13l6.3-1.7z' fill='%23d490a8' fill-opacity='0.10'/%3E%3C/svg%3E"),
+    var(--void);
+}
+.tcard-window.is-facedown::before {
+  content: '';
+  position: absolute;
+  inset: 6px;
+  border: 1px solid rgba(212, 144, 168, 0.18);
+  border-radius: 50px 50px 4px 4px;
+}
+.tcard-window.is-facedown::after {
+  content: '?';
+  font-family: 'Italiana', serif;
+  font-size: 50px;
+  color: var(--rose);
+  opacity: 0.6;
+  text-shadow: 0 0 18px var(--rose-glow);
+  line-height: 1;
+  transform: translateY(-2px);
+  transition: opacity 0.4s, text-shadow 0.4s;
+}
+.tcard:hover .tcard-window.is-facedown::after {
+  opacity: 0.95;
+  text-shadow: 0 0 26px rgba(244, 176, 200, 0.6);
+}
+
+/* name banner */
+.tcard-name {
+  position: relative;
+  z-index: 2;
+  font-family: 'Italiana', serif;
+  font-size: 20px;
+  letter-spacing: 2.5px;
+  color: var(--cream);
+  line-height: 1.2;
+  text-transform: uppercase;
+  margin-bottom: 5px;
+}
+.tcard-name.is-facedown {
+  letter-spacing: 6px;
+  color: var(--cream-2);
+  opacity: 0.85;
+}
+
+.tcard-genre {
+  position: relative;
+  z-index: 2;
+  font-family: 'Cinzel', serif;
+  font-size: 9px;
+  letter-spacing: 3.5px;
+  color: var(--rose);
+  text-transform: uppercase;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+/* moon-phase stage row */
+.tcard-stage {
+  position: relative;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Cinzel', serif;
+  font-size: 8.5px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--cream-dim);
+  margin-bottom: 12px;
+  padding: 5px 12px;
+  border: 1px solid var(--rule-soft);
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.18);
+}
+.tcard-stage svg { display: block; filter: drop-shadow(0 0 5px currentColor); }
+.tcard-stage.early { color: var(--stage-early); }
+.tcard-stage.plan  { color: var(--stage-plan); }
+.tcard-stage.prog  { color: var(--stage-prog); }
+.tcard-stage.ready { color: var(--stage-ready); }
+.tcard-stage.done  { color: var(--stage-done); border-color: rgba(200, 155, 88, 0.25); }
+
+.tcard-note {
+  position: relative;
+  z-index: 2;
+  font-style: italic;
+  font-size: 15.5px;
+  color: var(--cream-dim);
+  line-height: 1.45;
+  letter-spacing: 0.3px;
+  max-width: 230px;
+  margin-bottom: 18px;
+}
+
+/* divider above vote */
+.tcard-divider {
+  position: relative;
+  z-index: 2;
+  margin-top: auto;
+  width: 64px;
+  height: 9px;
+  margin-bottom: 8px;
+  color: var(--gold-faint);
+  transition: color 0.4s;
+}
+.tcard:hover .tcard-divider { color: var(--gold-dim); }
+
+/* vote — "turn this card" */
+.card-vote {
+  position: relative;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 6px 2px 7px;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  font-family: 'Cinzel', serif;
+  font-size: 9px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--cream-mute);
+  font-weight: 600;
+  transition: color 0.3s, letter-spacing 0.3s;
+}
+.card-vote::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 8%;
+  right: 8%;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.3;
+  transition: opacity 0.3s, left 0.3s, right 0.3s;
+}
+.card-vote .heart {
+  font-size: 13px;
+  line-height: 1;
+  transform: translateY(-1px);
+  transition: transform 0.3s;
+}
+.card-vote:hover:not(:disabled) { color: var(--rose-bright); letter-spacing: 4.5px; }
+.card-vote:hover:not(:disabled)::after { opacity: 0.7; left: 0; right: 0; }
+.card-vote:hover:not(:disabled) .heart { transform: translateY(-1px) scale(1.18); }
+.card-vote:focus-visible { outline: 2px solid var(--gold); outline-offset: 4px; }
+
+.card-vote.voted { color: var(--rose-bright); cursor: default; }
+.card-vote.voted::after { opacity: 1; left: 0; right: 0; }
+.card-vote:disabled:not(.voted) { cursor: not-allowed; opacity: 0.35; }
+.card-vote.loading { opacity: 0.55; cursor: wait; }
+
+/* finished card — no vote, sealed inscription */
+.tcard-finis {
+  position: relative;
+  z-index: 2;
+  font-family: 'Cinzel', serif;
+  font-size: 9px;
+  letter-spacing: 3.5px;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--gold);
+  padding: 6px 2px 7px;
+}
+.tcard-finis .g { color: var(--gold-dim); margin: 0 7px; }
+
+/* ── wax seal — stamped on your pick ── */
+.tcard-seal {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  z-index: 6;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background:
+    radial-gradient(circle at 34% 30%, rgba(255, 200, 215, 0.35), transparent 42%),
+    radial-gradient(circle at 50% 50%, var(--wax-1) 0%, var(--wax-2) 78%);
+  border: 1px solid rgba(255, 190, 210, 0.35);
+  box-shadow:
+    inset 0 2px 6px rgba(255, 200, 220, 0.25),
+    inset 0 -3px 8px rgba(0, 0, 0, 0.5),
+    0 6px 16px rgba(0, 0, 0, 0.5),
+    0 0 22px rgba(244, 176, 200, 0.25);
+  transform: rotate(-12deg);
+  pointer-events: none;
+}
+.tcard-seal::before {
+  content: '';
+  position: absolute;
+  inset: 5px;
+  border-radius: 50%;
+  border: 1px dashed rgba(255, 200, 220, 0.4);
+}
+.tcard-seal span {
+  font-size: 19px;
+  color: #ffd8e4;
+  text-shadow: 0 0 10px rgba(255, 180, 205, 0.8);
+  line-height: 1;
+}
+.tcard-seal.stamp { animation: stamp 0.55s cubic-bezier(0.2, 1.4, 0.4, 1) forwards; }
+@keyframes stamp {
+  0%   { opacity: 0; transform: rotate(-12deg) scale(2.1); }
+  60%  { opacity: 1; transform: rotate(-12deg) scale(0.92); }
+  100% { opacity: 1; transform: rotate(-12deg) scale(1); }
+}
+
+/* voted card glow */
+.tcard.is-voted .tcard-inner {
+  border-color: var(--rule-bright);
+  box-shadow:
+    0 14px 40px rgba(0, 0, 0, 0.5),
+    0 0 34px rgba(212, 144, 168, 0.16),
+    inset 0 0 30px rgba(0, 0, 0, 0.3);
+}
+.tcard.is-voted .tcard-numeral { color: var(--gold-bright); }
+
+/* ── Toast ── */
+.vote-toast {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: linear-gradient(180deg, rgba(28, 16, 32, 0.97), rgba(16, 9, 22, 0.97));
+  color: var(--rose-bright);
+  border: 1px solid var(--rose-deep);
+  border-radius: 4px;
+  padding: 14px 30px;
+  font-family: 'Cinzel', serif;
+  font-size: 10px;
+  letter-spacing: 4px;
+  text-transform: lowercase;
+  opacity: 0;
+  transition: opacity 0.4s, transform 0.4s;
+  z-index: 9999;
+  pointer-events: none;
+  max-width: 90vw;
+  text-align: center;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.55), 0 0 24px rgba(212, 144, 168, 0.10);
+}
+.vote-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+.vote-toast.error { color: #f0a8a8; border-color: #b06060; }
+
+/* ── Footer ── */
+.footer-mark {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  padding: 36px 24px 46px;
+  font-style: italic;
+  font-size: 15.5px;
+  color: var(--cream-mute);
+  letter-spacing: 0.5px;
+  max-width: 520px;
+  margin: 0 auto;
+}
+.footer-mark::before,
+.footer-mark::after {
+  content: '';
+  display: block;
+  width: 50px;
+  height: 1px;
+  background: var(--gold-dim);
+  margin: 0 auto 18px;
+}
+.footer-mark::after { margin: 18px auto 0; }
+
+.footer {
+  text-align: center;
+  padding: 0 24px 60px;
+  color: var(--cream-faint);
+  font-family: 'Cinzel', serif;
+  font-size: 10px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  position: relative;
+  z-index: 2;
+  font-weight: 500;
+}
+
+/* ── Responsive — every size of table the deck might be dealt on ── */
+
+/* ultrawide monitors: let the deck breathe in five columns */
+@media (min-width: 1900px) {
+  .content { max-width: 1600px; padding-bottom: 110px; }
+  .grid { gap: 36px 32px; }
+  .hero { max-width: 1040px; padding-top: 104px; }
+  .legend { max-width: 940px; }
+}
+
+/* wide desktop */
+@media (min-width: 1500px) and (max-width: 1899px) {
+  .content { max-width: 1400px; }
+  .grid { gap: 32px 28px; }
+}
+
+/* tablets & small laptops */
+@media (max-width: 900px) {
+  .content { padding: 30px 22px 80px; }
+  .grid { grid-template-columns: repeat(auto-fill, minmax(238px, 1fr)); gap: 24px 20px; }
+  .hero { padding: 80px 22px 26px; }
+}
+
+/* phones (portrait) — one column, comfortably centered */
+@media (max-width: 600px) {
+  .back-link { top: 14px; left: 14px; font-size: 9px; letter-spacing: 3px; }
+  .hero { padding: 64px 18px 22px; }
+  .hero-eyebrow { letter-spacing: 5px; gap: 10px; }
+  .hero-eyebrow::after { margin-left: -5px; }
+  .hero-emblem { width: 74px; height: 74px; margin-bottom: 20px; }
+  .hero-title { letter-spacing: 4px; margin-left: 2px; }
+  .hero-sub br { display: none; }
+  .legend { gap: 7px 14px; padding: 12px 10px; margin-top: 28px; }
+  .legend-item { font-size: 8px; letter-spacing: 2px; gap: 6px; }
+  .legend-arrow { display: none; }
+  .content { padding: 26px 18px 64px; }
+  .index-caption { letter-spacing: 2.5px; gap: 10px; font-size: 9px; }
+  .index-caption .line { max-width: 44px; }
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 22px;
+    max-width: 340px;
+    margin: 0 auto;
+  }
+  .footer-mark { padding: 30px 22px 38px; font-size: 15px; }
+  .footer { padding-bottom: 90px; } /* clear the request-a-scene FAB */
+}
+
+/* small phones */
+@media (max-width: 380px) {
+  .hero { padding: 58px 14px 20px; }
+  .hero-eyebrow { letter-spacing: 3.5px; font-size: 9px; }
+  .hero-eyebrow::after { margin-left: -3.5px; }
+  .content { padding: 24px 14px 60px; }
+  .grid { max-width: 100%; }
+  .tcard-inner { padding: 22px 16px 18px; }
+  .tcard-window { width: 106px; height: 134px; border-radius: 53px 53px 6px 6px; }
+  .tcard-name { font-size: 18px; letter-spacing: 2px; }
+  .tcard-note { font-size: 15px; max-width: 100%; }
+  .vote-toast { padding: 12px 20px; letter-spacing: 3px; }
+}
+
+/* short landscape phones: trim vertical fat so cards reach the fold */
+@media (max-height: 480px) and (orientation: landscape) {
+  .hero { padding: 56px 22px 18px; }
+  .hero-emblem { width: 64px; height: 64px; margin-bottom: 14px; }
+  .legend { margin-top: 20px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-eyebrow, .hero-emblem, .hero-title, .hero-rule, .hero-sub,
+  .legend, .index-caption, .tcard {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .hero-emblem .ring-spin, .hero-emblem .ring-spin-r { animation: none; }
+  .star { animation: none; opacity: 0.2; }
+  .tcard-inner { transform: none !important; }
+  .tcard-flipper { transition: none; }
+  .tcard-seal.stamp { animation: none; opacity: 1; }
+}
+</style>
+
+<!-- GoatCounter analytics (invisible — private dashboard at eurielle.goatcounter.com) -->
+<script data-goatcounter="https://eurielle.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</head>
+<body>
+
+<a class="back-link" href="index.html">Gallery</a>
+
+<section class="hero">
+  <div class="hero-eyebrow">in development · 2025 — 2026</div>
+
+  <!-- slow-turning celestial emblem -->
+  <svg class="hero-emblem" viewBox="0 0 100 100" aria-hidden="true">
+    <g class="ring-spin">
+      <circle cx="50" cy="50" r="46" fill="none" stroke="rgba(200,155,88,0.35)" stroke-width="0.8"
+              stroke-dasharray="2 5"/>
+    </g>
+    <circle cx="50" cy="50" r="38" fill="none" stroke="rgba(212,144,168,0.30)" stroke-width="0.8"/>
+    <g class="ring-spin-r">
+      <circle cx="50" cy="50" r="30" fill="none" stroke="rgba(200,155,88,0.28)" stroke-width="0.7"
+              stroke-dasharray="14 6"/>
+      <circle cx="50" cy="20" r="1.6" fill="#ecc985" opacity="0.85"/>
+    </g>
+    <!-- eight-point star -->
+    <g fill="none" stroke="rgba(244,176,200,0.85)" stroke-width="1">
+      <path d="M50 30 L54 46 L70 50 L54 54 L50 70 L46 54 L30 50 L46 46 Z"/>
+      <path d="M50 39 L52.6 47.4 L61 50 L52.6 52.6 L50 61 L47.4 52.6 L39 50 L47.4 47.4 Z"
+            fill="rgba(212,144,168,0.18)" stroke="none"/>
+    </g>
+    <circle cx="50" cy="50" r="2.4" fill="#f4b0c8"/>
+  </svg>
+
+  <h1 class="hero-title">The Pipeline</h1>
+  <div class="hero-rule">
+    <span class="line"></span>
+    <span class="ornament">✦ ❀ ✦</span>
+    <span class="line"></span>
+  </div>
+  <p class="hero-sub">a minor arcana of characters &amp; worlds still face-down on the table &mdash;<br>
+  cast a <span class="heart">♡</span> on the card you&rsquo;d like <span class="gold">turned next</span>.</p>
+
+  <div class="legend" id="stageLegend" aria-label="What the moon phases mean"></div>
+</section>
+
+<main class="content">
+
+  <div class="index-caption">
+    <span class="line"></span>
+    <span><span class="count" id="indexCount">VIII</span>&nbsp; in the deck</span>
+    <span class="dot">·</span>
+    <span>one vote per seeker</span>
+    <span class="line"></span>
+  </div>
+
+  <div class="grid" id="pipelineGrid"></div>
+</main>
+
+<div class="footer-mark">
+  more cards still face-down in the deck &mdash; they just need their faces.
+</div>
+
+<div class="footer">Eurielle&rsquo;s Gallery · The Pipeline</div>
+
+<script>
+// ════════════════════════════════════════════════════════════════
+//  Pipeline data — edit this list to add/update planned bots
+//  stage: "early" | "planning" | "brewing" | "ready" | "done"
+//  name:  use "???" or "TBA" to keep them face-down
+// ════════════════════════════════════════════════════════════════
+const PIPELINE = [
+  { name: "???", genre: "Romance",     stage: "brewing",  note: "Modern Day, Kicked Puppy Energy, Nice Guy" },
+  { name: "???", genre: "Fantasy",     stage: "early",    note: "OC Fae", img: "fae-bound.png" },
+  { name: "Gladiator Scenario (Varro)", genre: "Fantasy", stage: "planning", note: "Roman arena · the games", img: "varro-gladiator.png" },
+  { name: "Mafia Universe Scenario",   genre: "Mafia",    stage: "planning", note: "All the families · ensemble" },
+  { name: "???", genre: "Historical",  stage: "early",    note: "Lost love / angst" },
+  { name: "???", genre: "Historical",  stage: "early",    note: "Time Travel / Iseki" },
+  { name: "Orin", genre: "Fantasy", stage: "planning", note: "Halalhaz Inmate", img: "orin.jpg" },
+  { name: "Street Rats Scenario Bot", genre: "Modern", stage: "done", note: "The whole band · awaiting release", img: "street-rats-scenario.png", noVote: true },
+];
+
+const STAGE_LABEL = {
+  early:    "Concept",
+  planning: "Planning",
+  brewing:  "In Progress",
+  ready:    "Almost Ready",
+  done:     "Awaiting Release",
+};
+const STAGE_CLASS = { early: 'early', planning: 'plan', brewing: 'prog', ready: 'ready', done: 'done' };
+
+// ── roman numerals, because tarot ──
+function toRoman(n) {
+  const map = [[10, 'X'], [9, 'IX'], [5, 'V'], [4, 'IV'], [1, 'I']];
+  let out = '';
+  for (const [v, s] of map) { while (n >= v) { out += s; n -= v; } }
+  return out;
+}
+
+// ── moon-phase glyphs: new → crescent → half → gibbous → full ──
+function moonSVG(stage, size) {
+  size = size || 13;
+  const r = 6, c = 7, uid = 'm' + Math.random().toString(36).slice(2, 8);
+  const open = `<svg width="${size}" height="${size}" viewBox="0 0 14 14" aria-hidden="true">
+    <defs><clipPath id="${uid}"><circle cx="${c}" cy="${c}" r="${r}"/></clipPath></defs>`;
+  const close = `</svg>`;
+  const lit = `<circle cx="${c}" cy="${c}" r="${r}" fill="currentColor"/>`;
+  const ring = `<circle cx="${c}" cy="${c}" r="${r - 0.5}" fill="none" stroke="currentColor" stroke-width="1"/>`;
+  const shade = (cx) => `<g clip-path="url(#${uid})"><circle cx="${cx}" cy="${c}" r="${r}" fill="rgba(10,5,16,0.92)"/></g>`;
+  switch (stage) {
+    case 'early':    return open + ring + close;                                  // new moon
+    case 'planning': return open + lit + shade(3.4) + ring + close;               // waxing crescent
+    case 'brewing':  return open + lit +
+      `<g clip-path="url(#${uid})"><rect x="0" y="0" width="${c}" height="14" fill="rgba(10,5,16,0.92)"/></g>` +
+      ring + close;                                                               // half moon
+    case 'ready':    return open + lit + shade(-0.5) + ring + close;              // gibbous
+    case 'done':     return open + lit + close;                                   // full moon
+    default:         return open + ring + close;
+  }
+}
+
+// ── legend ──
+const legend = document.getElementById('stageLegend');
+const LEGEND_ORDER = [
+  ['early', 'early'], ['planning', 'plan'], ['brewing', 'prog'], ['ready', 'ready'], ['done', 'done']
+];
+legend.innerHTML = LEGEND_ORDER.map(([stage, cls], i) =>
+  (i ? '<span class="legend-arrow" aria-hidden="true">→</span>' : '') +
+  `<span class="legend-item ${cls}"><span style="display:inline-flex">${moonSVG(stage, 12)}</span>${STAGE_LABEL[stage]}</span>`
+).join('');
+
+// ── corner flourish + divider ornaments ──
+const CORNER = `<svg viewBox="0 0 26 26" fill="none" aria-hidden="true">
+  <path d="M2 24 C2 11 11 2 24 2" stroke="currentColor" stroke-width="1"/>
+  <path d="M6 24 C6 14 14 6 24 6" stroke="currentColor" stroke-width="0.7" opacity="0.6"/>
+  <circle cx="24" cy="2" r="1.3" fill="currentColor"/>
+</svg>`;
+const DIVIDER = `<svg viewBox="0 0 64 9" fill="none" aria-hidden="true" style="width:100%;height:100%">
+  <path d="M0 4.5 H24 M40 4.5 H64" stroke="currentColor" stroke-width="1"/>
+  <path d="M32 0.5 L34.6 4.5 L32 8.5 L29.4 4.5 Z" stroke="currentColor" stroke-width="1"/>
+</svg>`;
+
+// ── deal the deck ──
+const grid = document.getElementById('pipelineGrid');
+document.getElementById('indexCount').textContent = toRoman(PIPELINE.length);
+
+PIPELINE.forEach((p, i) => {
+  const card = document.createElement('article');
+  card.className = 'tcard';
+  card.dataset.idx = i;
+  card.style.animationDelay = (0.07 * i + 0.95) + 's';
+
+  const isMystery = p.name === '???' || p.name === 'TBA';
+  const stageCls = STAGE_CLASS[p.stage] || 'early';
+
+  const inner = document.createElement('div');
+  inner.className = 'tcard-inner';
+
+  // corners + sheen
+  ['tl', 'tr', 'bl', 'br'].forEach(pos => {
+    const c = document.createElement('span');
+    c.className = 'tcard-corner ' + pos;
+    c.innerHTML = CORNER;
+    inner.appendChild(c);
+  });
+  const sheen = document.createElement('span');
+  sheen.className = 'tcard-sheen';
+  inner.appendChild(sheen);
+
+  // numeral crest
+  const numeral = document.createElement('div');
+  numeral.className = 'tcard-numeral';
+  numeral.textContent = toRoman(i + 1);
+  numeral.setAttribute('aria-label', 'Card ' + (i + 1) + ' of ' + PIPELINE.length);
+  inner.appendChild(numeral);
+
+  // arched window — portrait, or face-down back
+  const win = document.createElement('div');
+  win.className = 'tcard-window' + (p.img ? '' : ' is-facedown');
+  if (p.img) {
+    const img = document.createElement('img');
+    img.src = p.img;
+    img.alt = p.name;
+    img.loading = 'lazy';
+    img.addEventListener('error', () => {
+      img.remove();
+      win.classList.add('is-facedown'); // never show a broken frame
+    });
+    win.appendChild(img);
+  }
+  inner.appendChild(win);
+
+  // name
+  const name = document.createElement('h3');
+  name.className = 'tcard-name' + (isMystery ? ' is-facedown' : '');
+  name.textContent = isMystery ? 'Unturned' : p.name;
+  inner.appendChild(name);
+
+  // genre
+  if (p.genre) {
+    const g = document.createElement('div');
+    g.className = 'tcard-genre';
+    g.textContent = p.genre;
+    inner.appendChild(g);
+  }
+
+  // moon-phase stage
+  const stage = document.createElement('div');
+  stage.className = 'tcard-stage ' + stageCls;
+  stage.innerHTML = moonSVG(p.stage) + '<span>' + (STAGE_LABEL[p.stage] || p.stage) + '</span>';
+  inner.appendChild(stage);
+
+  // note
+  if (p.note) {
+    const n = document.createElement('p');
+    n.className = 'tcard-note';
+    n.textContent = p.note;
+    inner.appendChild(n);
+  }
+
+  // divider ornament
+  const div = document.createElement('span');
+  div.className = 'tcard-divider';
+  div.innerHTML = DIVIDER;
+  inner.appendChild(div);
+
+  // vote — skipped for entries flagged noVote (finished / awaiting release)
+  if (!p.noVote) {
+    const vote = document.createElement('button');
+    vote.className = 'card-vote';
+    vote.dataset.idx = i;
+    vote.type = 'button';
+    vote.setAttribute('aria-label', 'Vote for ' + (isMystery ? (p.note || 'this entry') : p.name));
+    vote.innerHTML = '<span class="heart">♡</span><span class="label">turn this card</span>';
+    inner.appendChild(vote);
+  } else {
+    const fin = document.createElement('div');
+    fin.className = 'tcard-finis';
+    fin.innerHTML = '<span class="g">✦</span>finished<span class="g">✦</span>';
+    inner.appendChild(fin);
+  }
+
+  // the flipper holds both faces: the card front, and the sealed reverse
+  const flipper = document.createElement('div');
+  flipper.className = 'tcard-flipper';
+  flipper.appendChild(inner);
+
+  if (!p.noVote) {
+    const back = document.createElement('div');
+    back.className = 'tcard-back';
+    back.setAttribute('aria-hidden', 'true');
+
+    const bNum = document.createElement('div');
+    bNum.className = 'tback-numeral';
+    bNum.textContent = toRoman(i + 1);
+
+    const bSeal = document.createElement('div');
+    bSeal.className = 'tback-seal';
+    bSeal.innerHTML = '<span>♥</span>';
+
+    const bLabel = document.createElement('div');
+    bLabel.className = 'tback-label';
+    bLabel.textContent = 'your pick';
+
+    const bName = document.createElement('h4');
+    bName.className = 'tback-name';
+    bName.textContent = isMystery ? (p.note || 'Unturned') : p.name;
+
+    const bHint = document.createElement('div');
+    bHint.className = 'tback-hint';
+    bHint.textContent = 'tap to peek at the face ♡';
+
+    back.append(bNum, bSeal, bLabel, bName, bHint);
+    flipper.appendChild(back);
+  }
+
+  card.appendChild(flipper);
+  grid.appendChild(card);
+});
+
+// ── scattered stars in the sky ──
+(function scatterStars() {
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const count = window.innerWidth < 600 ? 14 : 26;
+  for (let i = 0; i < count; i++) {
+    const s = document.createElement('span');
+    s.className = 'star';
+    const size = (Math.random() * 1.8 + 0.8).toFixed(1);
+    s.style.width = size + 'px';
+    s.style.height = size + 'px';
+    s.style.left = (Math.random() * 100).toFixed(2) + 'vw';
+    s.style.top = (Math.random() * 100).toFixed(2) + 'vh';
+    if (!reduce) {
+      s.style.setProperty('--d', (Math.random() * 4 + 3.5).toFixed(1) + 's');
+      s.style.setProperty('--delay', (Math.random() * 6).toFixed(1) + 's');
+    }
+    document.body.appendChild(s);
+  }
+})();
+
+// ── 3D tilt + candle-sheen, fine pointers only ──
+(function enableTilt() {
+  const fine = window.matchMedia('(pointer: fine)').matches;
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!fine || reduce) return;
+
+  const MAX = 5; // degrees
+  document.querySelectorAll('.tcard').forEach(card => {
+    const inner = card.querySelector('.tcard-inner');
+    card.addEventListener('pointermove', e => {
+      if (card.classList.contains('is-voted')) return; // the chosen card lies still
+      const r = card.getBoundingClientRect();
+      const px = (e.clientX - r.left) / r.width;
+      const py = (e.clientY - r.top) / r.height;
+      const rx = ((0.5 - py) * MAX * 2).toFixed(2);
+      const ry = ((px - 0.5) * MAX * 2).toFixed(2);
+      inner.style.transition = 'transform 0.08s ease-out, border-color 0.4s, box-shadow 0.4s';
+      inner.style.transform = `rotateX(${rx}deg) rotateY(${ry}deg) translateY(-4px)`;
+      inner.style.setProperty('--mx', (px * 100).toFixed(1) + '%');
+      inner.style.setProperty('--my', (py * 100).toFixed(1) + '%');
+      const sheen = inner.querySelector('.tcard-sheen');
+      if (sheen) {
+        sheen.style.setProperty('--mx', (px * 100).toFixed(1) + '%');
+        sheen.style.setProperty('--my', (py * 100).toFixed(1) + '%');
+      }
+    });
+    card.addEventListener('pointerleave', () => {
+      inner.style.transition = 'transform 0.55s cubic-bezier(0.2, 0.7, 0.3, 1), border-color 0.4s, box-shadow 0.4s';
+      inner.style.transform = '';
+    });
+  });
+})();
+
+
+// ════════════════════════════════════════════════════════════════
+//  VOTING SYSTEM
+//  Sends vote to a private Discord webhook, then locks the UI.
+//  One vote per browser via localStorage. To allow re-voting,
+//  the visitor would have to clear site data (basic anti-cheat).
+// ════════════════════════════════════════════════════════════════
+
+const WEBHOOK_URL = 'https://discord.com/api/webhooks/1507129765859954799/mOsZ2ZVSH1nXFEYYKDRNYH_piUQNguPr8nNpkbxnsc92ompGWWTbsKhqgS7WGArML9M2';
+const VOTE_KEY  = 'eurielle-pipeline-vote-4'; // ← bump this number any time you want to reset voting for everyone
+const VOTER_KEY = 'eurielle-pipeline-voter';
+
+function getVoterId() {
+  let id = localStorage.getItem(VOTER_KEY);
+  if (!id) {
+    id = Math.random().toString(36).substring(2, 10);
+    localStorage.setItem(VOTER_KEY, id);
+  }
+  return id;
+}
+
+function getVotedIdx() {
+  const v = localStorage.getItem(VOTE_KEY);
+  return v === null ? null : parseInt(v, 10);
+}
+
+async function castVote(idx, btnEl) {
+  if (getVotedIdx() !== null) return;
+  const entry = PIPELINE[idx];
+  if (!entry) return;
+
+  btnEl.classList.add('loading');
+  btnEl.disabled = true;
+
+  const voterId = getVoterId();
+  const stageLabel = STAGE_LABEL[entry.stage] || entry.stage;
+  const displayName = (entry.name === '???' || entry.name === 'TBA')
+    ? `${entry.note || 'Unnamed'} (${entry.genre || 'Unknown'})`
+    : entry.name;
+
+  const payload = {
+    embeds: [{
+      title: '🗳 Pipeline Vote',
+      description: `**${displayName}**`,
+      color: 0xE27FA8,
+      fields: [
+        { name: 'Genre', value: entry.genre || '—',  inline: true },
+        { name: 'Stage', value: stageLabel,          inline: true },
+        { name: 'Note',  value: entry.note  || '—',  inline: true },
+        { name: 'Voter', value: '`' + voterId + '`', inline: true },
+      ],
+      timestamp: new Date().toISOString()
+    }]
+  };
+
+  try {
+    const res = await fetch(WEBHOOK_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+
+    localStorage.setItem(VOTE_KEY, String(idx));
+    updateAllVoteUI(true);
+    showToast('thank you ♥ the card is turned');
+  } catch (err) {
+    btnEl.classList.remove('loading');
+    btnEl.disabled = false;
+    showToast('vote failed — please try again', true);
+    console.error('Vote webhook error:', err);
+  }
+}
+
+function addSeal(card, animate) {
+  if (card.querySelector('.tcard-seal')) return;
+  const seal = document.createElement('div');
+  seal.className = 'tcard-seal' + (animate ? ' stamp' : '');
+  seal.innerHTML = '<span>♥</span>';
+  seal.setAttribute('aria-hidden', 'true');
+  card.querySelector('.tcard-inner').appendChild(seal);
+}
+
+// turn the card over (or back) — animate only on a fresh vote,
+// instant on page load so returning voters see it already turned
+function flipCard(card, flipped, animate) {
+  const flipper = card.querySelector('.tcard-flipper');
+  if (!flipper || !card.querySelector('.tcard-back')) return;
+  if (animate) {
+    setTimeout(() => card.classList.toggle('is-flipped', flipped), 150);
+  } else {
+    flipper.classList.add('no-anim');
+    card.classList.toggle('is-flipped', flipped);
+    void flipper.offsetWidth; // flush styles before re-enabling the transition
+    flipper.classList.remove('no-anim');
+  }
+}
+
+function updateAllVoteUI(justVoted) {
+  const votedIdx = getVotedIdx();
+  document.querySelectorAll('.card-vote').forEach(btn => {
+    const idx = parseInt(btn.dataset.idx, 10);
+    const card = btn.closest('.tcard');
+    btn.classList.remove('loading');
+
+    const heart = btn.querySelector('.heart');
+    const label = btn.querySelector('.label');
+
+    if (votedIdx !== null) {
+      btn.disabled = true;
+      if (idx === votedIdx) {
+        btn.classList.add('voted');
+        if (heart) heart.textContent = '♥';
+        if (label) label.textContent = 'your pick';
+        card.classList.add('is-voted');
+        addSeal(card, false);
+        flipCard(card, true, !!justVoted); // ← the card actually turns over
+      } else {
+        btn.classList.remove('voted');
+        if (heart) heart.textContent = '♡';
+        if (label) label.textContent = 'voted';
+        card.classList.remove('is-voted');
+        flipCard(card, false, false);
+      }
+    } else {
+      btn.disabled = false;
+      btn.classList.remove('voted');
+      if (heart) heart.textContent = '♡';
+      if (label) label.textContent = 'turn this card';
+      card.classList.remove('is-voted');
+      flipCard(card, false, false);
+    }
+  });
+}
+
+function showToast(msg, isError) {
+  document.querySelectorAll('.vote-toast').forEach(t => t.remove());
+  const t = document.createElement('div');
+  t.className = 'vote-toast' + (isError ? ' error' : '');
+  t.textContent = msg;
+  document.body.appendChild(t);
+  requestAnimationFrame(() => t.classList.add('show'));
+  setTimeout(() => {
+    t.classList.remove('show');
+    setTimeout(() => t.remove(), 500);
+  }, 3500);
+}
+
+document.querySelectorAll('.card-vote').forEach(btn => {
+  btn.addEventListener('click', () => {
+    if (getVotedIdx() !== null) return;
+    const idx = parseInt(btn.dataset.idx, 10);
+    castVote(idx, btn);
+  });
+});
+
+// after voting, tapping the chosen card peeks between its two faces
+document.querySelectorAll('.tcard').forEach(card => {
+  card.addEventListener('click', (e) => {
+    if (!card.classList.contains('is-voted')) return;
+    if (e.target.closest('.card-vote')) return;
+    card.classList.toggle('is-flipped');
+  });
+});
+
+updateAllVoteUI(false);
+</script>
+
+
+<!-- ──────────────────────────────────────────── -->
+<!-- ✦ Request a Scene widget (shared across all pages) -->
+<!-- Submissions post to Eurielle's private Discord channel -->
+<!-- ──────────────────────────────────────────── -->
+<div id="rsRoot">
+  <button class="rs-tab" type="button" aria-label="Request a scene" onclick="rsOpen()">
+    <span class="rs-tab-glyph">❀</span>
+    <span class="rs-tab-text">Request a scene</span>
+  </button>
+
+  <button class="rs-fab" type="button" aria-label="Request a scene" onclick="rsOpen()">
+    <span class="rs-fab-ping" aria-hidden="true"></span>
+    <span class="rs-fab-glyph">❀</span>
+  </button>
+
+  <div class="rs-backdrop" onclick="rsClose()"></div>
+
+  <aside class="rs-panel" role="dialog" aria-labelledby="rsTitle" aria-hidden="true">
+    <header class="rs-panel-head">
+      <h2 id="rsTitle" class="rs-panel-title">✦ Request a Scene ✦</h2>
+      <button class="rs-close" type="button" aria-label="Close" onclick="rsClose()">×</button>
+    </header>
+
+    <form class="rs-form" onsubmit="return rsSubmit(event)">
+      <p class="rs-intro">
+        leave me a little prompt — anonymous if you'd like, or drop your discord handle for a reply.
+      </p>
+      <p class="rs-note">
+        heads up: i won't write heavily nsfw scenes, but i'm happy to set the tone by implying certain situations — all within site rules ♡
+      </p>
+
+      <label class="rs-field">
+        <span class="rs-label">Your name <span class="rs-opt">(optional)</span></span>
+        <input class="rs-input" name="name" type="text" maxlength="80" placeholder="anonymous">
+      </label>
+
+      <label class="rs-field">
+        <span class="rs-label">Discord handle <span class="rs-opt">(optional, for replies)</span></span>
+        <input class="rs-input" name="handle" type="text" maxlength="80" placeholder="@yourhandle">
+      </label>
+
+      <label class="rs-field">
+        <span class="rs-label">Character or world</span>
+        <input class="rs-input" name="subject" type="text" maxlength="120" placeholder="e.g. Azriel, Sin Anders, Prythian Scenario">
+      </label>
+
+      <label class="rs-field">
+        <span class="rs-label">The scene idea</span>
+        <textarea class="rs-input rs-textarea" name="scene" rows="6" maxlength="1500" required
+                  placeholder="describe the vibe, setting, moment, mood…"></textarea>
+        <span class="rs-help">
+          the more detail, the better — character's emotional state, the location, the goals of the rp you're imagining, the mood you're after.
+        </span>
+      </label>
+
+      <button type="submit" class="rs-submit">
+        <span class="rs-submit-text">Send it ♡</span>
+        <span class="rs-submit-loader" aria-hidden="true">⌬</span>
+      </button>
+
+      <p class="rs-status" id="rsStatus" aria-live="polite"></p>
+    </form>
+
+    <div class="rs-success" id="rsSuccess" hidden>
+      <div class="rs-success-glyph">✦</div>
+      <h3 class="rs-success-title">Sent ♡</h3>
+      <p class="rs-success-msg">your scene request landed in Eurielle's discord.</p>
+      <button type="button" class="rs-success-btn" onclick="rsReset()">send another</button>
+    </div>
+  </aside>
+</div>
+
+<style>
+  #rsRoot { font-family: 'Cormorant Garamond', Georgia, serif; }
+
+  /* ── Desktop: enhanced vertical tab ───────────────────── */
+  .rs-tab {
+    position: fixed;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+    z-index: 9990;
+    background: linear-gradient(180deg, rgba(74, 30, 50, 0.96) 0%, rgba(42, 19, 32, 0.96) 100%);
+    border: 1.5px solid rgba(232, 184, 200, 0.65);
+    border-right: none;
+    border-radius: 14px 0 0 14px;
+    color: #ffd8e2;
+    padding: 24px 14px 26px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    cursor: pointer;
+    transition: background 0.3s, border-color 0.3s, color 0.3s, padding 0.3s;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    font-family: inherit;
+    animation:
+      rsTabEntrance 0.9s cubic-bezier(0.34, 1.56, 0.64, 1) 0.5s both,
+      rsTabAura 3.5s ease-in-out 1.4s infinite;
+  }
+  .rs-tab:hover {
+    background: linear-gradient(180deg, rgba(94, 38, 64, 0.98) 0%, rgba(58, 24, 40, 0.98) 100%);
+    border-color: rgba(255, 216, 226, 0.95);
+    color: #ffffff;
+    padding-right: 18px;
+  }
+  .rs-tab-glyph {
+    font-size: 22px;
+    text-shadow: 0 0 14px rgba(255, 184, 200, 0.8);
+    animation: rsGlyphPulse 2.6s ease-in-out infinite;
+  }
+  @keyframes rsGlyphPulse {
+    0%, 100% { opacity: 0.9; transform: scale(1); }
+    50%      { opacity: 1;   transform: scale(1.18); text-shadow: 0 0 22px rgba(255, 184, 200, 1); }
+  }
+  .rs-tab-text {
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    font-family: 'Cinzel', Georgia, serif;
+    font-size: 11px;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    font-weight: 700;
+  }
+  @keyframes rsTabEntrance {
+    0%   { right: -90px; opacity: 0; }
+    60%  { right: 8px;   opacity: 1; }
+    100% { right: 0;     opacity: 1; }
+  }
+  @keyframes rsTabAura {
+    0%, 100% {
+      box-shadow:
+        -10px 0 32px rgba(232, 184, 200, 0.22),
+        0 0 0 0 rgba(232, 184, 200, 0.0);
+    }
+    50% {
+      box-shadow:
+        -16px 0 56px rgba(232, 184, 200, 0.45),
+        -2px 0 0 rgba(255, 216, 226, 0.25);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .rs-tab, .rs-tab-glyph { animation: none; }
+  }
+
+  /* ── Mobile: circular FAB ─────────────────────────────── */
+  .rs-fab {
+    display: none;
+    position: fixed;
+    bottom: 20px;
+    right: 16px;
+    z-index: 9990;
+    width: 54px;
+    height: 54px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #823250 0%, #4a1f38 100%);
+    border: 1.5px solid rgba(255, 216, 226, 0.65);
+    color: #ffffff;
+    padding: 0;
+    cursor: pointer;
+    box-shadow:
+      0 10px 24px rgba(0, 0, 0, 0.5),
+      0 0 18px rgba(232, 184, 200, 0.3);
+    -webkit-tap-highlight-color: transparent;
+    isolation: isolate;
+    transition: transform 0.15s;
+  }
+  .rs-fab:active { transform: scale(0.94); }
+  .rs-fab-glyph {
+    font-size: 22px;
+    color: #ffd8e2;
+    text-shadow: 0 0 10px rgba(255, 184, 200, 0.85);
+    line-height: 1;
+  }
+  .rs-fab-ping {
+    position: absolute;
+    inset: -1px;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 216, 226, 0.55);
+    animation: rsFabPing 2.4s ease-out infinite;
+    pointer-events: none;
+    z-index: -1;
+  }
+  @keyframes rsFabPing {
+    0%   { transform: scale(1);   opacity: 0.8; }
+    80%  { transform: scale(1.5); opacity: 0;   }
+    100% { transform: scale(1.5); opacity: 0;   }
+  }
+
+  /* Swap point: hide vertical tab, show FAB */
+  @media (max-width: 640px) {
+    .rs-tab { display: none; }
+    .rs-fab { display: inline-flex; align-items: center; justify-content: center; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .rs-fab-ping { animation: none; }
+  }
+
+  /* Backdrop */
+  .rs-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    z-index: 9995;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.35s ease, visibility 0.35s;
+  }
+  #rsRoot.is-open .rs-backdrop { opacity: 1; visibility: visible; }
+
+  /* Panel */
+  .rs-panel {
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100vh;
+    width: min(440px, 100%);
+    background: linear-gradient(180deg, rgba(20, 10, 18, 0.98) 0%, rgba(8, 4, 10, 0.98) 100%);
+    border-left: 1px solid rgba(232, 184, 200, 0.3);
+    z-index: 9996;
+    transform: translateX(100%);
+    transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+    overflow-y: auto;
+    box-shadow: -30px 0 80px rgba(0, 0, 0, 0.6);
+    color: #f0e8f0;
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+  }
+  #rsRoot.is-open .rs-panel { transform: translateX(0); }
+
+  .rs-panel-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 24px 30px 16px;
+    border-bottom: 1px solid rgba(232, 184, 200, 0.15);
+    position: sticky;
+    top: 0;
+    background: inherit;
+    z-index: 2;
+  }
+  .rs-panel-title {
+    font-family: 'Cinzel Decorative', 'Cinzel', Georgia, serif;
+    font-size: 17px;
+    letter-spacing: 3px;
+    font-weight: 700;
+    background: linear-gradient(180deg, #f0d4d8 0%, #e8b8c8 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin: 0;
+  }
+  .rs-close {
+    background: transparent;
+    border: 1px solid rgba(232, 184, 200, 0.3);
+    color: #e8b8c8;
+    font-size: 22px;
+    width: 36px;
+    height: 36px;
+    line-height: 1;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: color 0.2s, border-color 0.2s, transform 0.25s;
+    font-family: inherit;
+    padding: 0;
+  }
+  .rs-close:hover {
+    color: #ffd8e2;
+    border-color: rgba(232, 184, 200, 0.7);
+    transform: rotate(90deg);
+  }
+
+  .rs-form    { padding: 22px 30px 30px; }
+  .rs-success { padding: 60px 30px; text-align: center; }
+
+  .rs-intro {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-style: italic;
+    font-size: 16.5px;
+    line-height: 1.55;
+    color: #b8a0b0;
+    margin: 0 0 14px;
+  }
+  .rs-note {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 15px;
+    line-height: 1.55;
+    color: #c89aa8;
+    margin: 0 0 24px;
+    padding: 12px 14px;
+    background: rgba(232, 184, 200, 0.06);
+    border-left: 2px solid rgba(232, 184, 200, 0.45);
+    border-radius: 0 6px 6px 0;
+  }
+
+  .rs-field { display: block; margin-bottom: 18px; }
+  .rs-label {
+    display: block;
+    font-family: 'Cinzel', Georgia, serif;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #c89aa8;
+    margin-bottom: 8px;
+    font-weight: 600;
+  }
+  .rs-opt {
+    color: #6f5e6a;
+    font-weight: 500;
+    text-transform: none;
+    letter-spacing: 1px;
+  }
+  .rs-input {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(232, 184, 200, 0.2);
+    color: #f0e8f0;
+    padding: 12px 14px;
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 16px;
+    border-radius: 6px;
+    transition: border-color 0.25s, background 0.25s;
+    box-sizing: border-box;
+  }
+  .rs-input:focus {
+    outline: none;
+    border-color: rgba(232, 184, 200, 0.6);
+    background: rgba(255, 255, 255, 0.06);
+  }
+  .rs-input::placeholder { color: #6f5e6a; font-style: italic; }
+  .rs-textarea { resize: vertical; min-height: 110px; line-height: 1.5; }
+
+  .rs-help {
+    display: block;
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-style: italic;
+    font-size: 14.5px;
+    line-height: 1.5;
+    color: #8a7480;
+    margin-top: 8px;
+  }
+
+  .rs-submit {
+    width: 100%;
+    background: linear-gradient(135deg, #6a2840 0%, #3a1828 100%);
+    border: 1px solid rgba(232, 184, 200, 0.5);
+    color: #ffd8e2;
+    padding: 14px 24px;
+    font-family: 'Cinzel', Georgia, serif;
+    font-size: 12px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.3s, border-color 0.3s, transform 0.2s, box-shadow 0.3s;
+    margin-top: 8px;
+    font-weight: 600;
+  }
+  .rs-submit:hover {
+    background: linear-gradient(135deg, #823250 0%, #4a1f38 100%);
+    border-color: rgba(232, 184, 200, 0.9);
+    transform: translateY(-1px);
+    box-shadow: 0 8px 24px rgba(232, 184, 200, 0.22);
+  }
+  .rs-submit:disabled { opacity: 0.6; cursor: wait; transform: none; }
+  .rs-submit-loader {
+    display: none;
+    margin-left: 10px;
+    animation: rsSpin 1s linear infinite;
+  }
+  .rs-submit.is-loading .rs-submit-text   { opacity: 0.7; }
+  .rs-submit.is-loading .rs-submit-loader { display: inline-block; }
+  @keyframes rsSpin { to { transform: rotate(360deg); } }
+
+  .rs-status {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-style: italic;
+    font-size: 14px;
+    color: #c89aa8;
+    margin: 14px 0 0;
+    text-align: center;
+    min-height: 1em;
+  }
+  .rs-status.is-error { color: #d88080; }
+
+  .rs-success-glyph {
+    font-size: 48px;
+    color: #e8b8c8;
+    text-shadow: 0 0 26px rgba(232, 184, 200, 0.55);
+    margin-bottom: 16px;
+  }
+  .rs-success-title {
+    font-family: 'Cinzel Decorative', 'Cinzel', Georgia, serif;
+    font-size: 28px;
+    letter-spacing: 6px;
+    margin: 0 0 12px;
+    background: linear-gradient(180deg, #f0d4d8 0%, #e8b8c8 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .rs-success-msg {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-style: italic;
+    color: #b8a0b0;
+    margin: 0 0 28px;
+    line-height: 1.5;
+  }
+  .rs-success-btn {
+    background: transparent;
+    border: 1px solid rgba(232, 184, 200, 0.4);
+    color: #e8b8c8;
+    padding: 12px 24px;
+    font-family: 'Cinzel', Georgia, serif;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.25s, border-color 0.25s, color 0.25s;
+    font-weight: 600;
+  }
+  .rs-success-btn:hover {
+    border-color: rgba(232, 184, 200, 0.8);
+    color: #ffd8e2;
+    background: rgba(232, 184, 200, 0.08);
+  }
+
+  /* Mobile: panel goes full-width */
+  @media (max-width: 540px) {
+    .rs-panel { width: 100%; }
+    .rs-form  { padding: 18px 22px 26px; }
+  }
+</style>
+
+<script>
+  (function() {
+    const WEBHOOK_URL = "https://discord.com/api/webhooks/1506765243127431218/QwNPd5Q_IXZVf2cupBDRqRsE3rUAiEgL2cVYXqHLK0ECxIlLD2lUrV60QFA1lzWWYw57";
+    const root         = document.getElementById('rsRoot');
+    const form         = root.querySelector('.rs-form');
+    const status       = document.getElementById('rsStatus');
+    const successPanel = document.getElementById('rsSuccess');
+    const submitBtn    = root.querySelector('.rs-submit');
+    const panel        = root.querySelector('.rs-panel');
+
+    window.rsOpen = function() {
+      root.classList.add('is-open');
+      panel.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    };
+    window.rsClose = function() {
+      root.classList.remove('is-open');
+      panel.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    };
+    window.rsReset = function() {
+      form.reset();
+      form.hidden = false;
+      successPanel.hidden = true;
+      status.textContent = '';
+      status.classList.remove('is-error');
+    };
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && root.classList.contains('is-open')) window.rsClose();
+    });
+
+    window.rsSubmit = async function(e) {
+      e.preventDefault();
+      status.textContent = '';
+      status.classList.remove('is-error');
+
+      const data    = new FormData(form);
+      const name    = (data.get('name')    || '').toString().trim() || 'Anonymous';
+      const handle  = (data.get('handle')  || '').toString().trim();
+      const subject = (data.get('subject') || '').toString().trim() || '—';
+      const scene   = (data.get('scene')   || '').toString().trim();
+
+      if (!scene) {
+        status.textContent = 'tell me the scene first ♡';
+        status.classList.add('is-error');
+        return false;
+      }
+
+      const page = (document.title || location.pathname).replace(" · Eurielle's Gallery", '');
+      const embed = {
+        title: '✦ New Scene Request',
+        color: 0xe8b8c8,
+        fields: [
+          { name: 'From',  value: name + (handle ? ' (' + handle + ')' : ''), inline: true },
+          { name: 'Page',  value: page || 'Gallery', inline: true },
+          { name: 'Character / World', value: subject, inline: false },
+          { name: 'Scene', value: scene.length > 1024 ? scene.slice(0, 1020) + '…' : scene, inline: false },
+        ],
+        timestamp: new Date().toISOString(),
+        footer: { text: 'sent from ' + location.host },
+      };
+
+      submitBtn.disabled = true;
+      submitBtn.classList.add('is-loading');
+      try {
+        const res = await fetch(WEBHOOK_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ embeds: [embed] }),
+        });
+        if (!res.ok) throw new Error('Webhook error: ' + res.status);
+        form.hidden = true;
+        successPanel.hidden = false;
+      } catch (err) {
+        status.textContent = 'something went wrong — try again in a moment?';
+        status.classList.add('is-error');
+        console.error(err);
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.classList.remove('is-loading');
+      }
+      return false;
+    };
+  })();
+</script>
+<!-- ✦ end Request a Scene widget ✦ -->
+
+</body>
+</html>
