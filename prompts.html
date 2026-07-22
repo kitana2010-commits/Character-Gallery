@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>✦ Euri's Image Prompts — Eurielle's Gallery ✦</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Cinzel+Decorative:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Quicksand:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg: #020008;
+    --text: #e8e4f0;
+    --idx-cream:         #f0e4d4;
+    --idx-cream-2:       #d8c8b8;
+    --idx-cream-dim:     #b6a498;
+    --idx-cream-mute:    #7e6e78;
+    --idx-accent:        #c8a0d8;
+    --idx-accent-bright: #e0bce8;
+    --idx-rose:          #d490a8;
+    --idx-rose-bright:   #f4b0c8;
+    --idx-rule:          rgba(232, 212, 200, 0.14);
+    --idx-rule-mid:      rgba(232, 212, 200, 0.3);
+    --idx-rule-bright:   rgba(232, 212, 200, 0.48);
+  }
+
+  body {
+    background: #000;
+    color: var(--text);
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 400;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* film-grain noise, same as the gallery */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    opacity: 0.03;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+  }
+
+  #starCanvas {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+  }
+  #shootingStarContainer {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+  }
+  @keyframes shootingStar {
+    0% { transform: translateX(0) translateY(0); opacity: 0; }
+    5% { opacity: 1; }
+    80% { opacity: 0.6; }
+    100% { transform: translateX(250px) translateY(120px); opacity: 0; }
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ─── frame ─── */
+  .pr-frame {
+    position: relative;
+    z-index: 2;
+    max-width: 1120px;
+    margin: 30px auto 50px;
+    border: 1px solid var(--idx-rule-mid);
+    background: rgba(4, 2, 8, 0.55);
+    animation: fadeUp 0.7s ease both;
+  }
+
+  /* ─── banner ─── */
+  .pr-banner {
+    position: relative;
+    padding: 44px 28px 36px;
+    border-bottom: 1px solid var(--idx-rule-mid);
+    text-align: center;
+  }
+  .pr-banner-mark {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    margin-bottom: 18px;
+  }
+  .pr-banner-mark .line {
+    height: 1px;
+    width: 90px;
+    background: linear-gradient(90deg, transparent, var(--idx-rule-bright));
+  }
+  .pr-banner-mark .line:last-child {
+    background: linear-gradient(90deg, var(--idx-rule-bright), transparent);
+  }
+  .pr-banner-mark .orn { color: var(--idx-rose); font-size: 9px; }
+  .pr-banner-mark .word {
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--idx-cream-2);
+  }
+  .pr-title {
+    font-family: 'Cinzel Decorative', 'Cinzel', serif;
+    font-weight: 700;
+    font-size: clamp(28px, 5vw, 42px);
+    letter-spacing: 2px;
+    background: linear-gradient(180deg, var(--idx-cream) 0%, var(--idx-accent-bright) 120%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 12px;
+  }
+  .pr-sub {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 17px;
+    color: var(--idx-cream-dim);
+    max-width: 560px;
+    margin: 0 auto;
+    line-height: 1.5;
+  }
+  .pr-back {
+    position: absolute;
+    top: 18px;
+    left: 20px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Cinzel', serif;
+    font-size: 10.5px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--idx-cream-mute);
+    text-decoration: none;
+    border: 1px solid var(--idx-rule);
+    border-radius: 999px;
+    padding: 7px 15px;
+    transition: color 0.3s, border-color 0.3s;
+  }
+  .pr-back:hover { color: var(--idx-accent-bright); border-color: var(--idx-accent); }
+
+  /* ─── highlighted note ─── */
+  .pr-note {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin: 22px 28px 6px;
+    padding: 14px 22px;
+    border: 1px solid var(--idx-rose);
+    border-radius: 10px;
+    background:
+      radial-gradient(120% 160% at 50% 0%, rgba(212,144,168,0.12), transparent 70%),
+      rgba(26, 10, 22, 0.5);
+    box-shadow: inset 0 0 30px rgba(212,144,168,0.05);
+  }
+  .pr-note p {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 16.5px;
+    line-height: 1.55;
+    color: var(--idx-cream-2);
+    text-align: center;
+    max-width: 640px;
+  }
+  .pr-note p strong {
+    font-weight: 600;
+    color: var(--idx-rose-bright);
+  }
+  .pr-note .heart { color: var(--idx-rose); }
+  .pr-note-orn { color: var(--idx-rose); font-size: 9px; flex-shrink: 0; }
+
+  /* ─── sections ─── */
+  .pr-body { padding: 10px 28px 40px; }
+  .pr-section { padding-top: 34px; }
+  .pr-section-head {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 6px;
+  }
+  .pr-section-head .rule { flex: 1; height: 1px; background: var(--idx-rule); }
+  .pr-section-head .star { color: var(--idx-rose); font-size: 9px; }
+  .pr-section-title {
+    font-family: 'Cinzel', serif;
+    font-weight: 600;
+    font-size: 15px;
+    letter-spacing: 3.5px;
+    text-transform: uppercase;
+    color: var(--idx-cream);
+    white-space: nowrap;
+  }
+  .pr-section-note {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 15px;
+    color: var(--idx-cream-mute);
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  /* ─── prompt cards ─── */
+  .pr-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 16px;
+  }
+  .pr-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--idx-rule);
+    border-radius: 10px;
+    background:
+      radial-gradient(130% 120% at 0% 0%, rgba(200,160,216,0.06), transparent 60%),
+      rgba(12, 7, 20, 0.5);
+    padding: 16px 18px 14px;
+    transition: border-color 0.35s, transform 0.3s, box-shadow 0.35s;
+  }
+  .pr-card:hover {
+    border-color: var(--idx-accent);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(150,100,190,0.14);
+  }
+  .pr-card-label {
+    font-family: 'Cinzel', serif;
+    font-weight: 600;
+    font-size: 12.5px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--idx-accent-bright);
+    margin-bottom: 10px;
+    padding-right: 26px;
+  }
+  .pr-card-orn {
+    position: absolute;
+    top: 13px;
+    right: 15px;
+    color: var(--idx-rose);
+    font-size: 10px;
+    opacity: 0.4;
+    transition: opacity 0.3s;
+  }
+  .pr-card:hover .pr-card-orn { opacity: 0.85; }
+  .pr-card-text {
+    flex: 1;
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--idx-cream-2);
+    border: 1px solid var(--idx-rule);
+    border-radius: 7px;
+    background: rgba(0,0,0,0.28);
+    padding: 11px 13px;
+    margin-bottom: 12px;
+    white-space: pre-wrap;
+    position: relative;
+    overflow: hidden;
+    transition: max-height 0.35s ease;
+  }
+  .pr-card-text.collapsible:not(.expanded) {
+    max-height: 148px;
+  }
+  .pr-card-text.collapsible:not(.expanded)::after {
+    content: '';
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    height: 52px;
+    background: linear-gradient(180deg, transparent, rgba(6,3,11,0.96));
+    pointer-events: none;
+  }
+  .pr-card-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+  }
+  .pr-expand {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--idx-cream-mute);
+    background: none;
+    border: none;
+    padding: 6px 2px;
+    cursor: pointer;
+    transition: color 0.3s;
+  }
+  .pr-expand:hover { color: var(--idx-accent-bright); }
+  .pr-card-actions .right { display: inline-flex; align-items: center; gap: 8px; }
+  .pr-example {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--idx-rose-bright);
+    background: none;
+    border: 1px solid var(--idx-rule-mid);
+    border-radius: 999px;
+    padding: 6px 14px;
+    cursor: pointer;
+    transition: color 0.3s, border-color 0.3s, background 0.3s;
+  }
+  .pr-example:hover {
+    color: var(--idx-cream);
+    border-color: var(--idx-rose);
+    background: rgba(212,144,168,0.09);
+  }
+  .pr-example .orn { font-size: 9px; }
+  .pr-example.empty {
+    opacity: 0.35;
+    cursor: default;
+  }
+  .pr-example.empty:hover {
+    color: var(--idx-rose-bright);
+    border-color: var(--idx-rule-mid);
+    background: none;
+  }
+
+  /* ─── example image popup (compact, not fullscreen) ─── */
+  .pr-popup-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 500;
+    background: rgba(2, 0, 8, 0.55);
+    backdrop-filter: blur(2px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+  .pr-popup-backdrop.open { display: flex; animation: fadeUp 0.25s ease both; }
+  .pr-popup {
+    position: relative;
+    max-width: min(440px, 92vw);
+    border: 1px solid var(--idx-rule-bright);
+    border-radius: 12px;
+    background: rgba(10, 5, 16, 0.96);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.7), 0 0 60px rgba(200,160,216,0.12);
+    padding: 14px 14px 12px;
+  }
+  .pr-popup img {
+    display: block;
+    width: 100%;
+    max-height: min(58vh, 480px);
+    object-fit: contain;
+    border-radius: 8px;
+    border: 1px solid var(--idx-rule);
+    background: rgba(0,0,0,0.4);
+  }
+  .pr-popup-caption {
+    font-family: 'Cinzel', serif;
+    font-size: 10.5px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--idx-accent-bright);
+    text-align: center;
+    margin-top: 11px;
+  }
+  .pr-popup-close {
+    position: absolute;
+    top: -12px;
+    right: -12px;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    border: 1px solid var(--idx-rule-bright);
+    background: rgba(14, 7, 22, 0.97);
+    color: var(--idx-cream-2);
+    font-size: 13px;
+    line-height: 1;
+    cursor: pointer;
+    transition: color 0.3s, border-color 0.3s;
+  }
+  .pr-popup-close:hover { color: var(--idx-rose-bright); border-color: var(--idx-rose); }
+  .pr-popup-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 32px;
+    height: 32px;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    border: 1px solid var(--idx-rule-bright);
+    background: rgba(14, 7, 22, 0.95);
+    color: var(--idx-cream-2);
+    font-size: 18px;
+    line-height: 1;
+    padding-bottom: 2px;
+    cursor: pointer;
+    transition: color 0.3s, border-color 0.3s;
+    z-index: 2;
+  }
+  .pr-popup.multi .pr-popup-nav { display: flex; }
+  .pr-popup-nav.prev { left: -14px; }
+  .pr-popup-nav.next { right: -14px; }
+  .pr-popup-nav:hover { color: var(--idx-rose-bright); border-color: var(--idx-rose); }
+  .pr-popup-count {
+    display: none;
+    font-family: 'Cinzel', serif;
+    font-size: 9.5px;
+    letter-spacing: 3px;
+    color: var(--idx-cream-mute);
+    text-align: center;
+    margin-top: 5px;
+  }
+  .pr-popup.multi .pr-popup-count { display: block; }
+  .pr-expand .chev { font-size: 9px; transition: transform 0.3s; display: inline-block; }
+  .pr-expand.open .chev { transform: rotate(180deg); }
+  .pr-copy {
+    align-self: flex-end;
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--idx-rose-bright);
+    background: none;
+    border: 1px solid var(--idx-rule-mid);
+    border-radius: 999px;
+    padding: 6px 14px;
+    cursor: pointer;
+    transition: color 0.3s, border-color 0.3s, background 0.3s;
+  }
+  .pr-copy:hover {
+    color: var(--idx-accent-bright);
+    border-color: var(--idx-accent);
+    background: rgba(200,160,216,0.07);
+  }
+  .pr-copy.copied {
+    color: var(--idx-cream);
+    border-color: var(--idx-rose);
+    background: rgba(212,144,168,0.12);
+  }
+
+  .pr-empty {
+    display: none;
+    text-align: center;
+    padding: 50px 20px;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 17px;
+    color: var(--idx-cream-mute);
+  }
+
+  .pr-footer {
+    text-align: center;
+    padding: 26px 20px 34px;
+    border-top: 1px solid var(--idx-rule);
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: var(--idx-cream-mute);
+    line-height: 2;
+  }
+  .pr-footer .heart { color: var(--idx-rose); }
+
+  @media (max-width: 720px) {
+    .pr-frame { margin: 16px 10px 30px; }
+    .pr-note { margin: 16px 14px 0; padding: 13px 16px; gap: 10px; }
+    .pr-note-orn { display: none; }
+    .pr-banner { padding: 64px 18px 30px; }
+    .pr-body { padding: 4px 16px 30px; }
+    .pr-grid { grid-template-columns: 1fr; }
+    .pr-banner-mark .line { width: 40px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+  }
+</style>
+</head>
+<body>
+
+<canvas id="starCanvas"></canvas>
+<div id="shootingStarContainer"></div>
+
+<main class="pr-frame">
+
+  <header class="pr-banner">
+    <a class="pr-back" href="index.html">&#8592; Gallery</a>
+    <div class="pr-banner-mark">
+      <span class="line"></span>
+      <span class="orn">✦</span>
+      <span class="word">From My Gens To Yours</span>
+      <span class="orn">✦</span>
+      <span class="line"></span>
+    </div>
+    <h1 class="pr-title">Euri's Image Prompts</h1>
+    <p class="pr-sub">character reference prompts for poses, styles &amp; more &mdash; grab one, tweak the details, and make it your own <span style="color:var(--idx-rose);">♡</span></p>
+  </header>
+
+  <div class="pr-note">
+    <span class="pr-note-orn" aria-hidden="true">✦</span>
+    <p><strong>These are written for a male character and sometimes have details included already (like tattoos, vibe, etc).</strong> You will want to read them over and edit as needed. Feel free to use these as is or as a way of brainstorming new ideas for new prompts and images <span class="heart">&lt;3</span></p>
+    <span class="pr-note-orn" aria-hidden="true">✦</span>
+  </div>
+
+  <div class="pr-body" id="promptBody"></div>
+  <div class="pr-empty" id="promptEmpty">nothing matches that&hellip; try another word ✦</div>
+
+  <div class="pr-popup-backdrop" id="examplePopup" role="dialog" aria-modal="true" aria-label="Example image">
+    <div class="pr-popup">
+      <button class="pr-popup-close" type="button" onclick="closeExample()" aria-label="Close example">✕</button>
+      <button class="pr-popup-nav prev" type="button" onclick="exNav(-1)" aria-label="Previous example">‹</button>
+      <button class="pr-popup-nav next" type="button" onclick="exNav(1)" aria-label="Next example">›</button>
+      <img id="examplePopupImg" src="" alt="Example image">
+      <div class="pr-popup-caption" id="examplePopupCaption"></div>
+      <div class="pr-popup-count" id="examplePopupCount"></div>
+    </div>
+  </div>
+
+  <div class="pr-footer">✦ Eurielle's Gallery ✦<br><span style="font-size:10px; letter-spacing:2px; opacity:0.6;">more prompts added regularly <span class="heart">♡</span></span></div>
+
+</main>
+
+<script>
+/* ════════════════════════════════════════════════════════════════
+   PROMPT LIBRARY — edit this list to add / change prompts.
+
+   Each section: { title, note, prompts: [ { label, text, img } ] }
+   - label: the short name shown on the card
+   - text:  the full prompt (copied to clipboard)
+   - img:   OPTIONAL — example image(s) for the popup.
+            One image:   img: "images/prompts/bed-pose.jpg"
+            Several:     img: ["images/prompts/a.jpg", "images/prompts/b.jpg"]
+            With multiple images the popup gets ‹ › arrows.
+   Just copy an existing block, paste it, and swap in your words.
+   ════════════════════════════════════════════════════════════════ */
+const PROMPT_SECTIONS = [
+  {
+    title: "Character Reference Prompts",
+    note: "poses, angles & editorial vibes",
+    prompts: [
+      {
+        label: "Laying on Back in Bed, V-Lines",
+        img: ["images/prompts/bed-vlines-1.jpg", "images/prompts/bed-vlines-2.jpg", "images/prompts/bed-vlines-3.jpg", "images/prompts/bed-vlines-4.jpg"],
+        text: "Create an image of this character laying in his back in bed, hands under his head, faint flush on cheeks, shirtless, no blankets, crop image at waist. Show abs, nothing below. Camera angle: looking up his body, his face lifted to look down at camera. Abs in foreground, blurry, face farther away. Keep it tasteful"
+      },
+      {
+        label: "Standing, Looking Down at Viewer: Low Angle POV",
+        img: ["images/prompts/standing-pov-1.jpg", "images/prompts/standing-pov-2.jpg", "images/prompts/standing-pov-3.jpg", "images/prompts/standing-pov-4.jpg"],
+        text: "Create an image of this character leaning over the viewer, smug look, shirtless, no blankets, crop image at waist. Show abs, nothing below. Camera angle: looking up his body, his face lifted to look down at camera. Abs in foreground, blurry, face farther away. Keep it tasteful."
+      },
+      {
+        label: "Power Shot",
+        img: ["images/prompts/power-shot-1.jpg", "images/prompts/power-shot-2.jpg", "images/prompts/power-shot-3.jpg", "images/prompts/power-shot-4.jpg"],
+        text: "Create an image of this character in the same art style: sitting in a dining room chair, manspreading (legs spread) hands clasped loosely between legs, leaning forward slightly, shirtless, crop image at waist. Show abs, nothing below. Camera angle: floor angle, his face looking down at camera. Abs in foreground: blurry. face farther away. Keep it tasteful. Magazine photo shoot"
+      },
+      {
+        label: "Reading Book — Cute (Sometimes Naked, Sometimes Shorts)",
+        img: ["images/prompts/reading-book-1.jpg", "images/prompts/reading-book-2.jpg"],
+        text: "create an image of this character in the same art style: Sitting cross-legged with a book in lap, looking up mid-thought, shirtless, image crops at knees, bare legged, magazine photoshoot, tasteful."
+      },
+      {
+        label: "Laying Over You",
+        img: ["images/prompts/laying-over-1.jpg", "images/prompts/laying-over-2.jpg", "images/prompts/laying-over-3.jpg"],
+        text: "create an image of this character in the same art style: laying over the viewer, arms supporting his weight, shirtless. crop image at his waist, show abs, nothing below. camera angle, floor level looking straight up, his face in foreground, tasteful"
+      },
+      {
+        label: "Ultra Wide Top Down POV",
+        img: ["images/prompts/topdown-pov-1.jpg"],
+        text: "create an image of this character in the exact same art style: Extreme close up of face and extreme overhead wide-angle pose, character standing directly beneath the camera and looking straight up. Face fills most of the frame. Head tilted upward, chin slightly lowered, eyes angled up from under the brow. Shoulders raised and slightly hunched forward, torso leaning subtly toward the lens. Body centered under the face, legs close together, feet visible far below, strong foreshortening so the head and upper body feel large while the lower body recedes downward."
+      },
+      {
+        label: "Unbuttoned Shirt, Low Angle, Tie",
+        img: ["images/prompts/shirt-tie-1.jpg", "images/prompts/shirt-tie-2.jpg", "images/prompts/shirt-tie-3.jpg"],
+        text: "Create an image of this character in this art style: low-angle dominant portrait, open white dress shirt exposing muscular chest and abs, dark trousers, holding a black tie in both hands, smug confident expression, looking down at viewer, warm golden overhead light, draped curtain background, cinematic semi-realistic digital illustration, sensual, powerful, elegant, high contrast, dramatic shadows."
+      },
+      {
+        label: "Combo of Tie and Low Angle POV",
+        img: ["images/prompts/tie-pov-combo-1.jpg"],
+        text: "Create an image of this character leaning over the viewer, smug look, shirtless, no blankets, crop image at waist. Show abs, nothing below. Camera angle: looking up his body, his face lifted to look down at camera. Abs in foreground, blurry, face farther away. Keep it tasteful. holding a black tie in both hands, smug confident expression, looking down at viewer, warm golden overhead light, draped curtain background, cinematic semi-realistic digital illustration, sensual, powerful, elegant, high contrast, dramatic shadows. tasteful and clean"
+      },
+      {
+        label: "Highly Polished Face Grab",
+        img: ["images/prompts/face-grab-1.jpg", "images/prompts/face-grab-2.jpg", "images/prompts/face-grab-3.jpg"],
+        text: "create an image of this character in this art style: high-fashion close-up editorial portrait of this character, tousled hair, falling in perfectly disheveled strands across his forehead. His lips are slightly parted in a dramatic expression of surprise and sensual tension, framed by a well-groomed stubble that adds rugged texture. A woman\u2019s manicured hand, nails lacquered in glossy crimson red, firmly grips his jawline \u2014 injecting an erotic, power-play energy reminiscent of Tom Ford campaigns. The composition is tightly cropped, shot with a 50mm lens at f/2.0 for sharp detail and shallow depth of field, using direct on-camera flash for high-contrast, glossy editorial finish. The image is graded with a polished, slightly warm tonal balance that intensifies skin textures, highlights the glossy red nails, and sharpens the cinematic glamour of the moment. Executed in 9:16 vertical format, it feels like a GQ cover shoot infused with the sensual drama of 90s Gucci campaign"
+      },
+      {
+        label: "Carrying Up Stairs — Dark Romance / Possessive Vibes",
+        img: ["images/prompts/carry-stairs-1.jpg", "images/prompts/carry-stairs-2.jpg"],
+        text: "Create an image of this character in this exact art style: Seen from behind at the base of a grand, dimly lit staircase, carrying a woman effortlessly in his arms as he walks upward. His broad back and shoulders dominate the center of the composition, posture steady, controlled, and powerful, with one arm supporting beneath her knees and the other securing her against his upper body. He wears a fitted black button-up shirt with the sleeves rolled to the forearms, dark tailored trousers, and a black belt, creating a severe, masculine silhouette. One tattooed forearm hangs slightly lower at his side, loosely holding the woman\u2019s abandoned black high heels by the straps, the shoes dangling naturally from his fingers.  The woman is draped heavily against him, body limp with exhaustion or complete trust rather than posed. Her bare legs extend out toward one side of the frame, knees softly bent, feet relaxed, while the deep burgundy fabric of her dress spills downward in long folds. Her upper body is pressed against his shoulder and chest, face mostly hidden in his neck, long dark hair falling messily over his shoulder and down his back. Both arms are wrapped around the back of his neck, hands clasped loosely near his shoulder, emphasizing intimate dependence and quiet vulnerability.  Camera positioned directly behind them at approximately waist-to-shoulder height, centered symmetrically on the staircase, creating the feeling that the viewer is following them upward. Strong vertical composition with the man\u2019s dark figure framed between two sweeping wooden banisters. Ornate old-money mansion interior, polished dark wood stairs, carved railings, towering curtains, antique framed oil portraits, warm wall sconces, and faint golden step lighting. The environment should feel luxurious, private, and slightly oppressive, like a secluded ancestral estate late at night.  Mood is dark romance, protective possession, dangerous tenderness, exhausted intimacy, and silent aftermath. He should feel physically imposing and emotionally unreadable, carrying her with absolute certainty as though no one would dare stop him. No smiling, no theatrical action, no melodrama. The scene should feel candid and cinematic, like a private moment witnessed from a distance. Deep amber and black color palette, rich burgundy accents, heavy shadows, warm candlelit highlights tracing his shoulders, her bare legs, her hands around his neck, and the polished edges of the staircase. Cinematic editorial composition, semi-realistic digital illustration, anime-inspired facial refinement, smooth painterly blending, highly detailed anatomy and fabric, realistic hand placement, natural weight and body contact, sophisticated dark romance book-cover atmosphere, no orange wash, no faded colors."
+      },
+      {
+        label: "Face Cropped / Editorial",
+        img: ["images/prompts/face-cropped-1.jpg"],
+        text: "Cinematic dark editorial portrait of the referenced male character, preserving his exact facial features, hair, build, tattoos, and overall identity. He is seated in a low, relaxed position, torso angled slightly toward the camera while his head is thrown far back and turned subtly to the side, chin lifted high, exposing the throat and creating a long, dramatic line through the neck. His shoulders are dropped and loose, posture languid but controlled. One tattooed forearm rests across his lower abdomen or lap, hand relaxed near the waist, while the other arm falls lower and mostly out of frame. His black leather jacket hangs open over a dark shirt or partially exposed chest, creating heavy folds and a broad, shadowed silhouette.\n\nCamera framed tightly from roughly mid-thigh or waist to just above the mouth and jaw, intentionally cropping most of the face so the pose, throat, jawline, tattoos, hands, and clothing dominate the composition. Slightly low, intimate camera angle from the front and side. Deep black background with almost no visible environment. Extremely low-key lighting, a narrow warm side light grazing the jaw, throat, tattooed neck, knuckles, forearm, and glossy folds of the leather jacket while most of the body disappears into dense black shadow. Moody chiaroscuro, crushed blacks, subtle warm brown highlights, smoky atmosphere, cinematic grain, luxury fashion campaign, dangerous underground nightclub energy, brooding masculine sensuality, mysterious, intimate, restrained, raw, expensive editorial photography, high contrast, no smile, no direct eye contact, no bright background, no flat lighting."
+      },
+      {
+        label: "Iffy. Butt Shot (Needs Refining)",
+        img: ["images/prompts/butt-shot-1.jpg", "images/prompts/butt-shot-2.jpg"],
+        text: "Create an image of this character in the same art style: on the beach, shirtless, crop at waist. Show lower back and nothing below. laying on his stomach, looking over his shoulder at the camera. Camera angle: floor, looking up his body. Lower back blurred in foreground, face farther away. Natural side eye/head turn"
+      }
+    ]
+  }
+];
+
+/* ── render ── */
+const body = document.getElementById('promptBody');
+const emptyMsg = document.getElementById('promptEmpty');
+
+function renderPrompts(filter = '') {
+  const q = filter.trim().toLowerCase();
+  body.innerHTML = '';
+  let shown = 0;
+
+  PROMPT_SECTIONS.forEach(section => {
+    const matches = section.prompts.filter(p =>
+      !q || p.label.toLowerCase().includes(q) || p.text.toLowerCase().includes(q) || section.title.toLowerCase().includes(q)
+    );
+    if (!matches.length) return;
+    shown += matches.length;
+
+    const sec = document.createElement('section');
+    sec.className = 'pr-section';
+
+    const head = document.createElement('div');
+    head.className = 'pr-section-head';
+    head.innerHTML = '<span class="rule"></span><span class="star">✦</span><h2 class="pr-section-title"></h2><span class="star">✦</span><span class="rule"></span>';
+    head.querySelector('.pr-section-title').textContent = section.title;
+    sec.appendChild(head);
+
+    if (section.note) {
+      const note = document.createElement('p');
+      note.className = 'pr-section-note';
+      note.textContent = section.note;
+      sec.appendChild(note);
+    }
+
+    const grid = document.createElement('div');
+    grid.className = 'pr-grid';
+
+    matches.forEach(p => {
+      const card = document.createElement('article');
+      card.className = 'pr-card';
+
+      const label = document.createElement('div');
+      label.className = 'pr-card-label';
+      label.textContent = p.label;
+
+      const orn = document.createElement('span');
+      orn.className = 'pr-card-orn';
+      orn.setAttribute('aria-hidden', 'true');
+      orn.textContent = '❀';
+
+      const text = document.createElement('div');
+      text.className = 'pr-card-text';
+      text.textContent = p.text;
+
+      const actions = document.createElement('div');
+      actions.className = 'pr-card-actions';
+
+      const expandBtn = document.createElement('button');
+      expandBtn.className = 'pr-expand';
+      expandBtn.type = 'button';
+      expandBtn.innerHTML = 'Expand <span class="chev" aria-hidden="true">▾</span>';
+      expandBtn.style.visibility = 'hidden';
+      expandBtn.addEventListener('click', () => {
+        const open = text.classList.toggle('expanded');
+        expandBtn.classList.toggle('open', open);
+        expandBtn.innerHTML = open
+          ? 'Collapse <span class="chev" aria-hidden="true">▾</span>'
+          : 'Expand <span class="chev" aria-hidden="true">▾</span>';
+        if (open) text.style.maxHeight = text.scrollHeight + 'px';
+        else text.style.maxHeight = '';
+      });
+
+      const btn = document.createElement('button');
+      btn.className = 'pr-copy';
+      btn.type = 'button';
+      btn.innerHTML = 'Copy <span aria-hidden="true">⧉</span>';
+      btn.addEventListener('click', () => copyPrompt(btn, p.text));
+
+      const exBtn = document.createElement('button');
+      exBtn.className = 'pr-example';
+      exBtn.type = 'button';
+      exBtn.innerHTML = '<span class="orn" aria-hidden="true">❀</span> Example';
+      if (p.img) {
+        exBtn.addEventListener('click', () => openExample(p.img, p.label));
+      } else {
+        exBtn.classList.add('empty');
+        exBtn.title = 'no example added yet';
+        exBtn.setAttribute('aria-disabled', 'true');
+      }
+
+      const right = document.createElement('span');
+      right.className = 'right';
+      right.append(exBtn, btn);
+
+      actions.append(expandBtn, right);
+      card.append(label, orn, text, actions);
+      grid.appendChild(card);
+
+      // After layout: collapse only the cards that overflow the standard height
+      requestAnimationFrame(() => {
+        if (text.scrollHeight > 168) {
+          text.classList.add('collapsible');
+          expandBtn.style.visibility = 'visible';
+        }
+      });
+    });
+
+    sec.appendChild(grid);
+    body.appendChild(sec);
+  });
+
+  emptyMsg.style.display = shown ? 'none' : 'block';
+}
+
+function copyPrompt(btn, text) {
+  const done = () => {
+    btn.classList.add('copied');
+    btn.innerHTML = 'Copied <span aria-hidden="true">♡</span>';
+    setTimeout(() => {
+      btn.classList.remove('copied');
+      btn.innerHTML = 'Copy <span aria-hidden="true">⧉</span>';
+    }, 1600);
+  };
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(done).catch(() => fallbackCopy(text, done));
+  } else {
+    fallbackCopy(text, done);
+  }
+}
+function fallbackCopy(text, done) {
+  const ta = document.createElement('textarea');
+  ta.value = text;
+  ta.style.cssText = 'position:fixed;opacity:0;';
+  document.body.appendChild(ta);
+  ta.select();
+  try { document.execCommand('copy'); done(); } catch(e) {}
+  ta.remove();
+}
+
+renderPrompts();
+
+/* ── example image popup ── */
+const exPopup = document.getElementById('examplePopup');
+const exCard = exPopup.querySelector('.pr-popup');
+const exImg = document.getElementById('examplePopupImg');
+const exCaption = document.getElementById('examplePopupCaption');
+const exCount = document.getElementById('examplePopupCount');
+let exImgs = [];
+let exIdx = 0;
+let exLabel = '';
+
+function exShow() {
+  exImg.src = exImgs[exIdx];
+  exImg.alt = 'Example — ' + exLabel + (exImgs.length > 1 ? ' (' + (exIdx + 1) + ' of ' + exImgs.length + ')' : '');
+  exCount.textContent = (exIdx + 1) + ' / ' + exImgs.length;
+}
+function openExample(imgs, label) {
+  exImgs = Array.isArray(imgs) ? imgs : [imgs];
+  exIdx = 0;
+  exLabel = label;
+  exCaption.textContent = label;
+  exCard.classList.toggle('multi', exImgs.length > 1);
+  exShow();
+  exPopup.classList.add('open');
+}
+function exNav(dir) {
+  exIdx = (exIdx + dir + exImgs.length) % exImgs.length;
+  exShow();
+}
+function closeExample() {
+  exPopup.classList.remove('open');
+  exImg.src = '';
+}
+exPopup.addEventListener('click', e => { if (e.target === exPopup) closeExample(); });
+document.addEventListener('keydown', e => {
+  if (!exPopup.classList.contains('open')) return;
+  if (e.key === 'Escape') closeExample();
+  if (e.key === 'ArrowLeft' && exImgs.length > 1) exNav(-1);
+  if (e.key === 'ArrowRight' && exImgs.length > 1) exNav(1);
+});
+
+/* ── Magical Star Canvas (same sky as the gallery) ── */
+const starCanvas = document.getElementById('starCanvas');
+const starCtx = starCanvas.getContext('2d');
+
+function resizeCanvas() {
+  starCanvas.width = window.innerWidth * 2;
+  starCanvas.height = window.innerHeight * 2;
+  starCanvas.style.width = window.innerWidth + 'px';
+  starCanvas.style.height = window.innerHeight + 'px';
+  starCtx.setTransform(2, 0, 0, 2, 0, 0);
+}
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
+
+const starColors = [
+  [255,255,255], [255,255,255], [255,255,255], [255,255,255],
+  [255,255,255], [255,255,255], [255,255,255], [255,255,255],
+  [250,252,255], [255,252,250],
+  [235,240,255], [240,235,250],
+  [255,245,225], [255,238,228],
+  [248,235,245],
+];
+
+const bgStars = [];
+const starCount = Math.min(320, Math.floor((window.innerWidth * window.innerHeight) / 5200));
+for (let i = 0; i < starCount; i++) {
+  const c = starColors[Math.floor(Math.random() * starColors.length)];
+  const sizeRoll = Math.random();
+  let r;
+  if      (sizeRoll < 0.75)  r = 0.25 + Math.random() * 0.40;
+  else if (sizeRoll < 0.95)  r = 0.65 + Math.random() * 0.45;
+  else if (sizeRoll < 0.995) r = 1.10 + Math.random() * 0.45;
+  else                       r = 1.55 + Math.random() * 0.40;
+  bgStars.push({
+    x: Math.random() * window.innerWidth,
+    y: Math.random() * window.innerHeight,
+    r: r,
+    baseAlpha: 0.35 + Math.random() * 0.50,
+    twinkleSpeed: Math.random() * 0.012 + 0.002,
+    twinkleOffset: Math.random() * Math.PI * 2,
+    color: c,
+  });
+}
+
+let frame = 0;
+function drawStars() {
+  frame++;
+  starCtx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+  for (const s of bgStars) {
+    const twinkle = Math.sin(frame * s.twinkleSpeed + s.twinkleOffset);
+    const alpha = s.baseAlpha * (1 + twinkle * 0.15);
+    const [cr, cg, cb] = s.color;
+    if (s.r < 0.7) {
+      starCtx.fillStyle = `rgba(${cr},${cg},${cb},${Math.max(0, alpha)})`;
+      starCtx.fillRect(s.x | 0, s.y | 0, 1, 1);
+    } else {
+      starCtx.beginPath();
+      starCtx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+      starCtx.fillStyle = `rgba(${cr},${cg},${cb},${Math.max(0, alpha)})`;
+      starCtx.fill();
+    }
+  }
+  requestAnimationFrame(drawStars);
+}
+drawStars();
+
+function shootStar() {
+  const el = document.createElement('div');
+  const startX = Math.random() * window.innerWidth * 0.6;
+  const startY = Math.random() * window.innerHeight * 0.3;
+  const angle = 25 + Math.random() * 20;
+  const hues = [
+    'rgba(200,210,255,',
+    'rgba(255,200,220,',
+    'rgba(220,200,255,',
+  ];
+  const hue = hues[Math.floor(Math.random() * hues.length)];
+  el.style.cssText = `position:absolute;left:${startX}px;top:${startY}px;width:40px;height:1px;background:linear-gradient(90deg,${hue}0.6),${hue}0));border-radius:1px;transform:rotate(${angle}deg);pointer-events:none;z-index:2;animation:shootingStar ${1 + Math.random() * 0.5}s linear forwards;`;
+  document.getElementById('shootingStarContainer').appendChild(el);
+  setTimeout(() => el.remove(), 2000);
+  setTimeout(shootStar, 4000 + Math.random() * 8000);
+}
+setTimeout(shootStar, 2000);
+</script>
+</body>
+</html>
