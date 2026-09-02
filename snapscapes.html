@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>✦ Snap-Scapes ✦</title>
+<meta name="description" content="Snap-Scapes is a Chrome extension for DreamJourney AI. It turns the scene you're playing into an image, sets it behind your chat, and keeps everything in an album you can read back.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Cinzel+Decorative:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Italiana&family=Quicksand:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg: #020008;
+    --text: #e8e4f0;
+    --cream:         #f0e4d4;
+    --cream-2:       #d8c8b8;
+    --cream-dim:     #b6a498;
+    --cream-mute:    #7e6e78;
+    --accent:        #c8a0d8;
+    --accent-bright: #e0bce8;
+    --rose:          #d490a8;
+    --rose-bright:   #f4b0c8;
+    --gold:          #e6c79b;
+    --gold-bright:   #f3ddba;
+    --rule:          rgba(232, 212, 200, 0.14);
+    --rule-mid:      rgba(232, 212, 200, 0.3);
+    --rule-bright:   rgba(232, 212, 200, 0.48);
+  }
+
+  body {
+    background: #000;
+    color: var(--text);
+    font-family: 'Quicksand', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    opacity: 0.03;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+  }
+
+  #starCanvas {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  ::selection { background: rgba(230,199,155,0.28); color: #fff; }
+  :focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+
+  /* ── Nav ── */
+  .site-nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    background: rgba(2,0,8,0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(100,130,180,0.1);
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 50px;
+  }
+  .site-nav-logo {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 16px;
+    color: #f4f0ff;
+    letter-spacing: 2px;
+  }
+  .site-nav-link {
+    font-family: 'Italiana', serif;
+    font-size: 12px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: rgba(180,200,240,0.45);
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+  .site-nav-link:hover { color: rgba(200,160,220,0.8); }
+  @media (max-width: 600px) {
+    .site-nav { padding: 0 16px; }
+    .site-nav-link { font-size: 11px; letter-spacing: 2px; }
+  }
+
+  /* ── Frame ── */
+  .frame {
+    position: relative;
+    z-index: 2;
+    max-width: 1100px;
+    margin: 80px auto 50px;
+    border: 1px solid var(--rule-mid);
+    background: rgba(4, 2, 8, 0.55);
+  }
+
+  /* ── Masthead ── */
+  .masthead {
+    position: relative;
+    padding: 62px 40px 46px;
+    text-align: center;
+    border-bottom: 1px solid var(--rule-mid);
+    overflow: hidden;
+    background:
+      radial-gradient(90% 130% at 50% -20%, rgba(230,199,155,0.10), transparent 60%),
+      radial-gradient(70% 100% at 15% 110%, rgba(200,160,216,0.07), transparent 60%);
+  }
+  .masthead-corner {
+    position: absolute;
+    color: var(--gold);
+    font-size: 11px;
+    opacity: 0.4;
+  }
+  .mc-tl { top: 14px; left: 16px; }
+  .mc-tr { top: 14px; right: 16px; }
+  .mc-bl { bottom: 14px; left: 16px; }
+  .mc-br { bottom: 14px; right: 16px; }
+
+  .masthead h1 {
+    font-family: 'Cinzel Decorative', 'Cinzel', serif;
+    font-weight: 700;
+    font-size: clamp(30px, 6vw, 52px);
+    letter-spacing: 3px;
+    line-height: 1.1;
+    background: linear-gradient(175deg, var(--cream) 0%, var(--gold) 105%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 18px;
+  }
+  .masthead-tagline {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(17px, 2.4vw, 22px);
+    line-height: 1.5;
+    color: var(--cream-dim);
+    max-width: 34em;
+    margin: 0 auto;
+  }
+  .masthead-rule {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    margin: 26px auto 24px;
+    max-width: 340px;
+    color: var(--gold);
+    opacity: 0.6;
+    font-size: 10px;
+  }
+  .masthead-rule::before,
+  .masthead-rule::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--rule-bright));
+  }
+  .masthead-rule::after { background: linear-gradient(90deg, var(--rule-bright), transparent); }
+
+  .byline {
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    letter-spacing: 2.4px;
+    text-transform: uppercase;
+    color: var(--cream-mute);
+  }
+
+  /* ── Download ── */
+  .dl-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 30px;
+  }
+  .dl-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 11px;
+    padding: 14px 28px;
+    border: 1px solid rgba(230,199,155,0.5);
+    border-radius: 10px;
+    font-family: 'Cinzel', serif;
+    font-size: 12px;
+    letter-spacing: 2.6px;
+    text-transform: uppercase;
+    color: var(--gold-bright);
+    text-decoration: none;
+    background: linear-gradient(160deg, rgba(230,199,155,0.14), rgba(200,160,216,0.06));
+    transition: border-color .3s, background .3s, transform .3s, box-shadow .3s;
+  }
+  .dl-btn:hover {
+    border-color: var(--gold);
+    background: linear-gradient(160deg, rgba(230,199,155,0.24), rgba(200,160,216,0.10));
+    transform: translateY(-2px);
+    box-shadow: 0 12px 34px rgba(200,160,120,0.18);
+  }
+  .dl-meta {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 15px;
+    color: var(--cream-mute);
+  }
+
+  /* ── Sections ── */
+  .sec {
+    padding: 46px 46px 40px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .sec:last-of-type { border-bottom: none; }
+
+  .sec h2 {
+    font-family: 'Cinzel Decorative', 'Cinzel', serif;
+    font-weight: 700;
+    font-size: clamp(19px, 3vw, 25px);
+    letter-spacing: 1.6px;
+    color: var(--cream);
+    margin-bottom: 8px;
+  }
+  .sec h3 {
+    font-family: 'Cinzel', serif;
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: 1.6px;
+    color: var(--accent-bright);
+    margin: 30px 0 10px;
+  }
+  .sec-mark {
+    color: var(--gold);
+    font-size: 12px;
+    opacity: 0.65;
+    margin-bottom: 14px;
+  }
+
+  .sec p {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18.5px;
+    line-height: 1.62;
+    color: var(--cream-dim);
+    max-width: 68ch;
+    margin-bottom: 15px;
+  }
+  .sec p.lede {
+    font-size: 21px;
+    font-style: italic;
+    color: var(--cream-2);
+  }
+  .sec strong {
+    color: var(--cream);
+    font-weight: 600;
+  }
+  .sec a:not(.dl-btn) { color: var(--rose-bright); }
+
+  code {
+    font-family: ui-monospace, 'SFMono-Regular', Menlo, monospace;
+    font-size: 0.82em;
+    padding: 2px 6px;
+    border-radius: 4px;
+    background: rgba(200,160,216,0.10);
+    border: 1px solid var(--rule);
+    color: var(--accent-bright);
+  }
+
+  /* ── Lists ── */
+  .sec ul { list-style: none; max-width: 68ch; margin-bottom: 15px; }
+  .sec ul li {
+    position: relative;
+    padding-left: 24px;
+    margin-bottom: 11px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18.5px;
+    line-height: 1.55;
+    color: var(--cream-dim);
+  }
+  .sec ul li::before {
+    content: '✦';
+    position: absolute;
+    left: 0;
+    top: 1px;
+    font-size: 9px;
+    color: var(--gold);
+    opacity: 0.7;
+  }
+
+  .steps { counter-reset: step; list-style: none; max-width: 68ch; }
+  .steps li {
+    position: relative;
+    counter-increment: step;
+    padding-left: 46px;
+    margin-bottom: 18px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18.5px;
+    line-height: 1.58;
+    color: var(--cream-dim);
+  }
+  .steps li::before {
+    content: counter(step);
+    position: absolute;
+    left: 0;
+    top: 1px;
+    width: 28px;
+    height: 28px;
+    display: grid;
+    place-items: center;
+    border: 1px solid var(--rule-mid);
+    border-radius: 50%;
+    font-family: 'Cinzel', serif;
+    font-size: 12px;
+    color: var(--gold);
+    background: rgba(230,199,155,0.06);
+  }
+
+  /* ── Callouts ── */
+  .note {
+    max-width: 68ch;
+    margin: 22px 0;
+    padding: 15px 20px;
+    border-left: 2px solid var(--accent);
+    background: rgba(200,160,216,0.055);
+    border-radius: 0 8px 8px 0;
+  }
+  .note p { margin: 0; font-size: 17px; color: var(--cream-mute); }
+  .warn { border-left-color: var(--rose); background: rgba(212,144,168,0.075); }
+  .warn p { color: var(--cream-dim); }
+
+  /* ── Code block ── */
+  .snippet {
+    position: relative;
+    max-width: 68ch;
+    margin: 20px 0 12px;
+    border: 1px solid var(--rule-mid);
+    border-radius: 10px;
+    background: rgba(8, 4, 14, 0.75);
+    overflow: hidden;
+  }
+  .snippet-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 9px 14px;
+    border-bottom: 1px solid var(--rule);
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--cream-mute);
+  }
+  .copy-btn {
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    letter-spacing: 1.6px;
+    text-transform: uppercase;
+    color: var(--accent-bright);
+    background: none;
+    border: 1px solid var(--rule);
+    border-radius: 5px;
+    padding: 5px 11px;
+    cursor: pointer;
+    transition: color .25s, border-color .25s, background .25s;
+  }
+  .copy-btn:hover { color: var(--gold-bright); border-color: rgba(230,199,155,0.5); background: rgba(230,199,155,0.08); }
+  .snippet pre {
+    padding: 16px;
+    overflow-x: auto;
+    font-family: ui-monospace, 'SFMono-Regular', Menlo, monospace;
+    font-size: 12.5px;
+    line-height: 1.65;
+    color: var(--cream-2);
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+
+  /* ── Media ── */
+  figure { margin: 26px 0 6px; }
+  .media {
+    display: block;
+    width: 100%;
+    border: 1px solid var(--rule-mid);
+    border-radius: 10px;
+    background: #05030a;
+  }
+  figcaption {
+    margin-top: 11px;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 16px;
+    line-height: 1.5;
+    color: var(--cream-mute);
+    max-width: 62ch;
+  }
+
+  .split {
+    display: grid;
+    grid-template-columns: minmax(0, 320px) minmax(0, 1fr);
+    gap: 34px;
+    align-items: start;
+    margin-top: 26px;
+  }
+  .split figure { margin-top: 0; }
+  .split p:last-child { margin-bottom: 0; }
+  .split-wide { grid-template-columns: minmax(0, 440px) minmax(0, 1fr); gap: 30px; }
+  @media (max-width: 900px) {
+    .split-wide { grid-template-columns: 1fr; gap: 18px; }
+    .split-wide figure { max-width: 520px; }
+  }
+  @media (max-width: 820px) {
+    .split { grid-template-columns: 1fr; gap: 20px; }
+    .split figure { max-width: 380px; margin-inline: auto; }
+  }
+
+  /* ── FAQ ── */
+  .faq { max-width: 68ch; margin-top: 26px; }
+  .faq details {
+    border-bottom: 1px solid var(--rule);
+  }
+  .faq details:first-of-type { border-top: 1px solid var(--rule); }
+  .faq summary {
+    list-style: none;
+    cursor: pointer;
+    padding: 15px 34px 15px 0;
+    position: relative;
+    font-family: 'Cinzel', serif;
+    font-size: 13.5px;
+    letter-spacing: 0.6px;
+    color: var(--cream-2);
+    transition: color .25s;
+  }
+  .faq summary::-webkit-details-marker { display: none; }
+  .faq summary:hover { color: var(--gold-bright); }
+  .faq summary::after {
+    content: '+';
+    position: absolute;
+    right: 6px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-family: 'Quicksand', sans-serif;
+    font-size: 17px;
+    color: var(--gold);
+    opacity: 0.7;
+  }
+  .faq details[open] summary { color: var(--gold-bright); }
+  .faq details[open] summary::after { content: '−'; }
+  .faq details p {
+    font-size: 17.5px;
+    margin: 0 0 13px;
+    padding-right: 20px;
+  }
+  .faq details p:last-child { padding-bottom: 6px; }
+
+  /* ── Footer ── */
+  .page-foot {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    padding: 0 20px 60px;
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    letter-spacing: 2.6px;
+    text-transform: uppercase;
+    color: var(--cream-mute);
+  }
+  .page-foot a { color: var(--accent); text-decoration: none; }
+  .page-foot a:hover { color: var(--accent-bright); }
+
+  @media (max-width: 760px) {
+    .frame { margin: 66px 12px 40px; }
+    .masthead { padding: 44px 22px 34px; }
+    .sec { padding: 34px 22px 30px; }
+    .sec p, .sec ul li, .steps li { font-size: 17.5px; }
+    .masthead-corner { display: none; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; transition: none !important; }
+  }
+</style>
+<!-- ── GoatCounter ──
+     Counts a pageview on load, like the rest of the site, and a
+     separate event each time someone clicks a download button.
+     Replace MYCODE below with your GoatCounter subdomain. -->
+<script data-goatcounter="https://MYCODE.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
+</head>
+<body>
+
+<canvas id="starCanvas"></canvas>
+
+<nav class="site-nav">
+  <div class="site-nav-logo">Eurielle</div>
+  <a class="site-nav-link" href="index.html">← Back to the gallery</a>
+</nav>
+
+<div class="frame">
+
+  <header class="masthead">
+    <span class="masthead-corner mc-tl">✧</span>
+    <span class="masthead-corner mc-tr">✧</span>
+    <span class="masthead-corner mc-bl">✧</span>
+    <span class="masthead-corner mc-br">✧</span>
+
+    <h1>Snap-Scapes</h1>
+    <p class="masthead-tagline">Bringing Dreamscapes back with a user-built extension.</p>
+
+    <div class="masthead-rule"><span>✧</span></div>
+    <p class="byline">Created by Prim, Euri &amp; Taiga</p>
+
+    <div class="dl-row">
+      <a class="dl-btn" href="SnapScapes-v0.37.4.zip" download>
+        <span aria-hidden="true">⇩</span> Download Snap-Scapes
+      </a>
+      <span class="dl-meta">version 0.37.4 · 226 KB · Chrome, desktop</span>
+    </div>
+  </header>
+
+  <!-- ─── WHAT IS IT ─── -->
+  <section class="sec">
+    <div class="sec-mark">✦</div>
+    <h2>What is Snap-Scapes?</h2>
+    <p class="lede">Your roleplays, turned into pictures — and a book you can read back.</p>
+    <p>Snap-Scapes is a Chrome extension for DreamJourney AI. It turns the scene you're playing into an image, drops that image behind your chat as the background, and keeps every picture in an album you can flip through later like a real photo album — even after you've deleted the chat it came from.</p>
+    <p>Everything stays on your own computer. No account, no API key to get started, and nothing ever leaves your machine.</p>
+
+    <figure>
+      <video class="media" src="snap-demo.mp4" poster="snap-demo-poster.jpg"
+             muted loop playsinline controls preload="metadata"></video>
+      <figcaption>The whole loop in half a minute — the prompt written straight out of the reply, sent off with both character references attached, and the finished picture landing behind the chat with the colours following it.</figcaption>
+    </figure>
+  </section>
+
+  <!-- ─── SNAP ─── -->
+  <section class="sec">
+    <div class="sec-mark">✦</div>
+    <h2>Snap</h2>
+    <p>A camera button sits in the corner of your chat. Something in the reply you just got that you want to <em>see</em>? Click it. Snap-Scapes reads that reply — who's there, where they are, what's happening — and writes an image prompt for you. You get to edit it before it goes anywhere.</p>
+
+    <p><strong>It'll use your own prompt if you give it one.</strong> Drop a <code>SNAP:</code> section into your character's thinking template and let the bot write the prompt itself. The model has the whole conversation, so it knows who "he" is and what they were wearing four replies ago — the kind of thing no keyword search is ever going to catch. Snap-Scapes finds that section and offers it to you first.</p>
+
+    <p><strong>Not your bot, or not using a thinking model?</strong> The built-in prompt writer handles it, free and offline. It picks out the two or three most visual moments in the reply and offers them as options. Even a reply that's nothing but dialogue comes back with something usable instead of nothing at all.</p>
+
+    <p><strong>Want sharper wording?</strong> You can optionally hand the prompt to OpenAI or Claude to polish. That's a setting, not a requirement.</p>
+
+    <div class="note">
+      <p>The built-in prompt builder isn't perfect and you may need to edit it a little to get the exact image you're after. It writes prompts without any AI. If you'd rather not edit, the <code>SNAP:</code> drop-in on a thinking model gives you much better results.</p>
+    </div>
+
+    <h3>The thinking template drop-in</h3>
+    <div class="snippet">
+      <div class="snippet-bar">
+        <span>Paste into your thinking template</span>
+        <button class="copy-btn" type="button" onclick="copySnippet(this)">Copy</button>
+      </div>
+      <pre id="snapSnippet">## SNAP:
+[Write one concise image prompt freezing the strongest visual beat of this turn. Choose the moment that best captures the exchange, not automatically the final action. Name those visible and show their action/reaction, positions or contact, expressions, and essential setting/props. Use prior context for continuity. One moment only; visible details only. No dialogue, thoughts, motives, backstory, summary, or camera jargon.]</pre>
+    </div>
+    <p>Paste it anywhere in the template and the model fills it in each turn. Snap-Scapes is forgiving about the exact shape — the heading can lose its hashes or its colon and it'll still get found.</p>
+
+    <figure>
+      <img class="media" src="snap-template.png" alt="A model's thinking process with the SNAP heading highlighted, and the same prompt already loaded into the Snap panel with two character references attached." loading="lazy" decoding="async">
+      <figcaption>The model fills in the section as it writes, and Snap-Scapes lifts it out — the prompt in the panel on the right is the one the bot just wrote, references attached, nothing copied across by hand.</figcaption>
+    </figure>
+  </section>
+
+  <!-- ─── MAKING THE PICTURE ─── -->
+  <section class="sec">
+    <div class="sec-mark">✦</div>
+    <h2>Making the picture</h2>
+    <p>Pick your generator in the settings menu:</p>
+    <ul>
+      <li><strong>Pollinations</strong> — free, no account, works the second you install it. Quality is very low. Good for a giggle.</li>
+      <li><strong>Local Stable Diffusion (A1111)</strong> — runs on your own GPU. Nothing leaves your machine.</li>
+      <li><strong>OpenRouter</strong> — one key, a lot of image models.</li>
+    </ul>
+    <p>Or send the prompt somewhere else entirely. <strong>Send to…</strong> copies the prompt and opens ChatGPT, Grok, or Gemini — whichever you've picked in settings. You paste and send, and when the image is done a small card appears with a preview, a save button, and a link back to your chat.</p>
+    <p>Nothing saves unless you click save, and the save button stays locked until the picture has finished drawing.</p>
+    <p><strong>Reference images.</strong> Pictures come out better when the generator can actually see your characters. Attach your characters' portraits plus up to four photos from your album — each one shows a thumbnail of exactly what it's sending, so you always know which is which.</p>
+  </section>
+
+  <!-- ─── SETTINGS ─── -->
+  <section class="sec">
+    <div class="sec-mark">✦</div>
+    <h2>Going through the settings</h2>
+    <p>Open <strong>Options</strong> from the toolbar beside Snap. Most of it you can leave alone — here's what each part is for.</p>
+
+    <h3>Image backend</h3>
+    <div class="split split-wide">
+      <figure>
+        <img class="media" src="settings-backend.png" alt="The Image Backend settings panel, with a dropdown for where Generate sends the prompt, an API key field, a model slug, and width, height and steps." loading="lazy" decoding="async">
+      </figure>
+      <div>
+        <p>This section is only for generating inside the extension — local Stable Diffusion, OpenRouter, or OpenAI. The last two need an API key.</p>
+        <p>If you're planning to use ChatGPT, Grok or Gemini through "Send to…", you can skip this entirely. It doesn't need anything from you.</p>
+      </div>
+    </div>
+
+    <h3>House style</h3>
+    <div class="split split-wide">
+      <figure>
+        <img class="media" src="settings-house-style.png" alt="The Snap settings panel, showing the house style field, a checkbox to fill ChatGPT's box automatically, and a dropdown for which site Send to opens." loading="lazy" decoding="async">
+      </figure>
+      <div>
+        <p>Anything you type in this box gets added to every prompt, in every chat session. It comes pre-filled with <em>stylized digital illustration, semi realistic anime inspired</em>.</p>
+        <p>Add <code>2:1 ratio</code> if you want wide images sized to sit behind your chat on a desktop, or anything else you like the look of. You can change it whenever you want.</p>
+        <p>Below that, the checkbox drops the prompt and your reference images into ChatGPT's box for you so you only have to hit send, and the dropdown picks which site "Send to…" opens.</p>
+      </div>
+    </div>
+
+    <h3>Prompt drafting</h3>
+    <div class="split split-wide">
+      <figure>
+        <img class="media" src="settings-drafting.png" alt="The Prompt Drafting settings panel with a dropdown set to Built-in, free, offline, no key." loading="lazy" decoding="async">
+      </figure>
+      <div>
+        <p>This one's for people who want to be extra. With an API key you can hand the drafting to Claude or OpenAI, and have an outside model read your replies and write the image prompt for you.</p>
+        <p>It's worth knowing you can get similar results for free — the <code>SNAP:</code> section in your thinking template does much the same job at no cost.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── SNAPSCAPES ─── -->
+  <section class="sec">
+    <div class="sec-mark">✦</div>
+    <h2>Snapscapes</h2>
+    <p class="lede">This is the part that changes how playing feels.</p>
+    <p>Your newest picture becomes the backdrop of the chat itself. Let it follow along automatically, or pin one you love and keep it there.</p>
+    <p>Then there are the effects, layered over the scene to match what's happening: rain, lightning, snow, fog, embers, fireflies, petals, lilacs, darkness and sunlight. They can read the scene and pick themselves — walk into a storm and it starts raining — or you can set them by hand whenever you'd rather choose.</p>
+  </section>
+
+  <!-- ─── COLOUR THEME ─── -->
+  <section class="sec">
+    <div class="sec-mark">✦</div>
+    <h2>The colour theme</h2>
+    <p>Snap-Scapes reads your backdrop, pulls out its two strongest colours, and retints everything to match: chat bubbles, the message bar, buttons, menus. Your whole interface quietly shifts to suit whatever scene you're in.</p>
+    <p>Sliders let you dial it in — <strong>Color Vibrancy Boost</strong> for how strongly the theme pulls from the picture, <strong>Chat Box Opacity</strong> for how much of the scene shows through the text, and <strong>Horizontal Position</strong> for sliding the backdrop until the part you want is behind your chat. And if you ever want the whole thing off, there's a switch for that too.</p>
+
+    <figure>
+      <video class="media" src="colour-theme.mp4" poster="colour-theme-poster.jpg"
+             muted loop playsinline controls preload="none"></video>
+      <figcaption>Dropping the chat opacity until the scene shows straight through the text, then sliding the backdrop across to sit where you want it.</figcaption>
+    </figure>
+  </section>
+
+  <!-- ─── ALBUMS ─── -->
+  <section class="sec">
+    <div class="sec-mark">✦</div>
+    <h2>The albums</h2>
+    <p>Every chat gets its own book, sitting on a shelf with its own cover and title. Albums you haven't opened in a while gather dust.</p>
+    <p>Open one and it behaves like a real photo album. Pages turn in 3D. There's a cast page with your characters mounted and named, then one photo per page with the date stamped on it.</p>
+    <p>Ten designs to choose from, from aged parchment to newsprint to a night sky to a neon-lit 2am.</p>
+
+    <h3>Read your chats back as a story</h3>
+    <div class="split">
+      <figure>
+        <video class="media" src="photo-album.mp4" poster="photo-album-poster.jpg"
+               muted loop playsinline controls preload="none"></video>
+        <figcaption>Cover, cast, then page after page — picture, words, date.</figcaption>
+      </figure>
+      <div>
+        <p>This is what the album is really for.</p>
+        <p>There's space to write under every photo, and the reply that picture came from gets saved along with it automatically. So instead of scrolling a chat log forever, you turn pages: the picture of the moment, the words that made it, the date it happened.</p>
+        <p>Months of play end up as something you can sit down and read. Or ignore all that and write it in your own words — either way it's yours long after the chat session is gone.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── INSTALL ─── -->
+  <section class="sec">
+    <div class="sec-mark">✦</div>
+    <h2>Installing it</h2>
+    <p>Snap-Scapes isn't in the Chrome Web Store, so you load it in yourself. Takes about a minute, and you only do it once.</p>
+
+    <ol class="steps">
+      <li><strong>Download the ZIP and unzip it.</strong> You'll end up with a folder called <code>DJBook</code> with files like <code>manifest.json</code> inside. Put the whole <code>DJBook</code> folder somewhere you won't delete it by accident — Chrome loads it from wherever it sits, so don't run it out of your Downloads folder or anywhere temporary.</li>
+      <li><strong>Open <code>chrome://extensions</code>.</strong></li>
+      <li><strong>Switch on Developer mode</strong> with the toggle in the top right.</li>
+      <li><strong>Click "Load unpacked"</strong> and select the <code>DJBook</code> folder — the folder itself, not a file inside it, and not the folder containing it. If Chrome complains, you've probably gone one level too high.</li>
+      <li><strong>Open DreamJourney and refresh the page.</strong> The Snap button should appear when you open a chat session.</li>
+    </ol>
+
+    <div class="dl-row" style="justify-content:flex-start; margin-top:26px;">
+      <a class="dl-btn" href="SnapScapes-v0.37.4.zip" download>
+        <span aria-hidden="true">⇩</span> Download the ZIP
+      </a>
+      <span class="dl-meta">version 0.37.4</span>
+    </div>
+
+    <h3>First run</h3>
+    <ol class="steps">
+      <li><strong>Send one message in any chat.</strong> That first send is what fills in your character details — Snap won't know who anyone is until you do.</li>
+      <li><strong>Click Snap</strong> and check that the prompt names your characters correctly.</li>
+      <li><strong>Make a picture.</strong></li>
+    </ol>
+
+    <h3>Updating</h3>
+    <p>Download the new ZIP, unzip it, and copy the contents over your existing <code>DJBook</code> folder, replacing what's there. Then head back to <code>chrome://extensions</code>, hit Reload on Snap-Scapes, and refresh DreamJourney.</p>
+    <p>Keep the same folder rather than loading the new one separately — that's what keeps all your existing albums, photos and settings intact.</p>
+
+    <div class="note warn">
+      <p><strong>Always back up your albums before updating.</strong> Uninstalling the extension will delete them.</p>
+    </div>
+  </section>
+
+  <!-- ─── GOOD TO KNOW ─── -->
+  <section class="sec">
+    <div class="sec-mark">✦</div>
+    <h2>Good to know</h2>
+    <ul>
+      <li>Works immediately — no key required.</li>
+      <li>Your albums, notes and photos live in your browser. There's no server to send them to.</li>
+      <li>Updating keeps everything you've already made.</li>
+      <li>Built for Chrome on desktop; touch and swipe work on tablets.</li>
+      <li>Works on the Lemur browser for mobile, though that's still a work in progress.</li>
+    </ul>
+  </section>
+
+  <!-- ─── FAQ ─── -->
+  <section class="sec">
+    <div class="sec-mark">✦</div>
+    <h2>Questions &amp; fixes</h2>
+
+    <h3>Looking after your albums</h3>
+    <p>Open any album and click <strong>Shelf</strong> in the top left corner. The buttons across the top are where backups live.</p>
+    <p><strong>Back up everything</strong> saves the lot, and <strong>Restore</strong> puts it back. <strong>Save an album to a file</strong> does one book at a time.</p>
+    <p><strong>Save as web page</strong> is a different thing — it's for sharing an album or making a web book out of it. That file won't restore anything, so don't rely on it as your backup.</p>
+    <figure>
+      <img class="media" src="album-shelf.png" alt="The Photobook shelf with four album covers, and four buttons across the top: save an album to a file, save as web page, back up everything, and restore." loading="lazy" decoding="async">
+    </figure>
+
+    <div class="faq">
+      <details>
+        <summary>How do I get it on mobile?</summary>
+        <p>Lemur, from the Play Store, is the only browser we've found that works reasonably well so far. This was built with a PC in mind, but we're slowly making it work elsewhere.</p>
+        <p>Taigakitt has made an iOS and Safari extension, which you can find <a href="https://discord.com/channels/1142554136919932948/1543735693761843281/1543735693761843281" target="_blank" rel="noopener noreferrer">over on Discord</a>.</p>
+      </details>
+
+      <details>
+        <summary>The Snap button isn't there</summary>
+        <p>Refresh the DreamJourney page — the extension only attaches when the page loads. If it's still missing, open <code>chrome://extensions</code> and check Snap-Scapes is switched on, and make sure you're inside a chat session rather than on a listing page.</p>
+      </details>
+
+      <details>
+        <summary>Chrome won't let me click "Load unpacked"</summary>
+        <p>That button only appears once Developer mode is on. The toggle is in the top right of <code>chrome://extensions</code>.</p>
+      </details>
+
+      <details>
+        <summary>Chrome says the manifest is missing, or the folder is invalid</summary>
+        <p>You've selected the wrong folder. Pick the <code>DJBook</code> folder itself — the one with <code>manifest.json</code> sitting directly inside it. Selecting the folder that <em>contains</em> <code>DJBook</code> is the usual mistake.</p>
+      </details>
+
+      <details>
+        <summary>The prompt has the wrong names, or calls someone "the woman"</summary>
+        <p>Send one message in the chat first. That first send is what tells Snap-Scapes who's in the scene — before it, there's nothing to name.</p>
+      </details>
+
+      <details>
+        <summary>My pictures look rough</summary>
+        <p>You're probably still on Pollinations, which is the free default and low quality. Change your generator in the settings, or use "Send to…" and let ChatGPT, Grok or Gemini draw it instead.</p>
+        <p>Attaching your characters' reference portraits makes a large difference too.</p>
+      </details>
+
+      <details>
+        <summary>The save button won't click</summary>
+        <p>It stays locked until the image has finished drawing. Give it a moment.</p>
+      </details>
+
+      <details>
+        <summary>I updated and my albums are gone</summary>
+        <p>This happens when the new version gets loaded as a second, separate extension instead of replacing the old one. Copy the new files over your existing <code>DJBook</code> folder and hit Reload on <code>chrome://extensions</code> — don't "Load unpacked" a fresh copy.</p>
+        <p>Back up from the Shelf before you update and this can't bite you.</p>
+      </details>
+    </div>
+  </section>
+
+</div>
+
+<div class="page-foot">
+  ✧ Snap-Scapes ✧<br>
+  <span style="font-size:10px; letter-spacing:2px; opacity:0.7;">
+    by Prim, Euri &amp; Taiga · <a href="index.html">back to the gallery</a>
+  </span>
+</div>
+
+<script>
+// ── Count download clicks in GoatCounter ──
+// Fires only on click. Both buttons report the same path, so the
+// masthead and the install-section button add up to one total.
+document.querySelectorAll('.dl-btn').forEach(function (btn) {
+  btn.addEventListener('click', function () {
+    if (window.goatcounter && window.goatcounter.count) {
+      window.goatcounter.count({
+        path:  'snapscapes-download',
+        title: 'Snap-Scapes download (v0.37.4)',
+        event: true
+      });
+    }
+  });
+});
+
+// ── Copy the SNAP snippet ──
+function copySnippet(btn) {
+  const text = document.getElementById('snapSnippet').innerText;
+  const done = () => {
+    const old = btn.textContent;
+    btn.textContent = 'Copied';
+    setTimeout(() => { btn.textContent = old; }, 1600);
+  };
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(text).then(done).catch(fallback);
+  } else { fallback(); }
+
+  function fallback() {
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand('copy'); done(); } catch (e) { btn.textContent = 'Select and copy'; }
+    document.body.removeChild(ta);
+  }
+}
+
+// ── Play videos only while they're on screen ──
+(function () {
+  const vids = document.querySelectorAll('video');
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduced || !('IntersectionObserver' in window)) return;
+
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      const v = entry.target;
+      if (entry.isIntersecting) {
+        if (v.preload === 'none') v.preload = 'metadata';
+        v.play().catch(() => {});
+      } else {
+        v.pause();
+      }
+    });
+  }, { threshold: 0.35 });
+
+  vids.forEach(v => io.observe(v));
+})();
+
+// ── Star field ──
+(function () {
+  const canvas = document.getElementById('starCanvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+
+  function resize() {
+    canvas.width = window.innerWidth * 2;
+    canvas.height = window.innerHeight * 2;
+    canvas.style.width = window.innerWidth + 'px';
+    canvas.style.height = window.innerHeight + 'px';
+    ctx.setTransform(2, 0, 0, 2, 0, 0);
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  const colors = [
+    [255,255,255],[255,255,255],[255,255,255],[255,255,255],
+    [255,255,255],[255,255,255],[250,252,255],[255,252,250],
+    [235,240,255],[240,235,250],[255,245,225],[255,238,228],[248,235,245]
+  ];
+
+  const stars = [];
+  const count = Math.min(320, Math.floor((window.innerWidth * window.innerHeight) / 5200));
+  for (let i = 0; i < count; i++) {
+    const roll = Math.random();
+    let r;
+    if      (roll < 0.75)  r = 0.25 + Math.random() * 0.40;
+    else if (roll < 0.95)  r = 0.65 + Math.random() * 0.45;
+    else if (roll < 0.995) r = 1.10 + Math.random() * 0.45;
+    else                   r = 1.55 + Math.random() * 0.40;
+    stars.push({
+      x: Math.random() * window.innerWidth,
+      y: Math.random() * window.innerHeight,
+      r: r,
+      baseAlpha: 0.35 + Math.random() * 0.50,
+      speed: Math.random() * 0.012 + 0.002,
+      offset: Math.random() * Math.PI * 2,
+      color: colors[Math.floor(Math.random() * colors.length)]
+    });
+  }
+
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    for (const s of stars) {
+      const [r, g, b] = s.color;
+      ctx.fillStyle = `rgba(${r},${g},${b},${s.baseAlpha})`;
+      ctx.fillRect(s.x | 0, s.y | 0, 1, 1);
+    }
+    return;
+  }
+
+  let frame = 0;
+  (function draw() {
+    frame++;
+    ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+    for (const s of stars) {
+      const alpha = s.baseAlpha * (1 + Math.sin(frame * s.speed + s.offset) * 0.15);
+      const [r, g, b] = s.color;
+      ctx.fillStyle = `rgba(${r},${g},${b},${Math.max(0, alpha)})`;
+      if (s.r < 0.7) {
+        ctx.fillRect(s.x | 0, s.y | 0, 1, 1);
+      } else {
+        ctx.beginPath();
+        ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+    requestAnimationFrame(draw);
+  })();
+})();
+</script>
+
+</body>
+</html>
