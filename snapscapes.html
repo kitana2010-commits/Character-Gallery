@@ -766,6 +766,92 @@
   @media (prefers-reduced-motion: reduce) {
     * { animation: none !important; transition: none !important; }
   }
+
+  /* ═══ contrast pass (matches the home page) ═══ */
+  :root {
+    --cream-2:     #efe4d8;
+    --cream-dim:   #dccdc2;
+    --cream-mute:  #b9a7b2;
+    --rule:        rgba(240, 224, 214, 0.24);
+    --rule-mid:    rgba(240, 224, 214, 0.42);
+    --rule-bright: rgba(244, 228, 218, 0.66);
+  }
+  .site-nav { gap: 28px; background: rgba(4, 2, 10, 0.92); border-bottom-color: rgba(240, 224, 214, 0.18); }
+  .site-nav-link {
+    font-family: 'Cinzel', serif; font-weight: 500;
+    font-size: 11px; letter-spacing: 2.6px;
+    color: rgba(236, 228, 248, 0.86);
+    text-shadow: 0 1px 2px rgba(0,0,0,0.9), 0 0 14px rgba(2,0,8,0.75);
+  }
+  .site-nav-link-hot { color: var(--gold-bright); }
+  .site-nav-link { white-space: nowrap; }
+  @media (max-width: 560px) {
+    .site-nav { padding: 0 14px; gap: 14px; }
+    .site-nav-links { gap: 16px; overflow-x: auto; scrollbar-width: none; }
+    .site-nav-link { font-size: 10px; letter-spacing: 1.6px; }
+    .site-nav-link[href="#whats-new"] { display: none; }
+  }
+
+  /* ═══ The Darkroom plug ═══ */
+  .dr-plug {
+    display: grid;
+    grid-template-columns: 230px 1fr auto;
+    align-items: center;
+    gap: 26px;
+    padding: 22px 34px 22px 28px;
+    border-bottom: 1px solid var(--rule-mid);
+    text-decoration: none;
+    background:
+      radial-gradient(40% 140% at 10% 50%, rgba(255, 70, 90, 0.16), transparent 70%),
+      linear-gradient(90deg, rgba(14,6,20,0.6), rgba(30,12,30,0.5));
+    transition: background .4s;
+  }
+  .dr-plug:hover { background: radial-gradient(40% 140% at 10% 50%, rgba(255, 70, 90, 0.24), transparent 70%), linear-gradient(90deg, rgba(20,8,26,0.7), rgba(40,16,40,0.6)); }
+  .dr-plug-prints { position: relative; height: 74px; }
+  .dr-plug-prints > span {
+    position: absolute; top: 6px; width: 92px;
+    left: calc(var(--i) * 66px);
+    rotate: var(--r);
+    background: #f4ede3; padding: 4px 4px 12px;
+    box-shadow: 0 10px 22px rgba(0,0,0,0.6);
+    transition: rotate .4s, translate .4s;
+  }
+  .dr-plug:hover .dr-plug-prints > span { translate: 0 -4px; rotate: calc(var(--r) * 1.6); }
+  .dr-plug-prints svg, .dr-plug-prints img { display: block; width: 100%; aspect-ratio: 2 / 1; object-fit: cover; }
+  .dr-plug-text { display: block; text-align: left; }
+  .dr-plug-eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: 'Cinzel', serif; font-weight: 600;
+    font-size: 10px; letter-spacing: 3px; text-transform: uppercase;
+    color: #ffc4c8;
+  }
+  .dr-plug-eyebrow i { width: 6px; height: 6px; border-radius: 50%; background: #ff5a64; box-shadow: 0 0 8px #ff5a64; }
+  .dr-plug-title {
+    display: block;
+    font-family: 'Cinzel Decorative', 'Cinzel', serif; font-weight: 700;
+    font-size: 28px; line-height: 1.15; margin: 4px 0 2px;
+    background: linear-gradient(180deg, #fff6ec, #f6e2c8 55%, #e8b0a8);
+    -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .dr-plug-sub { display: block; font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 500; font-size: 17px; color: var(--cream-2); }
+  .dr-plug-btn {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 14px 24px; border-radius: 11px;
+    font-family: 'Cinzel', serif; font-weight: 600;
+    font-size: 11.5px; letter-spacing: 2.6px; text-transform: uppercase; white-space: nowrap;
+    color: #fff4ec;
+    border: 1px solid rgba(255, 228, 210, 0.38);
+    background: linear-gradient(118deg, #9c6030 0%, #97405f 46%, #653c8c 100%);
+    box-shadow: 0 10px 30px rgba(150, 62, 100, 0.38);
+    transition: transform .25s, box-shadow .3s;
+  }
+  .dr-plug:hover .dr-plug-btn { transform: translateY(-2px); box-shadow: 0 14px 40px rgba(168, 74, 116, 0.5); }
+  @media (max-width: 760px) {
+    .dr-plug { grid-template-columns: 1fr; text-align: center; padding: 24px 20px; gap: 14px; justify-items: center; }
+    .dr-plug-prints { width: 224px; }
+    .dr-plug-text { text-align: center; }
+    .dr-plug-btn { width: 100%; justify-content: center; }
+  }
 </style>
 <!-- ── GoatCounter ──
      Counts a pageview on load, like the rest of the site, and a
@@ -773,6 +859,85 @@
      Replace MYCODE below with your GoatCounter subdomain. -->
 <script data-goatcounter="https://eurielle.goatcounter.com/count"
         async src="//gc.zgo.at/count.js"></script>
+<script>
+(function () {
+  const S = [
+    // 0 · violet dusk over mountains
+    `<defs><linearGradient id="dsA" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1b1236"/><stop offset=".62" stop-color="#6e3a72"/><stop offset="1" stop-color="#d98a8f"/></linearGradient></defs>
+     <rect width="100" height="100" fill="url(#dsA)"/>
+     <circle cx="70" cy="30" r="9" fill="#f6e6dc" opacity=".92"/><circle cx="74" cy="27" r="8" fill="#3a2350" opacity=".9"/>
+     <g fill="#fff" opacity=".8"><circle cx="16" cy="14" r=".7"/><circle cx="34" cy="24" r=".5"/><circle cx="48" cy="10" r=".6"/><circle cx="88" cy="16" r=".5"/></g>
+     <path d="M0 74 L18 56 L30 66 L46 48 L62 64 L76 54 L100 72 L100 100 L0 100Z" fill="#3a2246"/>
+     <path d="M0 86 L22 72 L40 82 L58 70 L80 84 L100 78 L100 100 L0 100Z" fill="#1d1226"/>`,
+    // 1 · copper sea at sunset
+    `<defs><linearGradient id="dsB" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2a1430"/><stop offset=".55" stop-color="#a6485a"/><stop offset="1" stop-color="#f0a46a"/></linearGradient>
+     <linearGradient id="dsB2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7a3a52"/><stop offset="1" stop-color="#1e0f22"/></linearGradient></defs>
+     <rect width="100" height="100" fill="url(#dsB)"/>
+     <circle cx="50" cy="62" r="15" fill="#ffd2a0" opacity=".95"/>
+     <rect y="62" width="100" height="38" fill="url(#dsB2)"/>
+     <g stroke="#ffcf9c" stroke-linecap="round" opacity=".7"><line x1="38" y1="67" x2="62" y2="67" stroke-width="1.4"/><line x1="42" y1="72" x2="58" y2="72" stroke-width="1.1"/><line x1="46" y1="77" x2="54" y2="77" stroke-width=".9"/></g>
+     <path d="M0 62 L10 58 L16 61 L0 63Z" fill="#2a1222"/>`,
+    // 2 · night forest under stars
+    `<defs><linearGradient id="dsC" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#070a1e"/><stop offset=".7" stop-color="#1e2a5a"/><stop offset="1" stop-color="#3b4a7e"/></linearGradient></defs>
+     <rect width="100" height="100" fill="url(#dsC)"/>
+     <g fill="#fff"><circle cx="12" cy="12" r=".8"/><circle cx="26" cy="30" r=".5"/><circle cx="40" cy="16" r=".9"/><circle cx="58" cy="8" r=".5"/><circle cx="66" cy="26" r=".7"/><circle cx="82" cy="12" r=".6"/><circle cx="92" cy="34" r=".5"/><circle cx="50" cy="36" r=".4"/></g>
+     <path d="M10 18 Q 50 6 90 22" stroke="#c8b8ff" stroke-opacity=".18" stroke-width="10" fill="none"/>
+     <g fill="#0b0f22"><path d="M0 100 L0 70 L6 58 L12 70 L10 70 L16 54 L22 70 L28 62 L34 74 L42 56 L50 74 L56 64 L62 76 L70 52 L78 74 L84 64 L90 72 L96 58 L100 66 L100 100Z"/></g>`,
+    // 3 · rose city in the rain
+    `<defs><linearGradient id="dsD" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1a0a1c"/><stop offset=".7" stop-color="#5e1f46"/><stop offset="1" stop-color="#b54f74"/></linearGradient></defs>
+     <rect width="100" height="100" fill="url(#dsD)"/>
+     <g fill="#14081a"><rect x="4" y="52" width="14" height="48"/><rect x="20" y="40" width="12" height="60"/><rect x="34" y="58" width="10" height="42"/><rect x="46" y="30" width="16" height="70"/><rect x="64" y="48" width="12" height="52"/><rect x="78" y="38" width="18" height="62"/></g>
+     <g fill="#ffc6a6" opacity=".85"><rect x="23" y="46" width="2" height="2"/><rect x="27" y="54" width="2" height="2"/><rect x="50" y="36" width="2" height="2"/><rect x="56" y="44" width="2" height="2"/><rect x="50" y="58" width="2" height="2"/><rect x="82" y="44" width="2" height="2"/><rect x="88" y="52" width="2" height="2"/><rect x="8" y="60" width="2" height="2"/><rect x="68" y="56" width="2" height="2"/></g>
+     <g stroke="#f4c6dc" stroke-opacity=".35" stroke-width=".6"><line x1="10" y1="4" x2="6" y2="16"/><line x1="30" y1="10" x2="26" y2="22"/><line x1="52" y1="2" x2="48" y2="14"/><line x1="72" y1="12" x2="68" y2="24"/><line x1="90" y1="4" x2="86" y2="16"/><line x1="40" y1="22" x2="36" y2="34"/><line x1="80" y1="24" x2="76" y2="36"/></g>`,
+    // 4 · moonlit lake
+    `<defs><linearGradient id="dsE" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0d0a24"/><stop offset=".58" stop-color="#3a2e6e"/><stop offset=".6" stop-color="#21183e"/><stop offset="1" stop-color="#0c0a1c"/></linearGradient></defs>
+     <rect width="100" height="100" fill="url(#dsE)"/>
+     <circle cx="34" cy="28" r="10" fill="#f3ecff" opacity=".95"/>
+     <g stroke="#e8dcff" stroke-linecap="round" opacity=".55"><line x1="28" y1="66" x2="40" y2="66" stroke-width="1.2"/><line x1="30" y1="72" x2="38" y2="72"/><line x1="32" y1="78" x2="36" y2="78" stroke-width=".8"/></g>
+     <path d="M48 60 L60 46 L68 54 L78 42 L100 60Z" fill="#1a1436"/>
+     <path d="M0 60 L8 54 L16 60Z" fill="#1a1436"/>`
+  ];
+  // wide = true → a 2:1 crop (snaps are 2:1), taken from the middle band of the scene
+  window.darkroomScape = function (n, wide) {
+    const i = ((n % S.length) + S.length) % S.length;
+    // ids must be unique per copy on the page
+    const uid = 'u' + Math.random().toString(36).slice(2, 7);
+    const body = S[i].replace(/id="(ds[A-E]2?)"/g, `id="$1${uid}"`).replace(/url\(#(ds[A-E]2?)\)/g, `url(#$1${uid})`);
+    const box = wide ? 'viewBox="0 22 100 56" preserveAspectRatio="none"' : 'viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice"';
+    return `<svg ${box} aria-hidden="true">${body}</svg>`;
+  };
+  window.darkroomScapeCount = S.length;
+})();
+/* Reads the snaps list from darkroom.html, so there's only one place to edit. */
+window.darkroomLoadSnaps = function (cb) {
+  fetch('darkroom.html', { cache: 'no-cache' })
+    .then(function (r) { return r.text(); })
+    .then(function (t) {
+      var m = t.match(/▼ SNAPS-START[^\n]*\n([\s\S]*?)\n[^\n]*▲ SNAPS-END/);
+      cb(m ? (new Function('return [' + m[1] + '];'))() : []);
+    })
+    .catch(function () { cb([]); });
+};
+</script>
+<script>
+/* the Darkroom plug: newest snaps from the list at the top of darkroom.html */
+document.addEventListener('DOMContentLoaded', function () {
+  var box = document.getElementById('drPlugPrints');
+  if (!box) return;
+  function hang(all) {
+  var snaps = (all || []).filter(function (s) { return s && s.src && !s.mature; });
+  var tilts = [-6, 3, -2], html = '';
+  for (var i = 0; i < 3; i++) {
+    var s = snaps[i];
+    var inner = s ? '<img src="' + String(s.src).replace(/"/g, '&quot;') + '" alt="" loading="lazy">' : (window.darkroomScape ? window.darkroomScape(i + 1, true) : '');
+    html += '<span style="--i:' + i + ';--r:' + tilts[i] + 'deg">' + inner + '</span>';
+  }
+  box.innerHTML = html;
+  }
+  hang([]);
+  window.darkroomLoadSnaps(function (snaps) { if (snaps.length) hang(snaps); });
+});
+</script>
 </head>
 <body>
 
@@ -781,6 +946,7 @@
 <nav class="site-nav">
   <div class="site-nav-logo">Eurielle</div>
   <div class="site-nav-links">
+    <a class="site-nav-link site-nav-link-hot" href="darkroom.html">The Darkroom</a>
     <a class="site-nav-link" href="#whats-new">What's new</a>
     <a class="site-nav-link" href="index.html">← Back to the gallery</a>
   </div>
@@ -818,6 +984,17 @@
       Need the one before it? <a href="SnapScapes_v2_2_6.zip" data-dl="2.2.6" download>Download version 2.2.6</a> — the previous release, kept here in case you need to go back.
     </p>
   </header>
+
+  <!-- ─── THE DARKROOM plug ─── -->
+  <a class="dr-plug" href="darkroom.html" aria-label="The Darkroom — Snapscape gens from the community">
+    <span class="dr-plug-prints" id="drPlugPrints" aria-hidden="true"></span>
+    <span class="dr-plug-text">
+      <span class="dr-plug-eyebrow"><i aria-hidden="true"></i> New · made with Snap-Scapes</span>
+      <span class="dr-plug-title">The Darkroom</span>
+      <span class="dr-plug-sub">See the scenes other people have snapped, or send in one of yours.</span>
+    </span>
+    <span class="dr-plug-btn">Take a look <span aria-hidden="true">→</span></span>
+  </a>
 
   <!-- ─── WHAT'S NEW ─── -->
   <section class="sec sec-new" id="whats-new">
